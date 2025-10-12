@@ -5,7 +5,7 @@ yang memudahkan administrasi sekolah dalam mengelola transaksi keuangan, laporan
 
 Website ini dibuat menggunakan framework **Laravel** dengan struktur yang modern dan fitur yang mudah digunakan.
 
-### ✨ **Dikembangkan oleh:** *Rizky Chandra Khusuma*
+### ✨ **Dikembangkan oleh:** <a href="https://www.instagram.com/_chndr_22/" target="_blank"> *Rizky Chandra Khusuma* </a>
 
 ---
 
