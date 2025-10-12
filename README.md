@@ -5,6 +5,8 @@ yang memudahkan administrasi sekolah dalam mengelola transaksi keuangan, laporan
 
 Website ini dibuat menggunakan framework **Laravel** dengan struktur yang modern dan fitur yang mudah digunakan.
 
+### ✨ **Dikembangkan oleh:** *Rizky Chandra Khusuma*
+
 ---
 
 ## 📘 Deskripsi Singkat
@@ -12,7 +14,7 @@ Sistem ini dirancang agar pihak sekolah dapat:
 - Mencatat pemasukan dan pengeluaran keuangan
 - Mengelola data profil sekolah
 - Membuat laporan transaksi berdasarkan periode waktu
-- Mengekspor dan mengimpor data transaksi dalam format Excel atau CSV
+- Ekspor dan cetak (print) data transaksi dalam format Excel atau PDF
 
 ---
 
@@ -20,17 +22,16 @@ Sistem ini dirancang agar pihak sekolah dapat:
 | Komponen | Teknologi |
 |-----------|------------|
 | Framework | Laravel 11+ |
-| Database | MySQL / MariaDB |
-| Frontend | Bootstrap 5 / TailwindCSS |
-| Template | Blade Template |
-| Package | maatwebsite/excel (Import & Export Excel) |
+| Database | MySQL |
+| Frontend | Blade Template + Bootstrap 4 |
+| Package | maatwebsite/excel + barryvdh/laravel-dompdf (Excel & PDF) |
 | Server | PHP 8.2+, Composer |
 
 ---
 
 ## ⚙️ Langkah-Langkah Instalasi & Menjalankan Project
 
-Pastikan sudah menginstal **Git**, lalu jalankan:
+Pastikan sudah menginstal **Composer** dan **Git**, lalu jalankan:
 ### 1️⃣ Clone Repository
 ```bash
 git clone https://github.com/rizkychandra22/Sistem-Keuangan-Sekolah.git
