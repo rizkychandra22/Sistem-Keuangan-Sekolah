@@ -24,42 +24,27 @@ Route::get('/', [HomeController::class, 'index']);
 Route::get('/informasi-sekolah', [HomeController::class, 'info']);
 Route::get('/search', [HomeController::class, 'search'])->name('search');
 
-// Register
-Route::get('/register', [AuthController::class, 'indexRegister']);
-Route::post('/register', [AuthController::class, 'register'])->name('register');
 
-// Guest Login Admin
+// Guest Route
 Route::middleware(['guest'])->group(function() {
+    // Login
     Route::get('/login', [AuthController::class, 'indexLogin'])->name('login');
     Route::post('/login', [AuthController::class, 'login']);
+    // Register
+    Route::get('/register', [AuthController::class, 'indexRegister']);
+    Route::post('/register', [AuthController::class, 'register'])->name('register');
 });
 Route::get('/admin', function() {
     return redirect('/dashboard/admin');
-});
-
-// Guest Login Operator
-Route::middleware(['guest'])->group(function() {
-    Route::get('/login', [AuthController::class, 'indexLogin'])->name('login');
-    Route::post('/login', [AuthController::class, 'login']);
 });
 Route::get('/operator', function() {
     return redirect('/dashboard/operator');
 });
 
-// Guest Login Keuangan
-Route::middleware(['guest'])->group(function() {
-    Route::get('/login', [AuthController::class, 'indexLogin'])->name('login');
-    Route::post('/login', [AuthController::class, 'login']);
-});
 Route::get('/keuangan', function() {
     return redirect('/dashboard/keuangan');
 });
 
-// Guest Login Siswa
-Route::middleware(['guest'])->group(function() {
-    Route::get('/login', [AuthController::class, 'indexLogin'])->name('login');
-    Route::post('/login', [AuthController::class, 'login']);
-});
 Route::get('/home', function() {
     return redirect('/student/home');
 });
