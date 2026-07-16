@@ -13,6 +13,8 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             MultiUserSeeder::class,
+            ContactSeeder::class,
+            SambutanSeeder::class,
         ]);
     }
 }

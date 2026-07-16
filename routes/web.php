@@ -26,16 +26,15 @@ use App\Http\Controllers\Finance\RekapController;
 use App\Http\Controllers\Users\DashboardController;
 use App\Http\Controllers\Users\ProfileController;
 
+// Route Blog Website Sekolah
+Route::get('/', [HomeController::class, 'index']);
+Route::get('/informasi-sekolah', [HomeController::class, 'info']);
+Route::get('/search', [HomeController::class, 'search'])->name('search');
+Route::post('/', [MessageController::class, 'storeHome'])->name('message.home');
+Route::post('/informasi-sekolah', [MessageController::class, 'storeInfo'])->name('message.info');
+
 // Route Guest
 Route::middleware(['guest'])->group(function() {
-
-    // Route Blog Website Sekolah
-    Route::get('/', [HomeController::class, 'index']);
-    Route::get('/informasi-sekolah', [HomeController::class, 'info']);
-    Route::get('/search', [HomeController::class, 'search'])->name('search');
-    Route::post('/', [MessageController::class, 'storeHome'])->name('message.home');
-    Route::post('/informasi-sekolah', [MessageController::class, 'storeInfo'])->name('message.info');
-
     // Route Login
     Route::get('/login', [AuthController::class, 'indexLogin'])->name('login');
     Route::post('/login', [AuthController::class, 'login']);
