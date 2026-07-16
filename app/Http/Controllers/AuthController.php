@@ -68,11 +68,13 @@ class AuthController extends Controller
 
         if (Auth::attempt($datalogin)) {
             if (Auth::user()->role == 'keuangan') {
-            return redirect('dashboard/keuangan');
-            } elseif (Auth::user()->role == 'admin') {
-                return redirect('dashboard/admin');
+                return redirect('dashboard/keuangan');
             } elseif (Auth::user()->role == 'operator') {
                 return redirect('dashboard/operator');
+            } elseif (Auth::user()->role == 'admin') {
+                return redirect('dashboard/admin');
+            } elseif (Auth::user()->role == 'guru') {
+                return redirect('teacher/home');
             } elseif (Auth::user()->role == 'siswa') {
                 return redirect('student/home');
             }
@@ -82,9 +84,11 @@ class AuthController extends Controller
         ]);
     }
 
-    public function logout()
+    public function logout(Request $request)
     {
         Auth::logout();
-        return redirect('/login');
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect('/login');  
     }
 }

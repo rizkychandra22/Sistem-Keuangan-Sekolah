@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ControllerBeritaSekolah;
 use App\Http\Controllers\ControllerContact;
 use App\Http\Controllers\ControllerGalleryEvent;
@@ -18,7 +17,9 @@ use App\Http\Controllers\PengeluaranController;
 use App\Http\Controllers\ProgramController;
 use App\Http\Controllers\RekapController;
 use App\Http\Controllers\SambutanController;
-    
+use App\Http\Controllers\Users\DashboardController;
+use App\Http\Controllers\Users\ProfileController;
+
 // Guest Route Web
 Route::middleware(['guest'])->group(function() {
 
@@ -57,11 +58,11 @@ Route::get('/home', function() {
 
 // Index Dashboard Setiap Role User 
 Route::middleware(['auth'])->group(function() {
-    Route::get('/dashboard/admin', [LoginController::class, 'admin'])->middleware('userAkses:admin');
-    Route::get('/dashboard/keuangan', [LoginController::class, 'keuangan'])->middleware('userAkses:keuangan');
-    Route::get('/dashboard/operator', [LoginController::class, 'operator'])->middleware('userAkses:operator');
-    Route::get('/teacher/home', [LoginController::class, 'guru'])->middleware('userAkses:guru');
-    Route::get('/student/home', [LoginController::class, 'siswa'])->middleware('userAkses:siswa');
+    Route::get('/dashboard/admin', [DashboardController::class, 'admin'])->middleware('userAkses:admin');
+    Route::get('/dashboard/keuangan', [DashboardController::class, 'keuangan'])->middleware('userAkses:keuangan');
+    Route::get('/dashboard/operator', [DashboardController::class, 'operator'])->middleware('userAkses:operator');
+    Route::get('/teacher/home', [DashboardController::class, 'guru'])->middleware('userAkses:guru');
+    Route::get('/student/home', [DashboardController::class, 'siswa'])->middleware('userAkses:siswa');
     Route::get('/logout', [AuthController::class, 'logout']);
 });
 
@@ -69,18 +70,18 @@ Route::middleware(['auth'])->group(function() {
 Route::middleware(['userAkses:admin'])->group(function() {
 
     // Profile User Admin
-    Route::get('/dashboard/admin/profile', [LoginController::class, 'profileAdmin'])->name('profile.admin');
-    Route::get('/dashboard/admin/profile/{user}/edit', [LoginController::class, 'editProfileAdmin'])->name('profile.edit.admin');
-    Route::put('/dashboard/admin/profile/{user}', [LoginController::class, 'updateProfileAdmin'])->name('profile.update.admin');
+    Route::get('/dashboard/admin/profile', [ProfileController::class, 'profileAdmin'])->name('profile.admin');
+    Route::get('/dashboard/admin/profile/{user}/edit', [ProfileController::class, 'editProfileAdmin'])->name('profile.edit.admin');
+    Route::put('/dashboard/admin/profile/{user}', [ProfileController::class, 'updateProfileAdmin'])->name('profile.update.admin');
 });
 
 // Route Role User Keuangan
 Route::middleware(['userAkses:keuangan'])->group(function() {
     
     // Profile User Keuangan
-    Route::get('/dashboard/keuangan/profile', [LoginController::class, 'profileKeuangan'])->name('profile.keuangan');
-    Route::get('/dashboard/keuangan/profile/{user}/edit', [LoginController::class, 'editProfileKeuangan'])->name('profile.edit.keuangan');
-    Route::put('/dashboard/keuangan/profile/{user}', [LoginController::class, 'updateProfileKeuangan'])->name('profile.update.keuangan');
+    Route::get('/dashboard/keuangan/profile', [ProfileController::class, 'profileKeuangan'])->name('profile.keuangan');
+    Route::get('/dashboard/keuangan/profile/{user}/edit', [ProfileController::class, 'editProfileKeuangan'])->name('profile.edit.keuangan');
+    Route::put('/dashboard/keuangan/profile/{user}', [ProfileController::class, 'updateProfileKeuangan'])->name('profile.update.keuangan');
 
     // Route CRUD Resource Keuangan Pemasukan dan Pengeluaran
     Route::resource('/dashboard/keuangan/pemasukan', PemasukanController::class)->middleware('userAkses:keuangan');
@@ -108,9 +109,9 @@ Route::middleware(['userAkses:keuangan'])->group(function() {
 Route::middleware(['userAkses:operator'])->group(function() {
 
     // Profile User Operator
-    Route::get('/dashboard/operator/profile', [LoginController::class, 'profileOperator'])->name('profile.operator');
-    Route::get('/dashboard/operator/profile/{user}/edit', [LoginController::class, 'editProfileOperator'])->name('profile.edit.operator');
-    Route::put('/dashboard/operator/profile/{user}', [LoginController::class, 'updateProfileOperator'])->name('profile.update.operator');
+    Route::get('/dashboard/operator/profile', [ProfileController::class, 'profileOperator'])->name('profile.operator');
+    Route::get('/dashboard/operator/profile/{user}/edit', [ProfileController::class, 'editProfileOperator'])->name('profile.edit.operator');
+    Route::put('/dashboard/operator/profile/{user}', [ProfileController::class, 'updateProfileOperator'])->name('profile.update.operator');
 
     // Notifikasi Kirim Pesan 
     Route::get('/dashboard/operator/notifikasi', [MessageController::class, 'index'])->name('read');
@@ -136,17 +137,17 @@ Route::middleware(['userAkses:operator'])->group(function() {
 Route::middleware(['userAkses:guru'])->group(function() {
 
     // Profile User Guru
-    Route::get('/teacher/home/profile', [LoginController::class, 'profileGuru'])->name('profile.guru');
-    Route::get('/teacher/home/profile/{user}/edit', [LoginController::class, 'editProfileGuru'])->name('profile.edit.guru');
-    Route::put('/teacher/home/profile/{user}', [LoginController::class, 'updateProfileGuru'])->name('profile.update.guru');
+    Route::get('/teacher/home/profile', [ProfileController::class, 'profileGuru'])->name('profile.guru');
+    Route::get('/teacher/home/profile/{user}/edit', [ProfileController::class, 'editProfileGuru'])->name('profile.edit.guru');
+    Route::put('/teacher/home/profile/{user}', [ProfileController::class, 'updateProfileGuru'])->name('profile.update.guru');
 });
 
 // Route Role User Siswa
 Route::middleware(['userAkses:siswa'])->group(function() {
 
     // Profile User Siswa
-    Route::get('/student/home/profile', [LoginController::class, 'profileSiswa'])->name('profile.siswa');
-    Route::get('/student/home/profile/{user}/edit', [LoginController::class, 'editProfileSiswa'])->name('profile.edit.siswa');
-    Route::put('/student/home/profile/{user}', [LoginController::class, 'updateProfileSiswa'])->name('profile.update.siswa');
+    Route::get('/student/home/profile', [ProfileController::class, 'profileSiswa'])->name('profile.siswa');
+    Route::get('/student/home/profile/{user}/edit', [ProfileController::class, 'editProfileSiswa'])->name('profile.edit.siswa');
+    Route::put('/student/home/profile/{user}', [ProfileController::class, 'updateProfileSiswa'])->name('profile.update.siswa');
 });
 
