@@ -198,7 +198,7 @@
   </div>
 
   <footer class="main-footer">
-    <strong>Copyright &copy; {{ date('Y') }} <a href="#">SD Negeri Caringin Ngumbang</a>.</strong> All rights reserved.
+    <strong>Copyright &copy; {{ date('Y') }} <a href="/teacher/home">SD Negeri Caringin Ngumbang</a>.</strong> All rights reserved.
   </footer>
 </div>
 
