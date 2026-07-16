@@ -260,7 +260,7 @@
             </div>
             <!-- Page Footer -->
             <footer class="mt-5 py-4 border-top border-secondary">
-                <p class="mb-0 small">&copy; <script>document.write(new Date().getFullYear())</script>, <a href="https://www.instagram.com/sdn_carngum/" target="_blank">SD Negeri Caringin Ngumbang </a>Created By <a href="https://www.instagram.com/_chndr_22/" target="_blank">Kerja Praktik Teknik Informatika.</a>  All rights reserved </p>     
+                <p class="mb-0 small">&copy; <script>document.write(new Date().getFullYear())</script>, <a href="https://www.instagram.com/sdn_carngum/" target="_blank">SD Negeri Caringin Ngumbang </a>Created By <a href="https://portofolio-rizky-chandra.laravel.cloud/" target="_blank">Rizky Chandra Khusuma.</a>  All rights reserved </p>     
             </footer>
             <!-- End of Page Footer -->  
         </div>
