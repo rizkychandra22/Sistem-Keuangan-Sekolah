@@ -14,11 +14,6 @@ class KelasSeeder extends Seeder
     public function run(): void
     {
         $guruIds = Guru::query()->pluck('id')->shuffle()->take(18)->values();
-
-        if ($guruIds->count() < 18) {
-            throw new \RuntimeException('Minimal harus ada 18 data guru untuk membuat seluruh kelas.');
-        }
-
         $index = 0;
 
         for ($tingkat = 1; $tingkat <= 6; $tingkat++) {
