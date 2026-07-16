@@ -4,20 +4,8 @@
 
 @section('content')
     <div class="container">
-        {{-- Error ketika form tidak lengkap --}}
-        @if ($errors->any())
-            <script>
-                document.addEventListener('DOMContentLoaded', function () {
-                    Swal.fire({
-                        title: 'Form Tidak Lengkap!',
-                        text: "Pastikan semua field terisi dengan benar.",
-                        icon: 'error',
-                        confirmButtonColor: '#d33', // Tombol merah
-                        confirmButtonText: 'Tutup'
-                    });
-                });
-            </script>
-        @endif
+        @include('components.alert-messages')
+        
         <form action="{{ route('gallery-perpisahan.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="row">

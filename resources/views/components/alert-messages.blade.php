@@ -1,4 +1,3 @@
-{{-- Error ketika form tidak lengkap --}}
 @if ($errors->any())
     <script>
         document.addEventListener('DOMContentLoaded', function () {
@@ -6,14 +5,27 @@
                 title: 'Form Tidak Lengkap!',
                 text: "Pastikan semua field terisi dengan benar.",
                 icon: 'error',
-                confirmButtonColor: '#d33', // Tombol merah
+                confirmButtonColor: '#d33',
                 confirmButtonText: 'Tutup'
             });
         });
     </script>
 @endif
 
-{{-- Alert success kirim pesan --}}
+@if (session('danger'))
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            Swal.fire({
+                title: 'Saldo Tidak Cukup!',
+                text: "{{ session('danger') }}",
+                icon: 'error',
+                confirmButtonColor: '#d33',
+                confirmButtonText: 'Tutup'
+            });
+        });
+    </script>
+@endif
+
 @if (session('success'))
     <script>
         document.addEventListener('DOMContentLoaded', function () {
@@ -21,7 +33,7 @@
                 title: 'Berhasil!',
                 text: "{{ session('success') }}",
                 icon: 'success',
-                confirmButtonColor: '#28a745', // Tombol hijau
+                confirmButtonColor: '#28a745',
                 confirmButtonText: 'Oke'
             });
         });

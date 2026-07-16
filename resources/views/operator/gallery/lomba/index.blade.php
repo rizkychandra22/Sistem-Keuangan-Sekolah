@@ -4,19 +4,8 @@
 
 @section('content')
     <div class="container">
-        @if (session('success'))
-            <script>
-                document.addEventListener('DOMContentLoaded', function () {
-                    Swal.fire({
-                        title: 'Berhasil!',
-                        text: "{{ session('success') }}",
-                        icon: 'success',
-                        confirmButtonColor: '#28a745', // Tombol hijau
-                        confirmButtonText: 'Oke'
-                    });
-                });
-            </script>
-        @endif
+        @include('components.alert-messages')
+        
         <div class="table-responsive">
             <table id="tableLomba" class="table table-bordered table-hover table-striped">
                 <thead>

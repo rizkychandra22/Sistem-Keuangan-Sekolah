@@ -4,44 +4,8 @@
 
 @section('content')
     <div class="container">
-        @if (session('danger'))
-            <div id="danger-alert" class="alert alert-danger">
-                {{ session('danger') }}
-            </div>
-            <script>
-                document.addEventListener('DOMContentLoaded', function() {
-                    setTimeout(function() {
-                        var dangerAlert = document.getElementById('danger-alert');
-                        if (dangerAlert) {
-                            dangerAlert.style.transition = 'opacity 0.5s ease-out';
-                            dangerAlert.style.opacity = '0';
-                            setTimeout(function() {
-                                dangerAlert.remove();
-                            }, 500);
-                        }
-                    }, 3000);
-                });
-            </script>
-        @endif
-        @if (session('success'))
-            <div id="success-alert" class="alert alert-success">
-                {{ session('success') }}
-            </div>
-            <script>
-                document.addEventListener('DOMContentLoaded', function() {
-                    setTimeout(function() {
-                        var successAlert = document.getElementById('success-alert');
-                        if (successAlert) {
-                            successAlert.style.transition = 'opacity 0.5s ease-out';
-                            successAlert.style.opacity = '0';
-                            setTimeout(function() {
-                                successAlert.remove();
-                            }, 500);
-                        }
-                    }, 3000);
-                });
-            </script>
-        @endif
+        @include('components.alert-messages')
+
         <div class="row">
             @foreach ($messages as $message)
                 <div class="col-md-4 mb-2">
@@ -75,4 +39,7 @@
             @endforeach
         </div>
     </div>
+
+    {{-- Sweat Alert --}}
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 @endsection

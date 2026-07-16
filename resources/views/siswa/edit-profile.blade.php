@@ -4,31 +4,8 @@
 
 @section('content')
     <div class="container">
-        @if ($errors->any())
-            <div id="error-alert" class="alert alert-danger">
-                <strong>Whoops Error!</strong>
-                <p>Terjadi kesalahan karena ada form input yang belum sesuai</p>
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-            <script>
-                document.addEventListener('DOMContentLoaded', function() {
-                    setTimeout(function() {
-                        var errorAlert = document.getElementById('error-alert');
-                        if (errorAlert) {
-                            errorAlert.style.transition = 'opacity 0.5s ease-out';
-                            errorAlert.style.opacity = '0';
-                            setTimeout(function() {
-                                errorAlert.remove();
-                            }, 500);
-                        }
-                    }, 5000);
-                });
-            </script>
-        @endif
+        @include('components.alert-messages')
+
         <form action="{{ route('profile.update.siswa', $user->id) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
@@ -91,4 +68,7 @@
             </div>            
         </form>
     </div>
+
+    {{-- Sweat Alert --}}
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 @endsection

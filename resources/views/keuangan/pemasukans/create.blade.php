@@ -4,22 +4,8 @@
 
 @section('content')
     <div class="container">
+        @include('components.alert-messages')
         
-        {{-- Error ketika form tidak lengkap --}}
-        @if ($errors->any())
-            <script>
-                document.addEventListener('DOMContentLoaded', function () {
-                    Swal.fire({
-                        title: 'Form Tidak Lengkap!',
-                        text: "Pastikan semua field terisi dengan benar.",
-                        icon: 'error',
-                        confirmButtonColor: '#d33', // Tombol merah
-                        confirmButtonText: 'Tutup'
-                    });
-                });
-            </script>
-        @endif
-
         <form action="{{ route('pemasukan.store') }}" method="POST">
             @csrf
             <div class="row">

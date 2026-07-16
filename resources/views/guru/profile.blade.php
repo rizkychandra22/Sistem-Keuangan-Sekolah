@@ -6,25 +6,7 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-12">
-                @if (session('success'))
-                    <div id="success-alert" class="alert alert-success">
-                        {{ session('success') }}
-                    </div>
-                    <script>
-                        document.addEventListener('DOMContentLoaded', function() {
-                            setTimeout(function() {
-                                var successAlert = document.getElementById('success-alert');
-                                if (successAlert) {
-                                    successAlert.style.transition = 'opacity 0.5s ease-out';
-                                    successAlert.style.opacity = '0';
-                                    setTimeout(function() {
-                                        successAlert.remove();
-                                    }, 500);
-                                }
-                            }, 3000);
-                        });
-                    </script>
-                @endif
+                @include('components.alert-messages')
                 
                 <table class="table table-bordered">
                     <tbody>
@@ -67,4 +49,7 @@
             </div>
         </div>
     </div>
+
+    {{-- Sweat Alert --}}
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 @endsection

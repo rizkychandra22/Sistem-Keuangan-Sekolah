@@ -4,26 +4,8 @@
 
 @section('content')
     <div class="container">
-        @if ($errors->any())
-            <div id="error-alert" class="alert alert-danger">
-                <strong>Whoops Error!</strong>
-                <p>Terjadi kesalahan karena ada form input yang masih kosong</p>
-            </div>
-            <script>
-                document.addEventListener('DOMContentLoaded', function() {
-                    setTimeout(function() {
-                        var errorAlert = document.getElementById('error-alert');
-                        if (errorAlert) {
-                            errorAlert.style.transition = 'opacity 0.5s ease-out';
-                            errorAlert.style.opacity = '0';
-                            setTimeout(function() {
-                                errorAlert.remove();
-                            }, 500);
-                        }
-                    }, 3000);
-                });
-            </script>
-        @endif
+        @include('components.alert-messages')
+
         <form action="{{ route('sambutan.update', $sambutan->id) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
@@ -64,4 +46,7 @@
             </div>
         </form>
     </div>
+
+    {{-- Sweat Alert --}}
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 @endsection

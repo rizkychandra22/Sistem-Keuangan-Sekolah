@@ -4,36 +4,7 @@
 
 @section('content')
     <div class="container">
-        
-        {{-- Error ketika form tidak lengkap --}}
-        @if ($errors->any())
-            <script>
-                document.addEventListener('DOMContentLoaded', function () {
-                    Swal.fire({
-                        title: 'Form Tidak Lengkap!',
-                        text: "Pastikan semua field terisi dengan benar.",
-                        icon: 'error',
-                        confirmButtonColor: '#d33', // Tombol merah
-                        confirmButtonText: 'Tutup'
-                    });
-                });
-            </script>
-        @endif
-
-        {{-- Error ketika saldo yang di input lebih besar dari saldo yang tersedia --}}
-        @if (session('danger'))
-            <script>
-                document.addEventListener('DOMContentLoaded', function () {
-                    Swal.fire({
-                        title: 'Saldo Tidak Cukup!',
-                        text: "{{ session('danger') }}",
-                        icon: 'error',
-                        confirmButtonColor: '#d33', // Tombol merah
-                        confirmButtonText: 'Tutup'
-                    });
-                });
-            </script>
-        @endif
+        @include('components.alert-messages')
         
         <form action="{{ route('pengeluaran.update', $pengeluaran->id) }}" method="POST">
             @csrf
