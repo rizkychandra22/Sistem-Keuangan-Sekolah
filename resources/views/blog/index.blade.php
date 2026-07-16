@@ -99,34 +99,9 @@
     <!-- Page Header -->
     <header class="header">
         <div class="overlay">
-            {{-- Error ketika form tidak lengkap --}}
-            @if ($errors->any())
-                <script>
-                    document.addEventListener('DOMContentLoaded', function () {
-                        Swal.fire({
-                            title: 'Form Tidak Lengkap!',
-                            text: "Pastikan semua field terisi dengan benar.",
-                            icon: 'error',
-                            confirmButtonColor: '#d33', // Tombol merah
-                            confirmButtonText: 'Tutup'
-                        });
-                    });
-                </script>
-            @endif
-            {{-- Alert success kirim pesan --}}
-            @if (session('success'))
-                <script>
-                    document.addEventListener('DOMContentLoaded', function () {
-                        Swal.fire({
-                            title: 'Berhasil!',
-                            text: "{{ session('success') }}",
-                            icon: 'success',
-                            confirmButtonColor: '#28a745', // Tombol hijau
-                            confirmButtonText: 'Oke'
-                        });
-                    });
-                </script>
-            @endif
+            
+            @include('components.alert-messages')
+
             <h1 class="subtitle">Selamat Datang di</h1>
             <h1 class="title">SD Negeri Caringin Ngumbang</h1>
         </div>  
