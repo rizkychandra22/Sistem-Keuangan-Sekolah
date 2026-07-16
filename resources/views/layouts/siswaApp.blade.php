@@ -3,13 +3,14 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>@yield('title')</title>
+  <title>@yield("title")</title>
   <link rel="icon" href="https://i2.wp.com/www.freepnglogos.com/uploads/tut-wuri-handayani-png-logo/vector-wuri-handayani-warna-0.png">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-k6RqeWeci5ZR/Lv4MR0sA0FfDOMR8wKMO0M2fLlPjqG7m1F5By4HR7FJztnD6B" crossorigin="anonymous">
   <link rel="stylesheet" href="/!template-admin/plugins/fontawesome-free/css/all.min.css">
   <link rel="stylesheet" href="/!template-admin/dist/css/adminlte.min.css">
-  <link rel="manifest" href="/manifest.json">
-  @vite(['resources/css/app.css', 'resources/js/app.js'])
+  <meta name="csrf-token" content="{{ csrf_token() }}">
+  <link rel="stylesheet" href="https://cdn.datatables.net/2.1.5/css/dataTables.dataTables.css" />
 
   <style>
     .sidebar .nav-link.is-disabled {
@@ -72,13 +73,10 @@
         <a class="nav-link" data-toggle="dropdown" href="#">
           <span class="fas fa-th-large"></span>
         </a>
-        <div class="dropdown-menu dropdown-menu-right">
-          <a href="#" class="dropdown-item">
-            <i class="fas fa-users mr-2"></i> Portal Orang Tua
-          </a>
+        <div class="dropdown-menu dropdown-menu-lg-3 dropdown-menu-right">
           <div class="dropdown-divider"></div>
           <a href="/logout" class="dropdown-item">
-            <i class="fas fa-sign-out-alt mr-2"></i> Logout
+            <i class="fas fa-arrow-right"></i> Logout
           </a>
         </div>
       </li>
@@ -87,43 +85,27 @@
 
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <div class="sidebar">
-      <div class="user-panel mt-3 mb-3 pb-3 d-flex">
-        <a href="#" class="d-flex align-items-center">
-          <div class="image mr-2">
-            <img src="{{ $orangTuaPhoto }}" alt="User Image">
-          </div>
-          <div class="user-name">
-            <strong>{{ $user?->name ?? 'Orang Tua' }}</strong>
-            <small>Portal Orang Tua Siswa</small>
-          </div>
+      <div class="user-panel mt-3 mb-3 pb-3  d-flex">
+        <a href="/student/home/profile" class="d-block d-flex align-items-center">
+            <div class="image mr-1">
+                <img src="{{ asset('images/user/' . Auth::user()->gambar) }}" class="rounded-circle" alt="User Image" style="width: 50px; height: 50px;">
+            </div>
+            <div class="user-name" style="flex: 1; white-space: wrap;">
+                {{ Auth::user()->name }}
+            </div>
         </a>
-      </div>
+      </div> 
 
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <li class="nav-item">
             <a href="#" class="nav-link active">
               <i class="nav-icon fas fa-home"></i>
-              <p>Dashboard Orang Tua</p>
+              <p>Dashboard Siswa</p>
             </a>
           </li>
-
-          <li class="nav-item">
-            <a href="#" class="nav-link is-disabled">
-              <i class="nav-icon fas fa-user-circle"></i>
-              <p>Profil Akun</p>
-            </a>
-          </li>
-
-          <li class="nav-header">DATA ANAK</li>
-
-          <li class="nav-item">
-            <a href="#" class="nav-link is-disabled">
-              <i class="nav-icon fas fa-id-card"></i>
-              <p>Profil Siswa</p>
-            </a>
-          </li>
-
+          
+          <li class="nav-header">AKADEMIK</li>
           <li class="nav-item">
             <a href="#" class="nav-link is-disabled">
               <i class="nav-icon fas fa-school"></i>
@@ -167,13 +149,6 @@
               <p>Tahun Ajaran Aktif</p>
             </a>
           </li>
-
-          <li class="nav-item">
-            <a href="/logout" class="nav-link">
-              <i class="nav-icon fas fa-sign-out-alt"></i>
-              <p>Logout</p>
-            </a>
-          </li>
         </ul>
       </nav>
     </div>
@@ -209,8 +184,9 @@
   </footer>
 </div>
 
-<script src="/!template-admin/plugins/jquery/jquery.min.js"></script>
-<script src="/!template-admin/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<script src="/!template-admin/dist/js/adminlte.min.js"></script>
+  <script src="/!template-admin/plugins/jquery/jquery.min.js"></script>
+  <script src="/!template-admin/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/!template-admin/dist/js/adminlte.min.js"></script>
 </body>
+@stack('js')
 </html>
