@@ -45,6 +45,9 @@ Route::middleware(['guest'])->group(function() {
     Route::post('/register', [AuthController::class, 'register'])->name('register');
 });
 
+// Route Logout
+Route::get('/logout', [AuthController::class, 'logout'])->middleware('auth' );
+
 // Route Redirect User
 Route::get('/admin', function() {
     return redirect('/dashboard/admin');
@@ -62,18 +65,9 @@ Route::get('/home', function() {
     return redirect('/student/home');
 });
 
-// Route Index Dashboard Setiap Role User 
-Route::middleware(['auth'])->group(function() {
-    Route::get('/dashboard/admin', [DashboardController::class, 'admin'])->middleware('userAkses:admin');
-    Route::get('/dashboard/keuangan', [DashboardController::class, 'keuangan'])->middleware('userAkses:keuangan');
-    Route::get('/dashboard/operator', [DashboardController::class, 'operator'])->middleware('userAkses:operator');
-    Route::get('/teacher/home', [DashboardController::class, 'guru'])->middleware('userAkses:guru');
-    Route::get('/student/home', [DashboardController::class, 'siswa'])->middleware('userAkses:siswa');
-    Route::get('/logout', [AuthController::class, 'logout']);
-});
-
 // Route Role User Admin
 Route::middleware(['userAkses:admin'])->group(function() {
+    Route::get('/dashboard/admin', [DashboardController::class, 'admin']);
 
     // Profile User Admin
     Route::get('/dashboard/admin/profile', [ProfileController::class, 'profileAdmin'])->name('profile.admin');
@@ -83,6 +77,7 @@ Route::middleware(['userAkses:admin'])->group(function() {
 
 // Route Role User Keuangan
 Route::middleware(['userAkses:keuangan'])->group(function() {
+    Route::get('/dashboard/keuangan', [DashboardController::class, 'keuangan']);
     
     // Profile User Keuangan
     Route::get('/dashboard/keuangan/profile', [ProfileController::class, 'profileKeuangan'])->name('profile.keuangan');
@@ -113,6 +108,7 @@ Route::middleware(['userAkses:keuangan'])->group(function() {
 
 // Route Role User Operator
 Route::middleware(['userAkses:operator'])->group(function() {
+    Route::get('/dashboard/operator', [DashboardController::class, 'operator']);
 
     // Profile User Operator
     Route::get('/dashboard/operator/profile', [ProfileController::class, 'profileOperator'])->name('profile.operator');
@@ -141,6 +137,7 @@ Route::middleware(['userAkses:operator'])->group(function() {
 
 // Route Role User Guru
 Route::middleware(['userAkses:guru'])->group(function() {
+    Route::get('/teacher/home', [DashboardController::class, 'guru']);
 
     // Profile User Guru
     Route::get('/teacher/home/profile', [ProfileController::class, 'profileGuru'])->name('profile.guru');
@@ -150,7 +147,8 @@ Route::middleware(['userAkses:guru'])->group(function() {
 
 // Route Role User Siswa
 Route::middleware(['userAkses:siswa'])->group(function() {
-
+    Route::get('/student/home', [DashboardController::class, 'siswa']);
+    
     // Profile User Siswa
     Route::get('/student/home/profile', [ProfileController::class, 'profileSiswa'])->name('profile.siswa');
     Route::get('/student/home/profile/{user}/edit', [ProfileController::class, 'editProfileSiswa'])->name('profile.edit.siswa');
