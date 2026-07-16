@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Blog;
 
+use App\Http\Controllers\Controller;
 use App\Models\BeritaSekolah;
 use App\Models\ContactSekolah;
 use App\Models\GalleryEvent;

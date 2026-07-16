@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Finance;
 
+use App\Http\Controllers\Controller;
 use App\Models\Pengeluaran;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;

@@ -1,40 +1,46 @@
 <?php
 
-use App\Http\Controllers\ControllerBeritaSekolah;
-use App\Http\Controllers\ControllerContact;
-use App\Http\Controllers\ControllerGalleryEvent;
-use App\Http\Controllers\ControllerGalleryLomba;
-use App\Http\Controllers\ControllerGalleryPariwisata;
-use App\Http\Controllers\ControllerGalleryPerpisahan;
-use App\Http\Controllers\ControllerGuru;
-use App\Http\Controllers\ControllerPrestasi;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\MessageController;
-use App\Http\Controllers\PemasukanController;
-use App\Http\Controllers\PengeluaranController;
-use App\Http\Controllers\ProgramController;
-use App\Http\Controllers\RekapController;
-use App\Http\Controllers\SambutanController;
+
+// Import Routing Web Blog Sekolah
+use App\Http\Controllers\Blog\HomeController;
+use App\Http\Controllers\Blog\Manages\ControllerBeritaSekolah;
+use App\Http\Controllers\Blog\Manages\ControllerContact;
+use App\Http\Controllers\Blog\Manages\ControllerGalleryEvent;
+use App\Http\Controllers\Blog\Manages\ControllerGalleryLomba;
+use App\Http\Controllers\Blog\Manages\ControllerGalleryPariwisata;
+use App\Http\Controllers\Blog\Manages\ControllerGalleryPerpisahan;
+use App\Http\Controllers\Blog\Manages\ControllerGuru;
+use App\Http\Controllers\Blog\Manages\ControllerPrestasi;
+use App\Http\Controllers\Blog\Manages\MessageController;
+use App\Http\Controllers\Blog\Manages\ProgramController;
+use App\Http\Controllers\Blog\Manages\SambutanController;
+
+// Import Routing Finance
+use App\Http\Controllers\Finance\PemasukanController;
+use App\Http\Controllers\Finance\PengeluaranController;
+use App\Http\Controllers\Finance\RekapController;
+
+// Import Routing User
 use App\Http\Controllers\Users\DashboardController;
 use App\Http\Controllers\Users\ProfileController;
 
-// Guest Route Web
+// Route Guest
 Route::middleware(['guest'])->group(function() {
 
-    // Blog Website Sekolah
+    // Route Blog Website Sekolah
     Route::get('/', [HomeController::class, 'index']);
     Route::get('/informasi-sekolah', [HomeController::class, 'info']);
     Route::get('/search', [HomeController::class, 'search'])->name('search');
     Route::post('/', [MessageController::class, 'storeHome'])->name('message.home');
     Route::post('/informasi-sekolah', [MessageController::class, 'storeInfo'])->name('message.info');
 
-    // Login
+    // Route Login
     Route::get('/login', [AuthController::class, 'indexLogin'])->name('login');
     Route::post('/login', [AuthController::class, 'login']);
 
-    // Register
+    // Route Register
     Route::get('/register', [AuthController::class, 'indexRegister']);
     Route::post('/register', [AuthController::class, 'register'])->name('register');
 });
@@ -56,7 +62,7 @@ Route::get('/home', function() {
     return redirect('/student/home');
 });
 
-// Index Dashboard Setiap Role User 
+// Route Index Dashboard Setiap Role User 
 Route::middleware(['auth'])->group(function() {
     Route::get('/dashboard/admin', [DashboardController::class, 'admin'])->middleware('userAkses:admin');
     Route::get('/dashboard/keuangan', [DashboardController::class, 'keuangan'])->middleware('userAkses:keuangan');

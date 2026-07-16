@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Blog\Manages;
 
+use App\Http\Controllers\Controller;
 use App\Models\BeritaSekolah;
 use Illuminate\Http\Request;
 
