@@ -33,7 +33,8 @@
 <body class="hold-transition sidebar-mini">
 @php
   $user = Auth::user();
-  $orangTuaPhoto = $user && $user->gambar ? asset('images/user/' . $user->gambar) : asset('favicon.ico');
+  $currentPath = request()->path();
+  $guruPhoto = $user && $user->gambar ? asset('images/user/' . $user->gambar) : asset('favicon.ico');
 @endphp
 <div class="wrapper">
 
@@ -74,7 +75,7 @@
         </a>
         <div class="dropdown-menu dropdown-menu-right">
           <a href="#" class="dropdown-item">
-            <i class="fas fa-users mr-2"></i> Portal Orang Tua
+            <i class="fas fa-chalkboard-teacher mr-2"></i> Tentang Dashboard Guru
           </a>
           <div class="dropdown-divider"></div>
           <a href="/logout" class="dropdown-item">
@@ -90,11 +91,11 @@
       <div class="user-panel mt-3 mb-3 pb-3 d-flex">
         <a href="#" class="d-flex align-items-center">
           <div class="image mr-2">
-            <img src="{{ $orangTuaPhoto }}" alt="User Image">
+            <img src="{{ $guruPhoto }}" alt="User Image">
           </div>
           <div class="user-name">
-            <strong>{{ $user?->name ?? 'Orang Tua' }}</strong>
-            <small>Portal Orang Tua Siswa</small>
+            <strong>{{ $user?->name ?? 'Guru' }}</strong>
+            <small>Portal Guru</small>
           </div>
         </a>
       </div>
@@ -102,64 +103,80 @@
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <li class="nav-item">
-            <a href="#" class="nav-link active">
-              <i class="nav-icon fas fa-home"></i>
-              <p>Dashboard Orang Tua</p>
+            <a href="#" class="nav-link {{ str_starts_with($currentPath, 'dashboard/guru') ? 'active' : '' }}">
+              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <p>Dashboard Guru</p>
             </a>
           </li>
 
           <li class="nav-item">
             <a href="#" class="nav-link is-disabled">
               <i class="nav-icon fas fa-user-circle"></i>
-              <p>Profil Akun</p>
+              <p>Profil Guru</p>
             </a>
           </li>
 
-          <li class="nav-header">DATA ANAK</li>
-
-          <li class="nav-item">
-            <a href="#" class="nav-link is-disabled">
-              <i class="nav-icon fas fa-id-card"></i>
-              <p>Profil Siswa</p>
-            </a>
-          </li>
+          <li class="nav-header">AKADEMIK</li>
 
           <li class="nav-item">
             <a href="#" class="nav-link is-disabled">
               <i class="nav-icon fas fa-school"></i>
-              <p>Kelas & Wali Kelas</p>
+              <p>Wali Kelas</p>
             </a>
           </li>
 
           <li class="nav-item">
             <a href="#" class="nav-link is-disabled">
-              <i class="nav-icon fas fa-book"></i>
-              <p>Guru & Mata Pelajaran</p>
+              <i class="nav-icon fas fa-book-reader"></i>
+              <p>Mapel & Kelas Ajar</p>
             </a>
           </li>
 
-          <li class="nav-header">MONITORING</li>
+          <li class="nav-item">
+            <a href="#" class="nav-link is-disabled">
+              <i class="nav-icon fas fa-users"></i>
+              <p>Data Siswa</p>
+            </a>
+          </li>
+
+          <li class="nav-header">PEMBELAJARAN</li>
 
           <li class="nav-item">
             <a href="#" class="nav-link is-disabled">
               <i class="nav-icon fas fa-clipboard-check"></i>
-              <p>Kehadiran Anak</p>
+              <p>Input Absensi</p>
             </a>
           </li>
 
           <li class="nav-item">
             <a href="#" class="nav-link is-disabled">
-              <i class="nav-icon fas fa-chart-bar"></i>
-              <p>Nilai Anak</p>
+              <i class="nav-icon fas fa-history"></i>
+              <p>Riwayat Absensi</p>
             </a>
           </li>
 
           <li class="nav-item">
             <a href="#" class="nav-link is-disabled">
-              <i class="nav-icon fas fa-file-alt"></i>
-              <p>Rapor Anak</p>
+              <i class="nav-icon fas fa-edit"></i>
+              <p>Input Nilai</p>
             </a>
           </li>
+
+          <li class="nav-item">
+            <a href="#" class="nav-link is-disabled">
+              <i class="nav-icon fas fa-chart-line"></i>
+              <p>Rekap Nilai</p>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a href="#" class="nav-link is-disabled">
+              <i class="nav-icon fas fa-file-signature"></i>
+              <p>Rapor Siswa</p>
+            </a>
+          </li>
+
+          <li class="nav-header">SISTEM</li>
 
           <li class="nav-item">
             <a href="#" class="nav-link is-disabled">
