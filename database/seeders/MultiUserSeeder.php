@@ -73,8 +73,6 @@ class MultiUserSeeder extends Seeder
             );
         }
 
-        $this->call(KelasSeeder::class);
-
         $kelasIds = Kelas::query()->pluck('id')->shuffle()->values();
         $kelasCount = $kelasIds->count();
 
