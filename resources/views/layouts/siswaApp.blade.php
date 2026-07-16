@@ -32,10 +32,6 @@
   </style>
 </head>
 <body class="hold-transition sidebar-mini">
-@php
-  $user = Auth::user();
-  $orangTuaPhoto = $user && $user->gambar ? asset('images/user/' . $user->gambar) : asset('favicon.ico');
-@endphp
 <div class="wrapper">
 
   <nav class="main-header navbar navbar-expand navbar-white navbar-light">
@@ -44,7 +40,7 @@
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
       <li class="breadcrumb-item mt-2">
-        <a href="#"><i class="fas fa-home"></i></a>
+        <a href="/student/home"><i class="fas fa-home"></i></a>
       </li>
       @if(isset($currentLink) && isset($currentTitle))
         <li class="breadcrumb-item mt-2">
@@ -99,7 +95,7 @@
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <li class="nav-item">
-            <a href="#" class="nav-link active">
+            <a href="/student/home" class="nav-link {{ request()->is('student/home') ? 'active' : '' }}">
               <i class="nav-icon fas fa-home"></i>
               <p>Dashboard Siswa</p>
             </a>
@@ -125,21 +121,21 @@
           <li class="nav-item">
             <a href="#" class="nav-link is-disabled">
               <i class="nav-icon fas fa-clipboard-check"></i>
-              <p>Kehadiran Anak</p>
+              <p>Kehadiran</p>
             </a>
           </li>
 
           <li class="nav-item">
             <a href="#" class="nav-link is-disabled">
               <i class="nav-icon fas fa-chart-bar"></i>
-              <p>Nilai Anak</p>
+              <p>Penilaian</p>
             </a>
           </li>
 
           <li class="nav-item">
             <a href="#" class="nav-link is-disabled">
               <i class="nav-icon fas fa-file-alt"></i>
-              <p>Rapor Anak</p>
+              <p>Rapor</p>
             </a>
           </li>
 

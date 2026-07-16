@@ -32,6 +32,16 @@
   </style>
 </head>
 <body class="hold-transition sidebar-mini">
+
+@php
+  $user = Auth::user();
+  $guru = $user?->guru;
+  $isWaliKelas = $guru?->isWaliKelas() ?? false;
+  $hasJadwalMengajar = $guru?->hasJadwalMengajar() ?? false;
+  $dashboardGuruActive = request()->is('teacher/home');
+  $profileGuruActive = request()->is('teacher/home/profile*');
+@endphp
+
 <div class="wrapper">
 
   <nav class="main-header navbar navbar-expand navbar-white navbar-light">
@@ -40,7 +50,7 @@
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
       <li class="breadcrumb-item mt-2">
-        <a href="#"><i class="fas fa-home"></i></a>
+        <a href="/teacher/home"><i class="fas fa-home"></i></a>
       </li>
       @if(isset($currentLink) && isset($currentTitle))
         <li class="breadcrumb-item mt-2">
@@ -82,7 +92,7 @@
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <div class="sidebar">
       <div class="user-panel mt-3 mb-3 pb-3  d-flex">
-        <a href="/teacher/home/profile" class="d-block d-flex align-items-center">
+        <a href="{{ route('profile.guru') }}" class="d-block d-flex align-items-center">
             <div class="image mr-1">
                 <img src="{{ asset('images/user/' . Auth::user()->gambar) }}" class="rounded-circle" alt="User Image" style="width: 50px; height: 50px;">
             </div>
@@ -95,40 +105,32 @@
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <li class="nav-item">
-            <a href="/dashboard/guru" class="nav-link active">
+            <a href="/teacher/home" class="nav-link {{ $dashboardGuruActive ? 'active' : '' }}">
               <i class="nav-icon fas fa-home"></i>
               <p>Dashboard Guru</p>
             </a>
           </li>
 
-          <li class="nav-header">AKADEMIK</li>
+          @if($isWaliKelas)
+          <li class="nav-header">WALI KELAS</li>
           <li class="nav-item">
             <a href="#" class="nav-link is-disabled">
               <i class="nav-icon fas fa-school"></i>
-              <p>Wali Kelas</p>
-            </a>
-          </li>
-
-          <li class="nav-item">
-            <a href="#" class="nav-link is-disabled">
-              <i class="nav-icon fas fa-book-reader"></i>
-              <p>Mapel & Kelas Ajar</p>
+              <p>Data Kelas Wali</p>
             </a>
           </li>
 
           <li class="nav-item">
             <a href="#" class="nav-link is-disabled">
               <i class="nav-icon fas fa-users"></i>
-              <p>Data Siswa</p>
+              <p>Data Siswa Kelas</p>
             </a>
           </li>
-
-          <li class="nav-header">PEMBELAJARAN</li>
 
           <li class="nav-item">
             <a href="#" class="nav-link is-disabled">
               <i class="nav-icon fas fa-clipboard-check"></i>
-              <p>Input Absensi</p>
+              <p>Input Absensi Siswa</p>
             </a>
           </li>
 
@@ -138,11 +140,21 @@
               <p>Riwayat Absensi</p>
             </a>
           </li>
+          @endif
+
+          @if($hasJadwalMengajar)
+          <li class="nav-header">MENGAJAR</li>
+          <li class="nav-item">
+            <a href="#" class="nav-link is-disabled">
+              <i class="nav-icon fas fa-book-reader"></i>
+              <p>Mapel & Kelas Ajar</p>
+            </a>
+          </li>
 
           <li class="nav-item">
             <a href="#" class="nav-link is-disabled">
               <i class="nav-icon fas fa-edit"></i>
-              <p>Input Nilai</p>
+              <p>Input Nilai Siswa</p>
             </a>
           </li>
 
@@ -152,13 +164,26 @@
               <p>Rekap Nilai</p>
             </a>
           </li>
+          @endif
 
+          @if($isWaliKelas || $hasJadwalMengajar)
           <li class="nav-item">
             <a href="#" class="nav-link is-disabled">
               <i class="nav-icon fas fa-file-signature"></i>
               <p>Rapor Siswa</p>
             </a>
           </li>
+          @endif
+
+          @if(! $isWaliKelas && ! $hasJadwalMengajar)
+          <li class="nav-header">INFORMASI</li>
+          <li class="nav-item">
+            <a href="#" class="nav-link is-disabled">
+              <i class="nav-icon fas fa-info-circle"></i>
+              <p>Belum Ada Penugasan Guru</p>
+            </a>
+          </li>
+          @endif
 
           <li class="nav-header">SISTEM</li>
           <li class="nav-item">
