@@ -1,6 +1,6 @@
-@extends('layouts.siswaApp')
+@extends('layouts.guruApp')
 
-@section('title', 'Edit Profile Siswa')
+@section('title', 'Edit Profile Guru')
 
 @section('content')
     <div class="container">
@@ -29,37 +29,33 @@
                 });
             </script>
         @endif
-        <form action="{{ route('profile.update.siswa', $user->id) }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('profile.update.guru', $user->id) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <strong>Nama Lengkap:</strong>
-                        <input type="text" name="name" value="{{ old('name', $user->siswa->nama ?? $user->name) }}" class="form-control" placeholder="Nama Lengkap">
+                        <strong>Nama Guru:</strong>
+                        <input type="text" name="name" value="{{ old('name', $user->guru->nama ?? $user->name) }}" class="form-control" placeholder="Nama Guru">
                     </div>
                     <div class="form-group">
-                        <strong>NISN:</strong>
-                        <input type="text" name="nisn" value="{{ old('nisn', $user->siswa->nisn ?? '') }}" class="form-control" placeholder="NISN">
+                        <strong>NIP:</strong>
+                        <input type="text" name="nip" value="{{ old('nip', $user->guru->nip ?? '') }}" class="form-control" placeholder="NIP">
                     </div>
                     <div class="form-group">
-                        <strong>Tanggal Lahir:</strong>
-                        <input type="date" name="tgl_lhr" value="{{ old('tgl_lhr', $user->siswa && $user->siswa->tgl_lhr ? $user->siswa->tgl_lhr->format('Y-m-d') : '') }}" class="form-control">
+                        <strong>Jabatan:</strong>
+                        <input type="text" name="jabatan" value="{{ old('jabatan', $user->guru->jabatan ?? '') }}" class="form-control" placeholder="Jabatan">
                     </div>
                     <div class="form-group">
-                        <strong>Alamat:</strong>
-                        <textarea name="alamat" class="form-control" rows="3" placeholder="Alamat Rumah">{{ old('alamat', $user->siswa->alamat ?? '') }}</textarea>
+                        <strong>Kontak:</strong>
+                        <input type="text" name="kontak" value="{{ old('kontak', $user->guru->kontak ?? '') }}" class="form-control" placeholder="Kontak (No HP/Telp)">
                     </div>
                 </div>
                 
                 <div class="col-md-6">
                     <div class="form-group">
-                        <strong>Nama Orang Tua / Wali:</strong>
-                        <input type="text" name="orang_tua" value="{{ old('orang_tua', $user->siswa->orang_tua ?? '') }}" class="form-control" placeholder="Nama Orang Tua">
-                    </div>
-                    <div class="form-group">
-                        <strong>Kontak Orang Tua / Wali:</strong>
-                        <input type="text" name="kontak_orang_tua" value="{{ old('kontak_orang_tua', $user->siswa->kontak_orang_tua ?? '') }}" class="form-control" placeholder="No HP/Telp Orang Tua">
+                        <strong>Motivasi:</strong>
+                        <textarea name="motivasi" class="form-control" rows="4" placeholder="Kata-kata Motivasi">{{ old('motivasi', $user->guru->motivasi ?? '') }}</textarea>
                     </div>
                     <div class="form-group">
                         <strong>Username (Login):</strong>
@@ -78,15 +74,15 @@
                 <div class="col-xs-12 col-sm-12 col-md-12">
                     <div class="form-group">
                         <strong>Foto Profile:</strong>
-                        <input type="file" name="gambar" class="form-control" placeholder="Foto profile siswa">
+                        <input type="file" name="gambar" class="form-control" placeholder="Foto profile guru">
                         <div class="d-flex mt-3">
-                            <img src="{{ asset('images/user/siswa/'.$user->gambar) }}" alt="{{ $user->name }}" style="max-height: 150px; border-radius: 10px;">
+                            <img src="{{ asset('images/user/'.$user->gambar) }}" alt="{{ $user->name }}" style="max-height: 150px; border-radius: 10px;">
                         </div>
                     </div>
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-12 text-center mt-3 mb-5">
                     <button type="submit" class="btn btn-primary btn-block">Simpan Perubahan</button>
-                    <a href="{{ route('profile.siswa') }}" class="btn btn-secondary btn-block mt-2">Batal</a>
+                    <a href="{{ route('profile.guru') }}" class="btn btn-secondary btn-block mt-2">Batal</a>
                 </div>
             </div>            
         </form>

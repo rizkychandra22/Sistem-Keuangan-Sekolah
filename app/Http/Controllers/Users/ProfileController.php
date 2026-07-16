@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Users;
 
 use App\Http\Controllers\Controller;
+use App\Models\Guru;
+use App\Models\Siswa;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -197,6 +199,91 @@ class ProfileController extends Controller
         return redirect()->route('profile.keuangan')->with('success', 'Profile berhasil diperbarui');
     }
 
+    public function profileGuru()
+    {
+        // Route dan nama halaman yang di akses
+        $currentLink = "/teacher/home/profile";
+        $currentTitle = 'Profile User';
+
+        // Mengambil data pengguna guru yang sedang login
+        $user = Auth::user();
+
+        return view('guru.profile', compact('currentLink', 'currentTitle', 'user'));
+    }
+
+    public function editProfileGuru(User $user)
+    {
+        // Route dan nama halaman yang di akses
+        $currentLink = "/teacher/home/profile";
+        $currentTitle = 'Profile User';
+
+        return view('guru.edit-profile', compact('user', 'currentLink', 'currentTitle'));
+    }
+
+    public function updateProfileGuru(Request $request, User $user)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'username' => 'required|string|max:255|unique:users,username,'.$user->id,
+            'password' => 'nullable|string|min:8',
+            'password_confirmation' => 'nullable|string|min:8',
+            'gambar' => 'image|mimes:jpeg,png,jpg,gif,svg',
+            'nip' => 'nullable|string|max:50',
+            'jabatan' => 'nullable|string|max:100',
+            'kontak' => 'nullable|string|max:20',
+            'motivasi' => 'nullable|string',
+        ],[
+            'name.required' => 'Nama user pengguna tidak boleh kosong',
+            'username.required' => 'Username login pengguna tidak boleh kosong',
+            'password.min' => 'Password minimal 8 karakter',
+        ]);
+
+        if ($request->hasFile('gambar')) {
+            $name = $request->name;
+            $tanggal = now()->format('Ymd_His');
+            $extension = $request->gambar->extension();
+            $imageName = $name . '_' . $tanggal . '.' . $extension;
+
+            $request->gambar->move(public_path('images/user'), $imageName);
+
+            if ($user->gambar && file_exists(public_path('images/user/' . $user->gambar))) {
+                unlink(public_path('images/user/' . $user->gambar));
+            }
+
+            $user->gambar = $imageName;
+        }
+
+        $user->name = $request->name;
+        $user->username = $request->username;
+        if ($request->filled('password')) {
+            $user->password = bcrypt($request->input('password'));
+        }
+        $user->save();
+
+        if ($user->guru) {
+            $user->guru->update([
+                'nama' => $request->name,
+                'nip' => $request->nip,
+                'jabatan' => $request->jabatan,
+                'kontak' => $request->kontak,
+                'motivasi' => $request->motivasi,
+                'gambar' => $user->gambar,
+            ]);
+        } else {
+            Guru::create([
+                'user_id' => $user->id,
+                'nama' => $request->name,
+                'nip' => $request->nip,
+                'jabatan' => $request->jabatan,
+                'kontak' => $request->kontak,
+                'motivasi' => $request->motivasi,
+                'gambar' => $user->gambar,
+            ]);
+        }
+
+        return redirect()->route('profile.guru')->with('success', 'Profile berhasil diperbarui');
+    }
+
     public function profileSiswa()
     {
         // Route dan nama halaman yang di akses
@@ -223,14 +310,18 @@ class ProfileController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'username' => 'required|string|max:255|unique:users,username,'.$user->id,
-            'password' => 'required|nullable|string|min:8',
-            'password_confirmation' => 'required|nullable|string|min:8',
+            'password' => 'nullable|string|min:8',
+            'password_confirmation' => 'nullable|string|min:8',
             'gambar' => 'image|mimes:jpeg,png,jpg,gif,svg',
+            'nisn' => 'nullable|string|max:50',
+            'tgl_lhr' => 'nullable|date',
+            'alamat' => 'nullable|string',
+            'orang_tua' => 'nullable|string|max:255',
+            'kontak_orang_tua' => 'nullable|string|max:20',
         ],[
             'name.required' => 'Nama user pengguna tidak boleh kosong',
             'username.required' => 'Username login pengguna tidak boleh kosong',
-            'password.required' => 'Password minimal 8 karakter dan harus menggunakan simbol',
-            'password_confirmation.required' => 'Konfirmasi password tidak sesuai',
+            'password.min' => 'Password minimal 8 karakter',
         ]);
 
         if ($request->hasFile('gambar')) {
@@ -254,6 +345,27 @@ class ProfileController extends Controller
             $user->password = bcrypt($request->input('password'));
         }
         $user->save();
+
+        if ($user->siswa) {
+            $user->siswa->update([
+                'nama' => $request->name,
+                'nisn' => $request->nisn,
+                'tgl_lhr' => $request->tgl_lhr,
+                'alamat' => $request->alamat,
+                'orang_tua' => $request->orang_tua,
+                'kontak_orang_tua' => $request->kontak_orang_tua,
+            ]);
+        } else {
+            Siswa::create([
+                'user_id' => $user->id,
+                'nama' => $request->name,
+                'nisn' => $request->nisn,
+                'tgl_lhr' => $request->tgl_lhr,
+                'alamat' => $request->alamat,
+                'orang_tua' => $request->orang_tua,
+                'kontak_orang_tua' => $request->kontak_orang_tua,
+            ]);
+        }
 
         return redirect()->route('profile.siswa')->with('success', 'Profile berhasil diperbarui');
     }

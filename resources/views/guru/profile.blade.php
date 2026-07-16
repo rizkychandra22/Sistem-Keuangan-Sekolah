@@ -1,6 +1,6 @@
-@extends('layouts.siswaApp')
+@extends('layouts.guruApp')
 
-@section('title', 'Profile Student')
+@section('title', 'Profile Guru')
 
 @section('content')
     <div class="container">
@@ -32,42 +32,34 @@
                             <td colspan="2" class="text-center">
                                 <div class="img">
                                     <div class="pull-right text-right">
-                                        <a class="btn btn-warning btn-sm" href="{{ route('profile.edit.siswa', $user->id) }}"> Edit Data</a>
+                                        <a class="btn btn-warning btn-sm" href="{{ route('profile.edit.guru', $user->id) }}"> Edit Data</a>
                                     </div>
-                                    <img class="img-fluid rounded-circle mb-4" src="{{ asset('images/user/siswa/'.$user->gambar) }}" alt="{{ $user->name }}" style="max-width: 200px;">
+                                    <img class="img-fluid rounded-circle mb-4" src="{{ asset('images/user/'.$user->gambar) }}" alt="{{ $user->name }}" style="max-width: 200px;">
                                 </div>
                             </td>
                         </tr>
                         <tr>
-                            <th style="width: 20%;">Nama Siswa</th>
-                            <td>{{ $user->siswa->nama ?? $user->name }}</td>
+                            <th style="width: 15%;">Nama Guru</th>
+                            <td>{{ $user->guru->nama ?? $user->name }}</td>
                         </tr>
                         <tr>
-                            <th style="width: 20%;">NISN</th>
-                            <td>{{ $user->siswa->nisn ?? '-' }}</td>
+                            <th style="width: 15%;">NIP</th>
+                            <td>{{ $user->guru->nip ?? '-' }}</td>
                         </tr>
                         <tr>
-                            <th style="width: 20%;">Kelas</th>
-                            <td>{{ $user->siswa->kelas->nama_kelas ?? '-' }}</td>
+                            <th style="width: 15%;">Jabatan</th>
+                            <td>{{ $user->guru->jabatan ?? '-' }}</td>
                         </tr>
                         <tr>
-                            <th style="width: 20%;">Tanggal Lahir</th>
-                            <td>{{ $user->siswa && $user->siswa->tgl_lhr ? $user->siswa->tgl_lhr->format('d-m-Y') : '-' }}</td>
+                            <th style="width: 15%;">Kontak</th>
+                            <td>{{ $user->guru->kontak ?? '-' }}</td>
                         </tr>
                         <tr>
-                            <th style="width: 20%;">Alamat</th>
-                            <td>{{ $user->siswa->alamat ?? '-' }}</td>
+                            <th style="width: 15%;">Motivasi</th>
+                            <td>{{ $user->guru->motivasi ?? '-' }}</td>
                         </tr>
                         <tr>
-                            <th style="width: 20%;">Nama Orang Tua</th>
-                            <td>{{ $user->siswa->orang_tua ?? '-' }}</td>
-                        </tr>
-                        <tr>
-                            <th style="width: 20%;">Kontak Orang Tua</th>
-                            <td>{{ $user->siswa->kontak_orang_tua ?? '-' }}</td>
-                        </tr>
-                        <tr>
-                            <th style="width: 20%;">Username (Login)</th>
+                            <th style="width: 15%;">Username (Login)</th>
                             <td>{{ $user->username }}</td>
                         </tr>
                     </tbody>

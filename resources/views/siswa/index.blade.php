@@ -1,6 +1,6 @@
 @extends('layouts.siswaApp')
 
-@section('title', 'Home Student')
+@section('title', 'Dashboard Siswa')
 
 @section('content')
     
