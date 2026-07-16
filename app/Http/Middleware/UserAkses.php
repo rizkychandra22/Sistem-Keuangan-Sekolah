@@ -17,7 +17,9 @@ class UserAkses
     public function handle(Request $request, Closure $next, $role): Response
     {
         if (!Auth::check()) {
-            return redirect('/login');
+            return redirect('/login')->withErrors([
+                'loginError' => 'Sesi login anda telah berakhir. silahkan login terlebih dahulu.'
+            ]);
         }
 
         $user = Auth::user();
