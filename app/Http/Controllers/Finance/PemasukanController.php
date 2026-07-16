@@ -123,9 +123,17 @@ class PemasukanController extends Controller
         }
 
         // Mengambil semua tahun yang ada di database untuk pilihan dropdown
-        $tahunList = Pemasukan::selectRaw('YEAR(tanggal) as tahun')
-            ->groupBy('tahun')
-            ->pluck('tahun');
+        $tahunList = Pemasukan::select('tanggal')
+            ->get()
+            ->map(function ($item) {
+                return Carbon::parse($item->tanggal)->year;
+            })
+            ->unique()
+            ->values();
+
+        if ($tahunList->isEmpty()) {
+            $tahunList->push(Carbon::now()->year);
+        }
 
         // Route dan nama halaman yang di akses
         $currentLink = route('pemasukan.index');

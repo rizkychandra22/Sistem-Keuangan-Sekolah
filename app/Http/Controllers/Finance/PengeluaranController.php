@@ -135,9 +135,17 @@ class PengeluaranController extends Controller
         }
 
         // Mengambil semua tahun yang ada di database untuk pilihan dropdown
-        $tahunList = Pengeluaran::selectRaw('YEAR(tanggal) as tahun')
-            ->groupBy('tahun')
-            ->pluck('tahun');
+        $tahunList = Pengeluaran::select('tanggal')
+            ->get()
+            ->map(function ($item) {
+                return Carbon::parse($item->tanggal)->year;
+            })
+            ->unique()
+            ->values();
+
+        if ($tahunList->isEmpty()) {
+            $tahunList->push(Carbon::now()->year);
+        }
 
         // Route dan nama halaman yang di akses
         $currentLink = route('pengeluaran.index');
