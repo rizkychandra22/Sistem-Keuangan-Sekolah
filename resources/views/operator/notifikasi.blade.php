@@ -24,7 +24,7 @@
                                 <form action="{{ route('messages.destroy', $message->id) }}" method="POST" class="d-inline">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-sm btn-danger ml-1" onclick="return confirm('Apakah anda yakin ingin menghapus data ini?');" title="Delete">Delete</button>
+                                    <button type="button" class="btn btn-sm btn-danger ml-1" onclick="confirmDelete(this.closest('form'))" title="Delete">Delete</button>
                                 </form>
                                 @if (!$message->is_read)
                                     <form action="{{ route('messages.read', $message->id) }}" method="POST" class="d-inline">
@@ -42,4 +42,22 @@
 
     {{-- Sweat Alert --}}
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        function confirmDelete(form) {
+            Swal.fire({
+                title: 'Apakah Anda yakin?',
+                text: "Data pesan ini akan dihapus permanen!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, hapus!',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    form.submit();
+                }
+            })
+        }
+    </script>
 @endsection
