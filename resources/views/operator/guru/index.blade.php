@@ -12,7 +12,9 @@
                     <tr>
                         <th>No</th>
                         <th>Nama</th>
+                        <th>NIP</th>
                         <th>Jabatan</th>
+                        <th>Kontak</th>
                         <th>Motivasi</th>
                         <th width="115">Post</th>
                         <th width="115">Update</th>
@@ -54,7 +56,15 @@
                             }
                         },
                         {data: 'nama', name: 'nama'},
+                        {data: 'nip', name: 'nip'},
                         {data: 'jabatan', name: 'jabatan'},
+                        {
+                            data: 'kontak',
+                            name: 'kontak',
+                            render: function (data) {
+                                return data ?? '-';
+                            }
+                        },
                         {data: 'motivasi', name: 'motivasi'},
                         {
                             data: 'created_at',
@@ -149,7 +159,7 @@
                             error: function(xhr) {
                                 Swal.fire({
                                     title: 'Error!',
-                                    text: `Terjadi kesalahan saat menghapus data guru ${judul}.`,
+                                    text: `Terjadi kesalahan saat menghapus data guru ${nama}.`,
                                     icon: 'error',
                                     confirmButtonColor: '#d33',
                                     confirmButtonText: 'Oke'
