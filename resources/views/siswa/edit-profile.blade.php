@@ -43,6 +43,10 @@
                         <input type="text" name="username" value="{{ old('username', $user->username) }}" class="form-control" placeholder="Username Login">
                     </div>
                     <div class="form-group">
+                        <strong>Email:</strong>
+                        <input type="email" name="email" value="{{ old('email', $user->email) }}" class="form-control" placeholder="Email Login">
+                    </div>
+                    <div class="form-group">
                         <strong>Password Login Baru:</strong>
                         <input type="password" name="password" class="form-control" placeholder="Kosongkan jika tidak ingin mengubah password">
                     </div>

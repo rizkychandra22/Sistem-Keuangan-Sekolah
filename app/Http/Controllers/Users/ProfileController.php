@@ -37,12 +37,15 @@ class ProfileController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'username' => 'required|string|max:255|unique:users,username,'.$user->id,
+            'email' => 'required|string|email|max:255|unique:users,email,'.$user->id,
             'password' => 'required|nullable|string|min:8',
             'password_confirmation' => 'required|nullable|string|min:8',
             'gambar' => 'image|mimes:jpeg,png,jpg,gif,svg',
         ],[
             'name.required' => 'Nama user pengguna tidak boleh kosong',
             'username.required' => 'Username login pengguna tidak boleh kosong',
+            'email.required' => 'Email pengguna tidak boleh kosong',
+            'email.email' => 'Format email tidak valid',
             'password.required' => 'Password minimal 8 karakter dan harus menggunakan simbol',
             'password_confirmation.required' => 'Konfirmasi password tidak sesuai',
         ]);
@@ -64,6 +67,7 @@ class ProfileController extends Controller
 
         $user->name = $request->name;
         $user->username = $request->username;
+        $user->email = $request->email;
         if ($request->filled('password')) {
             $user->password = bcrypt($request->input('password'));
         }
@@ -100,12 +104,15 @@ class ProfileController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'username' => 'required|string|max:255|unique:users,username,'.$user->id,
+            'email' => 'required|string|email|max:255|unique:users,email,'.$user->id,
             'password' => 'required|nullable|string|min:8',
             'password_confirmation' => 'required|nullable|string|min:8',
             'gambar' => 'image|mimes:jpeg,png,jpg,gif,svg',
         ],[
             'name.required' => 'Nama user pengguna tidak boleh kosong',
             'username.required' => 'Username login pengguna tidak boleh kosong',
+            'email.required' => 'Email pengguna tidak boleh kosong',
+            'email.email' => 'Format email tidak valid',
             'password.required' => 'Password minimal 8 karakter dan harus menggunakan simbol',
             'password_confirmation.required' => 'Konfirmasi password tidak sesuai',
         ]);
@@ -127,6 +134,7 @@ class ProfileController extends Controller
 
         $user->name = $request->name;
         $user->username = $request->username;
+        $user->email = $request->email;
         if ($request->filled('password')) {
             $user->password = bcrypt($request->input('password'));
         }
@@ -164,12 +172,15 @@ class ProfileController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'username' => 'required|string|max:255|unique:users,username,'.$user->id,
+            'email' => 'required|string|email|max:255|unique:users,email,'.$user->id,
             'password' => 'required|nullable|string|min:8',
             'password_confirmation' => 'required|nullable|string|min:8',
             'gambar' => 'image|mimes:jpeg,png,jpg,gif,svg',
         ],[
             'name.required' => 'Nama user pengguna tidak boleh kosong',
             'username.required' => 'Username login pengguna tidak boleh kosong',
+            'email.required' => 'Email pengguna tidak boleh kosong',
+            'email.email' => 'Format email tidak valid',
             'password.required' => 'Password minimal 8 karakter dan harus menggunakan simbol',
             'password_confirmation.required' => 'Konfirmasi password tidak sesuai',
         ]);
@@ -191,6 +202,7 @@ class ProfileController extends Controller
 
         $user->name = $request->name;
         $user->username = $request->username;
+        $user->email = $request->email;
         if ($request->filled('password')) {
             $user->password = bcrypt($request->input('password'));
         }
@@ -225,6 +237,7 @@ class ProfileController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'username' => 'required|string|max:255|unique:users,username,'.$user->id,
+            'email' => 'required|string|email|max:255|unique:users,email,'.$user->id,
             'password' => 'nullable|string|min:8',
             'password_confirmation' => 'nullable|string|min:8',
             'gambar' => 'image|mimes:jpeg,png,jpg,gif,svg',
@@ -235,6 +248,8 @@ class ProfileController extends Controller
         ],[
             'name.required' => 'Nama user pengguna tidak boleh kosong',
             'username.required' => 'Username login pengguna tidak boleh kosong',
+            'email.required' => 'Email pengguna tidak boleh kosong',
+            'email.email' => 'Format email tidak valid',
             'password.min' => 'Password minimal 8 karakter',
         ]);
 
@@ -255,6 +270,7 @@ class ProfileController extends Controller
 
         $user->name = $request->name;
         $user->username = $request->username;
+        $user->email = $request->email;
         if ($request->filled('password')) {
             $user->password = bcrypt($request->input('password'));
         }
@@ -310,6 +326,7 @@ class ProfileController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'username' => 'required|string|max:255|unique:users,username,'.$user->id,
+            'email' => 'required|string|email|max:255|unique:users,email,'.$user->id,
             'password' => 'nullable|string|min:8',
             'password_confirmation' => 'nullable|string|min:8',
             'gambar' => 'image|mimes:jpeg,png,jpg,gif,svg',
@@ -321,6 +338,8 @@ class ProfileController extends Controller
         ],[
             'name.required' => 'Nama user pengguna tidak boleh kosong',
             'username.required' => 'Username login pengguna tidak boleh kosong',
+            'email.required' => 'Email pengguna tidak boleh kosong',
+            'email.email' => 'Format email tidak valid',
             'password.min' => 'Password minimal 8 karakter',
         ]);
 
@@ -341,6 +360,7 @@ class ProfileController extends Controller
 
         $user->name = $request->name;
         $user->username = $request->username;
+        $user->email = $request->email;
         if ($request->filled('password')) {
             $user->password = bcrypt($request->input('password'));
         }

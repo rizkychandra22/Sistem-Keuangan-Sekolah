@@ -30,6 +30,15 @@
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-12">
                     <div class="form-group">
+                        <strong>Email:</strong>
+                        <input type="email" name="email" value="{{ old('email', $user->email) }}" class="form-control" placeholder="Email">
+                        @error('email')
+                            <small style="color:red">{{ $message }}</small>
+                        @enderror
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-12">
+                    <div class="form-group">
                         <strong>Password User:</strong>
                         <input type="password" name="password" class="form-control" placeholder="Password">
                         @error('password')

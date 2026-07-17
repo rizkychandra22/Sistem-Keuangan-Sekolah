@@ -118,7 +118,7 @@
         <nav class="mt-2">
           <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
             <li class="nav-item">
-              <a href="{{ route('dashboard.admin') }}" class="nav-link {{ request()->routeIs('dashboard.admin', 'profile.admin') ? 'active' : '' }}">
+              <a href="{{ route('dashboard.admin') }}" class="nav-link {{ request()->routeIs('dashboard.admin', 'profile.*') ? 'active' : '' }}">
                 <i class="nav-icon fas fa-tachometer-alt"></i>
                 <p>Dashboard {{ Auth::user()->role; }}</p>
               </a>

@@ -44,6 +44,10 @@
                             <th style="width: 15%;">Username (Login)</th>
                             <td>{{ $user->username }}</td>
                         </tr>
+                        <tr>
+                            <th style="width: 15%;">Email</th>
+                            <td>{{ $user->email }}</td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
