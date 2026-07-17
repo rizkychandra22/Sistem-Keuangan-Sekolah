@@ -18,8 +18,29 @@
   @php
     $isDataUser = Route::is('dataUser.*');
     $isGuruMenu = Route::is('guru.*');
-    
-    $isMasterDataOpen = $isDataUser || $isGuruMenu;
+    $isSiswaMenu = Route::is('siswa.*');
+
+    $isMapelMenu = Route::is('mapel.*');
+    $isKelasMenu = Route::is('kelas.*');
+    $isTahunAjaranMenu = Route::is('tahunAjaran.*');
+    $isRombelMenu = Route::is('rombel.*');
+    $isSiswaRombelMenu = Route::is('siswaRombel.*');
+    $isGuruMapelMenu = Route::is('guruMapel.*');
+
+    $isPenggunaOpen = $isDataUser || $isGuruMenu || $isSiswaMenu;
+    $isAkademikOpen = $isMapelMenu || $isKelasMenu || $isTahunAjaranMenu || $isRombelMenu || $isSiswaRombelMenu || $isGuruMapelMenu;
+
+    $menuLinks = [
+        'dataUser' => Route::has('dataUser.index') ? route('dataUser.index') : '#',
+        'guru' => Route::has('guru.index') ? route('guru.index') : '#',
+        'siswa' => Route::has('siswa.index') ? route('siswa.index') : '#',
+        'mapel' => Route::has('mapel.index') ? route('mapel.index') : '#',
+        'kelas' => Route::has('kelas.index') ? route('kelas.index') : '#',
+        'tahunAjaran' => Route::has('tahunAjaran.index') ? route('tahunAjaran.index') : '#',
+        'rombel' => Route::has('rombel.index') ? route('rombel.index') : '#',
+        'siswaRombel' => Route::has('siswaRombel.index') ? route('siswaRombel.index') : '#',
+        'guruMapel' => Route::has('guruMapel.index') ? route('guruMapel.index') : '#',
+    ];
   @endphp
 
   <div class="wrapper">
@@ -108,46 +129,81 @@
                 <p>Lihat Website</p>
               </a>
             </li>
-            <li class="nav-item has-treeview {{ $isMasterDataOpen ? 'menu-open' : '' }}">
-              <a href="#" class="nav-link {{ $isMasterDataOpen ? 'active' : '' }}">
-                <i class="nav-icon fas fa-globe"></i>
+            <li class="nav-item has-treeview {{ $isPenggunaOpen ? 'menu-open' : '' }}">
+              <a href="#" class="nav-link {{ $isPenggunaOpen ? 'active' : '' }}">
+                <i class="nav-icon fas fa-users-cog"></i>
                 <p>
-                  Master Data
+                  Manajemen Pengguna
                   <i class="right fas fa-angle-left"></i>
                 </p>
               </a>
-              <ul class="nav nav-treeview {{ $isMasterDataOpen ? 'is-open' : '' }}">
+              <ul class="nav nav-treeview {{ $isPenggunaOpen ? 'is-open' : '' }}">
                 <li class="nav-item">
-                  <a href="{{ route('dataUser.index') }}" class="nav-link {{ Route::is('dataUser.*') ? 'active' : '' }}">
+                  <a href="{{ $menuLinks['dataUser'] }}" class="nav-link {{ $isDataUser ? 'active' : '' }} {{ Route::has('dataUser.index') ? '' : 'is-disabled' }}">
                     <i class="fas fa-solid fa-users nav-icon"></i>
                     <p>Akun User</p>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="{{ route('guru.index') }}" class="nav-link {{ Route::is('guru.*') ? 'active' : '' }}">
+                  <a href="{{ $menuLinks['guru'] }}" class="nav-link {{ $isGuruMenu ? 'active' : '' }} {{ Route::has('guru.index') ? '' : 'is-disabled' }}">
                     <i class="fas fa-user-tie nav-icon"></i>
                     <p>Guru</p>
                   </a>
                 </li>
+                <li class="nav-item">
+                  <a href="{{ $menuLinks['siswa'] }}" class="nav-link {{ $isSiswaMenu ? 'active' : '' }} {{ Route::has('siswa.index') ? '' : 'is-disabled' }}">
+                    <i class="fas fa-user-graduate nav-icon"></i>
+                    <p>Siswa</p>
+                  </a>
+                </li>
               </ul>
             </li>
-            <li class="nav-item">
-              <a href="" class="nav-link">
-                <i class="fas fa-tasks nav-icon"></i>
-                    <p>Pendaftaran</p>
+            <li class="nav-item has-treeview {{ $isAkademikOpen ? 'menu-open' : '' }}">
+              <a href="#" class="nav-link {{ $isAkademikOpen ? 'active' : '' }}">
+                <i class="nav-icon fas fa-school"></i>
+                <p>
+                  Manajemen Akademik
+                  <i class="right fas fa-angle-left"></i>
+                </p>
               </a>
-            </li>
-            <li class="nav-item">
-              <a href="" class="nav-link">
-                <i class="fas fa-newspaper nav-icon"></i>
-                    <p>Info Pendaftaran</p>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="" class="nav-link">
-                <i class="fas fa-newspaper nav-icon"></i>
-                    <p>Siswa Diterima</p>
-              </a>
+              <ul class="nav nav-treeview {{ $isAkademikOpen ? 'is-open' : '' }}">
+                <li class="nav-item">
+                  <a href="{{ $menuLinks['mapel'] }}" class="nav-link {{ $isMapelMenu ? 'active' : '' }} {{ Route::has('mapel.index') ? '' : 'is-disabled' }}">
+                    <i class="fas fa-book nav-icon"></i>
+                    <p>Mapel</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="{{ $menuLinks['guruMapel'] }}" class="nav-link {{ $isGuruMapelMenu ? 'active' : '' }} {{ Route::has('guruMapel.index') ? '' : 'is-disabled' }}">
+                    <i class="fas fa-chalkboard-teacher nav-icon"></i>
+                    <p>Guru Mapel</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="{{ $menuLinks['rombel'] }}" class="nav-link {{ $isRombelMenu ? 'active' : '' }} {{ Route::has('rombel.index') ? '' : 'is-disabled' }}">
+                    <i class="fas fa-door-open nav-icon"></i>
+                    <p>Rombel</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="{{ $menuLinks['siswaRombel'] }}" class="nav-link {{ $isSiswaRombelMenu ? 'active' : '' }} {{ Route::has('siswaRombel.index') ? '' : 'is-disabled' }}">
+                    <i class="fas fa-people-arrows nav-icon"></i>
+                    <p>Siswa Rombel</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="{{ $menuLinks['kelas'] }}" class="nav-link {{ $isKelasMenu ? 'active' : '' }} {{ Route::has('kelas.index') ? '' : 'is-disabled' }}">
+                    <i class="fas fa-layer-group nav-icon"></i>
+                    <p>Kelas</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="{{ $menuLinks['tahunAjaran'] }}" class="nav-link {{ $isTahunAjaranMenu ? 'active' : '' }} {{ Route::has('tahunAjaran.index') ? '' : 'is-disabled' }}">
+                    <i class="fas fa-calendar-alt nav-icon"></i>
+                    <p>Tahun Ajaran</p>
+                  </a>
+                </li>
+              </ul>
             </li>
           </ul>
         </nav>
