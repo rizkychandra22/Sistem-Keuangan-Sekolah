@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Blog\Manages;
+namespace App\Http\Controllers\Admin\Manages;
 
 use App\Http\Controllers\Controller;
 use App\Models\Guru;
@@ -23,7 +23,7 @@ class ControllerGuru extends Controller
         $createLink = route('guru.create');
         $createTitle = 'Create';
 
-        return view('operator/guru.index', compact('currentLink', 'currentTitle', 'createLink', 'createTitle'));
+        return view('admin/guru.index', compact('currentLink', 'currentTitle', 'createLink', 'createTitle'));
     }
 
     public function create()
@@ -40,7 +40,7 @@ class ControllerGuru extends Controller
         $createLink = route('guru.create');
         $createTitle = 'Create';
 
-        return view('operator/guru.create', compact('availableUsers', 'currentLink', 'currentTitle', 'createLink', 'createTitle'));
+        return view('admin/guru.create', compact('availableUsers', 'currentLink', 'currentTitle', 'createLink', 'createTitle'));
     }
 
     public function store(Request $request)
@@ -91,7 +91,7 @@ class ControllerGuru extends Controller
 
     public function show(Guru $guru)
     {
-        return view('operator/guru.show', compact('guru'));
+        return view('admin/guru.show', compact('guru'));
     }
 
     public function edit(Guru $guru)
@@ -108,7 +108,7 @@ class ControllerGuru extends Controller
         $editLink = route('guru.edit', $guru->id);
         $editTitle = 'Edit';
 
-        return view('operator/guru.edit', compact('guru', 'availableUsers', 'currentLink', 'currentTitle', 'editLink', 'editTitle'));
+        return view('admin/guru.edit', compact('guru', 'availableUsers', 'currentLink', 'currentTitle', 'editLink', 'editTitle'));
     }
 
     public function update(Request $request, Guru $guru)

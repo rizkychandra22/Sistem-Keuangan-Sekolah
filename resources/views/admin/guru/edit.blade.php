@@ -1,4 +1,4 @@
-@extends('layouts.operatorApp')
+@extends('layouts.adminApp')
 
 @section('title', 'Edit Data Guru SDN Caringin Ngumbang')
 

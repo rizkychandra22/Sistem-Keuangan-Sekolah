@@ -1,24 +1,22 @@
-@extends('layouts.operatorApp')
+@extends('layouts.adminApp')
 
-@section('title', 'Data Guru SDN Caringin Ngumbang')
+@section('title', 'Data Akun User SDN Caringin Ngumbang')
 
 @section('content')
     <div class="container">
         @include('components.alert-messages')
-        
+
         <div class="table-responsive">
-            <table id="tableGuru" class="table table-bordered table-hover table-striped">
+            <table id="tableUser" class="table table-bordered table-hover table-striped">
                 <thead>
                     <tr>
                         <th>No</th>
                         <th>Nama</th>
-                        <th>NIP</th>
-                        <th>Jabatan</th>
-                        <th>Kontak</th>
-                        <th>Motivasi</th>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Role</th>
                         <th width="115">Post</th>
                         <th width="115">Update</th>
-                        <th>Gambar</th>
                         <th width="95">Aksi</th>
                     </tr>
                 </thead>
@@ -31,44 +29,41 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
         <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/2.1.5/js/dataTables.js"></script>
 
-        {{-- Script Data Pemasukan --}}
         <script>
+            const currentUserId = {{ auth()->id() }};
+            const protectedRoles = ['admin', 'operator', 'keuangan'];
+
             $(document).ready(function () {
-                dataGuru();
-            });
-        
-            function dataGuru() {
-                $('#tableGuru').DataTable({
+                $('#tableUser').DataTable({
                     serverSide: true,
                     responsive: true,
                     processing: true,
                     ajax: {
-                        url: "{{ route('guru.index') }}",
+                        url: "{{ route('dataUser.index') }}",
                         type: 'GET'
                     },
                     columns: [
                         {
-                            "data": null,
-                            "sortable": false,
-                            "searchable": false, 
+                            data: null,
+                            sortable: false,
+                            searchable: false,
                             render: function (data, type, row, meta) {
                                 return meta.row + meta.settings._iDisplayStart + 1;
                             }
                         },
-                        {data: 'nama', name: 'nama'},
-                        {data: 'nip', name: 'nip'},
-                        {data: 'jabatan', name: 'jabatan'},
+                        {data: 'name', name: 'name'},
+                        {data: 'username', name: 'username'},
+                        {data: 'email', name: 'email'},
                         {
-                            data: 'kontak',
-                            name: 'kontak',
+                            data: 'role',
+                            name: 'role',
                             render: function (data) {
-                                return data ?? '-';
+                                return `<span class="badge badge-info text-uppercase">${data}</span>`;
                             }
                         },
-                        {data: 'motivasi', name: 'motivasi'},
                         {
                             data: 'created_at',
-                            render: function (data, type, row) {
+                            render: function (data) {
                                 const date = new Date(data);
                                 const day = date.getDate().toString().padStart(2, '0');
                                 const month = (date.getMonth() + 1).toString().padStart(2, '0');
@@ -82,7 +77,7 @@
                         },
                         {
                             data: 'updated_at',
-                            render: function (data, type, row) {
+                            render: function (data) {
                                 const date = new Date(data);
                                 const day = date.getDate().toString().padStart(2, '0');
                                 const month = (date.getMonth() + 1).toString().padStart(2, '0');
@@ -95,25 +90,26 @@
                             name: 'updated_at'
                         },
                         {
-                            data: 'gambar', 
-                            name: 'gambar',
-                            render: function (data, type, row) {
-                                let photoUrl = `/images/guru/${data}`;
-                                return `<img src="${photoUrl}" alt="Foto" class="img-fluid" style="width: 150px; height: 170px;">`;
-                            }
-                        },
-                        {
                             data: null,
                             render: function (data, type, row) {
-                                let editUrl = `{{ route('guru.edit', ':id') }}`.replace(':id', row.id);
-                                let deleteUrl = `{{ route('guru.destroy', ':id') }}`.replace(':id', row.id);
+                                const editUrl = `{{ route('dataUser.edit', ':id') }}`.replace(':id', row.id);
+                                const deleteUrl = `{{ route('dataUser.destroy', ':id') }}`.replace(':id', row.id);
+                                const canDelete = !protectedRoles.includes(row.role) && row.id !== currentUserId;
 
-                                return `
-                                    <a href="${editUrl}" class="btn btn-outline-warning btn-secoundary btn-sm mt-1 mr-1" title="Edit">
+                                const editButton = `
+                                    <a href="${editUrl}" class="btn btn-outline-warning btn-sm mt-1 mr-1" title="Edit">
                                         <i class="fas fa-edit"></i>
                                     </a>
-                                    <button type="button" class="btn btn-outline-danger btn-secoundary btn-sm mt-1" 
-                                            onclick="confirmDelete(${row.id}, '${row.nama}', '${row.jabatan}', '${row.motivasi}', '${deleteUrl}')">
+                                `;
+
+                                if (!canDelete) {
+                                    return editButton;
+                                }
+
+                                return `
+                                    ${editButton}
+                                    <button type="button" class="btn btn-outline-danger btn-sm mt-1"
+                                            onclick="confirmDeleteUser(${row.id}, '${row.username}', '${row.role}', '${deleteUrl}')">
                                         <i class="fas fa-trash"></i>
                                     </button>
                                 `;
@@ -121,15 +117,12 @@
                         }
                     ]
                 });
-            }
-        </script>   
+            });
 
-        {{-- Script SweetAlert --}}
-        <script>
-            function confirmDelete(id, nama, jabatan, motivasi, deleteUrl) {
+            function confirmDeleteUser(id, username, role, deleteUrl) {
                 Swal.fire({
                     title: 'Apakah Anda yakin?',
-                    text: `Data guru dengan nama ${nama} sebagai ${jabatan} akan dihapus.`,
+                    text: `Akun user ${username} dengan role ${role} akan dihapus.`,
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
@@ -148,18 +141,18 @@
                             success: function(response) {
                                 Swal.fire({
                                     title: 'Dihapus!',
-                                    text: `Data guru dengan nama ${nama} sebagai ${jabatan} berhasil dihapus.`,
+                                    text: response.message,
                                     icon: 'success',
                                     confirmButtonColor: '#28a745',
                                     confirmButtonText: 'Oke'
                                 }).then(() => {
-                                    $('#tableGuru').DataTable().ajax.reload();
+                                    $('#tableUser').DataTable().ajax.reload();
                                 });
                             },
                             error: function(xhr) {
                                 Swal.fire({
                                     title: 'Error!',
-                                    text: `Terjadi kesalahan saat menghapus data guru ${nama}.`,
+                                    text: xhr.responseJSON?.message ?? 'Terjadi kesalahan saat menghapus akun user.',
                                     icon: 'error',
                                     confirmButtonColor: '#d33',
                                     confirmButtonText: 'Oke'
@@ -169,6 +162,6 @@
                     }
                 });
             }
-        </script> 
+        </script>
     @endpush
 @endsection

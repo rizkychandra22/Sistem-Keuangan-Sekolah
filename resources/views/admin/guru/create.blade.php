@@ -1,4 +1,4 @@
-@extends('layouts.operatorApp')
+@extends('layouts.adminApp')
 
 @section('title', 'Tambah Data Guru SDN Caringin Ngumbang')
 
@@ -21,7 +21,7 @@
                                     {{ old('user_id') == $user->id ? 'selected' : '' }}
                                     {{ $user->guru ? 'disabled' : '' }}
                                 >
-                                    {{ $user->username }} - {{ $user->name }}{{ $user->guru ? ' (sudah dipakai)' : '' }}
+                                    {{ $user->username }} - {{ $user->name }}{{ $user->guru ? ' (sudah terdaftar)' : '' }}
                                 </option>
                             @endforeach
                         </select>

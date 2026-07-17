@@ -4,17 +4,56 @@
 
 @section('content')
     <style>
+        .dashboard-card {
+            border-radius: 22px;
+            overflow: hidden;
+            color: white;
+        }
+
         .card-link {
             text-decoration: none;
         }
 
         .card-item {
             transition: transform 0.2s, box-shadow 0.2s;
+            border-radius: 22px;
         }
 
         .card-item:hover {
             transform: translateY(-5px);
-            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+            box-shadow: 0 14px 28px rgba(0,0,0,0.18);
+        }
+
+        .dashboard-card hr {
+            border-color: rgba(255, 255, 255, 0.55);
+        }
+
+        .card-program {
+            background: linear-gradient(135deg, #c66a12, #f29f05);
+        }
+
+        .card-berita {
+            background: linear-gradient(135deg, #1f3a5f, #355c7d);
+        }
+
+        .card-prestasi {
+            background: linear-gradient(135deg, #b88a08, #f2c94c);
+        }
+
+        .card-lomba {
+            background: linear-gradient(135deg, #b83232, #e05a47);
+        }
+
+        .card-event {
+            background: linear-gradient(135deg, #1d6fa5, #3fa7d6);
+        }
+
+        .card-tour {
+            background: linear-gradient(135deg, #1f8a70, #52b788);
+        }
+
+        .card-perpisahan {
+            background: linear-gradient(135deg, #6f3faa, #9d6ad8);
         }
 
         .icon-hover {
@@ -41,34 +80,9 @@
     </style>
     <div class="container">
         <div class="row">
-            {{-- Start Card Total Guru --}}
-            <div class="col-md-4 mb-3">
-                <div class="card-item card-stats" style="background-color: #007bff; color: white;">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-5">
-                                <a href="{{ route('guru.index') }}">
-                                    <div class="icon-big text-center">
-                                        <i class="fas fa-user-tie icon-hover" style="font-size: 3rem; color: white;"></i>
-                                    </div>
-                                </a>
-                            </div>
-                            <div class="col-7 d-flex align-items-center tulisan">
-                                <div class="numbers">
-                                    <p class="card-category ket head">Data Guru</p>
-                                    <hr style="border-color: white;">
-                                    <h4 class="card-title ket total">{{ $totalGuru }} Guru</h4>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            {{-- End Card Total Guru --}}
-
             {{-- Start Card Program Kerja --}}
             <div class="col-md-4 mb-3">
-                <div class="card-item card-stats" style="background-color: #ff851b; color: white;">
+                <div class="card-item card-stats dashboard-card card-program">
                     <div class="card-body">
                         <div class="row">
                             <div class="col-5">
@@ -81,7 +95,7 @@
                             <div class="col-7 d-flex align-items-center tulisan">
                                 <div class="numbers">
                                     <p class="card-category ket head">Program Kerja</p>
-                                    <hr style="border-color: white;">
+                                    <hr>
                                     <h4 class="card-title ket total">{{ $totalProgram }} Program</h4>
                                 </div>
                             </div>
@@ -93,7 +107,7 @@
 
             {{-- Start Card Berita Sekolah --}}
             <div class="col-md-4 mb-3">
-                <div class="card-item card-stats" style="background-color: #2c3e50; color: white;">
+                <div class="card-item card-stats dashboard-card card-berita">
                     <div class="card-body">
                         <div class="row">
                             <div class="col-5">
@@ -106,7 +120,7 @@
                             <div class="col-7 d-flex align-items-center tulisan">
                                 <div class="numbers">
                                     <p class="card-category ket head">Berita Sekolah</p>
-                                    <hr style="border-color: white;">
+                                    <hr>
                                     <h4 class="card-title ket total">{{ $totalBerita }} Berita</h4>
                                 </div>
                             </div>
@@ -118,7 +132,7 @@
             
             {{-- Start Card Total Prestasi --}}
             <div class="col-md-4 mb-3">
-                <div class="card-item card-stats" style="background-color: #ffcc00; color: white;">
+                <div class="card-item card-stats dashboard-card card-prestasi">
                     <div class="card-body">
                         <div class="row">
                             <div class="col-5">
@@ -131,7 +145,7 @@
                             <div class="col-7 d-flex align-items-center tulisan">
                                 <div class="numbers">
                                     <p class="card-category ket head">Data Prestasi</p>
-                                    <hr style="border-color: white;">
+                                    <hr>
                                     <h4 class="card-title ket total">{{ $totalPrestasi }} Postingan</h4>
                                 </div>
                             </div>
@@ -143,7 +157,7 @@
 
             {{-- Start Card Total Lomba --}}
             <div class="col-md-4 mb-3">
-                <div class="card-item card-stats" style="background-color: #e74c3c; color: white;">
+                <div class="card-item card-stats dashboard-card card-lomba">
                     <div class="card-body">
                         <div class="row">
                             <div class="col-5">
@@ -156,7 +170,7 @@
                             <div class="col-7 d-flex align-items-center tulisan">
                                 <div class="numbers">
                                     <p class="card-category ket head">Data Album Lomba</p>
-                                    <hr style="border-color: white;">
+                                    <hr>
                                     <h4 class="card-title ket total">{{ $totalLomba }} Postingan</h4>
                                 </div>
                             </div>
@@ -168,7 +182,7 @@
 
             {{-- Start Card Total Event --}}
             <div class="col-md-4 mb-3">
-                <div class="card-item card-stats" style="background-color: #3498db; color: white;">
+                <div class="card-item card-stats dashboard-card card-event">
                     <div class="card-body">
                         <div class="row">
                             <div class="col-5">
@@ -181,7 +195,7 @@
                             <div class="col-7 d-flex align-items-center tulisan">
                                 <div class="numbers">
                                     <p class="card-category ket head">Data Album Event</p>
-                                    <hr style="border-color: white;">
+                                    <hr>
                                     <h4 class="card-title ket total">{{ $totalEvent }} Postingan</h4>
                                 </div>
                             </div>
@@ -193,7 +207,7 @@
 
             {{-- Start Card Total Study Tour  --}}
             <div class="col-md-4 mb-3">
-                <div class="card-item card-stats" style="background-color: #2ecc71; color: white;">
+                <div class="card-item card-stats dashboard-card card-tour">
                     <div class="card-body">
                         <div class="row">
                             <div class="col-5">
@@ -206,7 +220,7 @@
                             <div class="col-7 d-flex align-items-center tulisan">
                                 <div class="numbers">
                                     <p class="card-category ket head">Data Album Tour</p>
-                                    <hr style="border-color: white;">
+                                    <hr>
                                     <h4 class="card-title ket total">{{ $totalTour }} Postingan</h4>
                                 </div>
                             </div>
@@ -218,7 +232,7 @@
 
             {{-- Start Card Total Perpisahan  --}}
             <div class="col-md-4 mb-3">
-                <div class="card-item card-stats" style="background-color: #8e44ad; color: white;">
+                <div class="card-item card-stats dashboard-card card-perpisahan">
                     <div class="card-body">
                         <div class="row">
                             <div class="col-5">
@@ -231,7 +245,7 @@
                             <div class="col-7 d-flex align-items-center tulisan">
                                 <div class="numbers">
                                     <p class="card-category ket head">Album Perpisahan</p>
-                                    <hr style="border-color: white;">
+                                    <hr>
                                     <h4 class="card-title ket total">{{ $totalPerpisahan }} Kenangan</h4>
                                 </div>
                             </div>

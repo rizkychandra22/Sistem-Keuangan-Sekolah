@@ -154,9 +154,9 @@
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="/dashboard/operator/guru" class="nav-link" id="guruMenu">
-                    <i class="fas fa-user-tie nav-icon"></i>
-                    <p>Guru</p>
+                  <a href="/dashboard/operator/berita-sekolah" class="nav-link" id="beritaSekolahMenu">
+                    <i class="fas fa-newspaper nav-icon"></i>
+                    <p>Berita Sekolah</p>
                   </a>
                 </li>
               </ul>
@@ -165,12 +165,6 @@
               <a href="/dashboard/operator/program-kerja" class="nav-link" id="programKerjaMenu">
                 <i class="fas fa-tasks nav-icon"></i>
                 <p>Program Kerja</p>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="/dashboard/operator/berita-sekolah" class="nav-link" id="beritaSekolahMenu">
-                <i class="fas fa-newspaper nav-icon"></i>
-                <p>Berita Sekolah</p>
               </a>
             </li>
             <li class="nav-item">
@@ -249,9 +243,9 @@
       } else if (currentPath.startsWith("/dashboard/operator/prestasi")) {
         openMenu("dataWebsiteMenu", "DataWebsite");
         document.getElementById("prestasiMenu").classList.add("active");
-      } else if (currentPath.startsWith("/dashboard/operator/guru")) {
+      } else if (currentPath.startsWith("/dashboard/operator/berita-sekolah")) {
         openMenu("dataWebsiteMenu", "DataWebsite");
-        document.getElementById("guruMenu").classList.add("active");
+        document.getElementById("beritaSekolahMenu").classList.add("active");
       }
   
       document.querySelectorAll('.nav-link').forEach(link => {

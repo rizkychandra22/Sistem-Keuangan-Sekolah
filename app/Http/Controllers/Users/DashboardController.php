@@ -20,11 +20,14 @@ class DashboardController extends Controller
 {
     public function admin()
     {
+        // Menghitung total data dari database
+        $totalGuru = Guru::count();
+
         // Route dan nama halaman yang di akses
         $currentLink = "/dashboard/admin";
         $currentTitle = 'Dashboard';
 
-        return view('admin.index', compact('currentLink', 'currentTitle'));
+        return view('admin.index', compact('totalGuru', 'currentLink', 'currentTitle'));
     }
 
     public function keuangan()
@@ -100,31 +103,30 @@ class DashboardController extends Controller
     
     public function operator()
     {
-        // Mengambil semua data postingan website dari database
-        $gurus = Guru::all();
-        $prestasis = Prestasi::all();
-        $gallery_lombas = GalleryLomba::all();
-        $gallery_events = GalleryEvent::all();
-        $gallery_pariwisatas = GalleryPariwisata::all();
-        $gallery_perpisahans = GalleryPerpisahan::all();
-        $programkerjas = Programkerja::all();
-        $berita_sekolahs = BeritaSekolah::all();
-
         // Menghitung total data postingan website dari database
-        $totalGuru = $gurus->count();
-        $totalPrestasi = $prestasis->count();
-        $totalLomba = $gallery_lombas->count();
-        $totalEvent = $gallery_events->count();
-        $totalTour = $gallery_pariwisatas->count();
-        $totalPerpisahan = $gallery_perpisahans->count();
-        $totalProgram = $programkerjas->count();
-        $totalBerita = $berita_sekolahs->count();
+        $totalPrestasi = Prestasi::count();
+        $totalLomba = GalleryLomba::count();
+        $totalEvent = GalleryEvent::count();
+        $totalTour = GalleryPariwisata::count();
+        $totalPerpisahan = GalleryPerpisahan::count();
+        $totalProgram = Programkerja::count();
+        $totalBerita = BeritaSekolah::count();
 
         // Route dan nama halaman yang di akses
         $currentLink = "/dashboard/operator";
         $currentTitle = 'Dashboard';
 
-        return view('operator.index', compact('gurus', 'totalGuru', 'prestasis', 'totalPrestasi', 'gallery_lombas', 'totalLomba', 'gallery_events', 'totalEvent', 'gallery_pariwisatas', 'totalTour', 'gallery_perpisahans', 'totalPerpisahan', 'totalProgram', 'totalBerita', 'currentLink', 'currentTitle'));
+        return view('operator.index', compact(
+            'totalPrestasi',
+            'totalLomba',
+            'totalEvent',
+            'totalTour',
+            'totalPerpisahan',
+            'totalProgram',
+            'totalBerita',
+            'currentLink',
+            'currentTitle'
+        ));
     }
     
     public function guru()
