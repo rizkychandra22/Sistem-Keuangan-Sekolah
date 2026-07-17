@@ -13,14 +13,14 @@
                             <div class="col-5">
                                 <a href="{{ route('detail.pemasukan') }}">
                                     <div class="icon-big text-center">
-                                        <i class="fas fa-arrow-down nav-icon icon-hover" style="font-size: 3rem;"></i>
+                                        <i class="fas fa-arrow-down nav-icon icon-hover icon-hover-yellow dashboard-icon-lg"></i>
                                     </div>
                                 </a>
                             </div>
                             <div class="col-7 d-flex align-items-center">
                                 <div class="numbers">
                                     <p class="card-category ket head">Pemasukan Bulan {{ Carbon\Carbon::parse("$tahunIni-$bulanIni-01")->translatedFormat('F') }} {{ $tahunIni }}</p>
-                                    <hr style="border-width: 3px;">
+                                    <hr class="dashboard-card-divider">
                                     <h4 class="card-title ket total">Rp{{ number_format($totalPemasukanBulanIni, 2, ',', '.') }}</h4>
                                 </div>
                             </div>
@@ -35,14 +35,14 @@
                             <div class="col-5">
                                 <a href="{{ route('detail.pengeluaran') }}">
                                     <div class="icon-big text-center">
-                                        <i class="fas fa-arrow-up nav-icon icon-hover" style="font-size: 3rem;"></i>
+                                        <i class="fas fa-arrow-up nav-icon icon-hover icon-hover-yellow dashboard-icon-lg"></i>
                                     </div>
                                 </a>
                             </div>
                             <div class="col-7 d-flex align-items-center">
                                 <div class="numbers">
                                     <p class="card-category ket head">Pengeluaran Bulan {{ Carbon\Carbon::parse("$tahunIni-$bulanIni-01")->translatedFormat('F') }} {{ $tahunIni }}</p>
-                                    <hr style="border-width: 3px;">
+                                    <hr class="dashboard-card-divider">
                                     <h4 class="card-title ket total">Rp{{ number_format($totalPengeluaranBulanIni, 2, ',', '.') }}</h4>
                                 </div>
                             </div>
@@ -57,14 +57,14 @@
                             <div class="col-5">
                                 <a href="{{ route('keuangan.rekapTransaksi') }}">
                                     <div class="icon-big text-center">
-                                        <i class="fas fa-wallet ikon icon-hover" style="font-size: 3rem;"></i>
+                                        <i class="fas fa-wallet ikon icon-hover icon-hover-yellow dashboard-icon-lg"></i>
                                     </div>
                                 </a>
                             </div>
                             <div class="col-7 d-flex align-items-center">
                                 <div class="numbers">
                                     <p class="card-category ket head">Sisa Saldo Bulan {{ Carbon\Carbon::parse("$tahunIni-$bulanIni-01")->translatedFormat('F') }} {{ $tahunIni }}</p>
-                                    <hr style="border-width: 3px;">
+                                    <hr class="dashboard-card-divider">
                                     <h4 class="card-title ket total">Rp{{ number_format($saldoBulanIni, 2, ',', '.') }}</h4>
                                 </div>
                             </div>
@@ -74,43 +74,6 @@
             </div>
         </div>
         
-        <style>
-            .card-link {
-                text-decoration: none;
-            }
-
-            .card-saldo {
-                transition: transform 0.2s, box-shadow 0.2s;
-            }
-
-            .card-saldo:hover {
-                transform: translateY(-5px);
-                box-shadow: 0 8px 16px rgba(0,0,0,0.2);
-            }
-
-            .icon-hover {
-                transition: color 0.2s, transform 0.2s;
-                color: white; /* Warna ikon awal putih */
-            }
-
-            .icon-hover:hover {
-                cursor: pointer;
-                color: yellow; /* Warna ikon saat di-hover menjadi kuning */
-            }
-
-            .icon-hover:hover:before {
-                content: "\f06e"; /* Kode unicode untuk ikon mata (eye) */
-                font-family: "Font Awesome 5 Free"; /* Pastikan font-family sesuai */
-                font-weight: 900; /* Pastikan font-weight sesuai */
-                color: yellow; /* Warna ikon mata saat di-hover menjadi kuning */
-            }
-
-            .icon-hover {
-                position: relative;
-                z-index: 1;
-            }
-        </style>
-
         <!-- Pie Charts Row -->
         <div class="row mb-4">
             <div class="col-md-6">
@@ -163,24 +126,6 @@
             </div>
         </div>
     </div>
-
-    <style>
-        .chart-canvas {
-            width: 350px !important;
-            height: 350px !important;
-            display: flex;
-            justify-content: center; 
-            align-items: center;
-            margin-left: 25px;
-        }
-
-        @media (max-width: 768px) {
-            .chart-canvas {
-                width: 100% !important;
-                height: 300px !important; /* Adjust the height for better mobile view */
-            }
-        }
-   </style>
 
     {{-- Script untuk diagram --}}
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>

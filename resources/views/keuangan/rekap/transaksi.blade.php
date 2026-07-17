@@ -87,7 +87,7 @@
                         </div>
                         <div class="table-responsive">
                             <table class="table table-bordered table-hover table-striped">
-                                <thead style="background-color: #66aaff" class="text-center">
+                                <thead class="text-center table-head-primary">
                                     <tr>
                                         <th width="50">No</th>
                                         <th>Sumber</th>
@@ -156,7 +156,7 @@
                         </div>
                         <div class="table-responsive">
                             <table class="table table-bordered table-hover table-striped">
-                                <thead style="background-color: #66aaff" class="text-center">
+                                <thead class="text-center table-head-primary">
                                     <tr>
                                         <th width="50">No</th>
                                         <th>Kebutuhan</th>
@@ -209,7 +209,7 @@
                         <h4 class="card-title mb-2">Daftar Transaksi Pemasukan dan Pengeluaran Tahun {{ $tahunDipilih }}</h4>
                         <div class="table-responsive">
                             <table class="table table-bordered table-hover table-striped">
-                                <thead style="background-color: #66aaff" class="text-center">
+                                <thead class="text-center table-head-primary">
                                     <tr>
                                         <th>Bulan</th>
                                         <th>Pemasukan</th>
@@ -254,25 +254,6 @@
             </div>
         </div>
     </div>
-
-    <style>
-        /* .text-end {
-            text-align: end;
-        } */
-
-        .card-link {
-            text-decoration: none;
-        }
-
-        .card-item {
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-
-        .card-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
-        }
-    </style>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {

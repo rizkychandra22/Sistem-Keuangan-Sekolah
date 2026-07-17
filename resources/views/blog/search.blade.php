@@ -12,36 +12,6 @@
 	<link rel="stylesheet" href="/!template-blog/assets/css/leadmark.css">
     <link rel="manifest" href="/manifest.json">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-
-    {{-- CSS Button Pencarian --}}
-    <style>
-        .search-form {
-            display: none;
-            position: absolute;
-            top: 50px;
-            right: 10px;
-            width: 200px;
-            background: #ffffffaa; /* Latar belakang form */
-            padding: 10px;
-            border-radius: 5px;
-        }
-        .search-form.active {
-            display: block;
-        }
-        .search-form input {
-            color: #f44d00; /* Ubah warna teks menjadi putih */
-        }
-        .search-form input::placeholder {
-            color: #f44d00; /* Ubah warna placeholder menjadi putih */
-        }
-        .search-form button {
-            background: none;
-            border: none;
-            color: #f44d00; /* Ubah warna ikon menjadi putih */
-            padding: 0;
-            margin-left: 10px;
-        }
-    </style>
 </head>
 <body data-spy="scroll" data-target=".navbar" data-offset="40" id="home">
     <!-- page Navigation -->
@@ -180,7 +150,7 @@
                         @endif
                     @empty
                         <div class="col-md-12">
-                            <div class="alert alert-danger" style="background: rgba(255, 91, 91, 0.6);">
+                            <div class="alert alert-danger search-empty-alert">
                                 <span>
                                     <i class="fas fa-exclamation-triangle"></i>
                                     <strong>Invalid:</strong> Tidak dapat menemukan pencarian berdasarkan kata kunci {{ $keyword }}, silahkan cari berdasarkan kata kunci lain...!!!

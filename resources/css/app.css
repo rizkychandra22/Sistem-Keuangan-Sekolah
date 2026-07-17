@@ -1,0 +1,204 @@
+.nav-item.active > a.nav-link {
+    color: #0088ff;
+}
+
+.nav-item.active .nav-treeview,
+.nav-treeview.is-open {
+    display: block;
+}
+
+.sidebar .nav-link.is-disabled {
+    opacity: 0.75;
+}
+
+.user-panel .sidebar-user-image {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.user-panel .sidebar-user-name {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    line-height: 1.2;
+    white-space: normal;
+}
+
+.card-link {
+    text-decoration: none;
+}
+
+.dashboard-card {
+    overflow: hidden;
+    border-radius: 22px;
+    color: #fff;
+}
+
+.dashboard-card hr {
+    border-color: rgba(255, 255, 255, 0.55);
+}
+
+.card-item,
+.card-saldo {
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card-item {
+    border-radius: 22px;
+}
+
+.card-item:hover,
+.card-saldo:hover {
+    transform: translateY(-5px);
+}
+
+.card-item:hover {
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.18);
+}
+
+.card-saldo:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.card-guru {
+    background: linear-gradient(135deg, #315c8d, #4f86c6);
+}
+
+.card-program {
+    background: linear-gradient(135deg, #c66a12, #f29f05);
+}
+
+.card-berita {
+    background: linear-gradient(135deg, #1f3a5f, #355c7d);
+}
+
+.card-prestasi {
+    background: linear-gradient(135deg, #b88a08, #f2c94c);
+}
+
+.card-lomba {
+    background: linear-gradient(135deg, #b83232, #e05a47);
+}
+
+.card-event {
+    background: linear-gradient(135deg, #1d6fa5, #3fa7d6);
+}
+
+.card-tour {
+    background: linear-gradient(135deg, #1f8a70, #52b788);
+}
+
+.card-perpisahan {
+    background: linear-gradient(135deg, #6f3faa, #9d6ad8);
+}
+
+.dashboard-icon-lg {
+    font-size: 3rem;
+}
+
+.dashboard-card-divider {
+    border-width: 3px;
+}
+
+.icon-hover {
+    --icon-hover-color: #fff;
+    position: relative;
+    z-index: 1;
+    color: #fff;
+    transition: color 0.2s, transform 0.2s;
+}
+
+.icon-hover:hover {
+    cursor: pointer;
+    color: var(--icon-hover-color);
+}
+
+.icon-hover:hover::before {
+    content: "\f06e";
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    color: var(--icon-hover-color);
+}
+
+.icon-hover-yellow {
+    --icon-hover-color: yellow;
+}
+
+.table-head-primary {
+    background-color: #66aaff;
+}
+
+.chart-canvas {
+    display: flex;
+    width: 350px !important;
+    height: 350px !important;
+    align-items: center;
+    justify-content: center;
+    margin-left: 25px;
+}
+
+.search-form {
+    position: absolute;
+    top: 50px;
+    right: 10px;
+    display: none;
+    width: 200px;
+    padding: 10px;
+    border-radius: 5px;
+    background: #ffffffaa;
+}
+
+.search-form.active {
+    display: block;
+}
+
+.search-form input,
+.search-form input::placeholder,
+.search-form button {
+    color: #f44d00;
+}
+
+.search-form button {
+    margin-left: 10px;
+    padding: 0;
+    border: none;
+    background: none;
+}
+
+.informasi-custom {
+    max-width: 100%;
+    margin: auto;
+}
+
+.informasi-custom img {
+    display: block;
+    width: 20%;
+    height: auto;
+    margin: 0 auto;
+}
+
+.informasi-custom .title {
+    margin-top: 0;
+    text-align: center;
+}
+
+.program-kerja-card-offset {
+    margin-top: -20px;
+}
+
+.search-empty-alert {
+    background: rgba(255, 91, 91, 0.6);
+}
+
+@media (max-width: 768px) {
+    .chart-canvas {
+        width: 100% !important;
+        height: 300px !important;
+    }
+
+    .informasi-custom img {
+        width: 50%;
+    }
+}

@@ -11,29 +11,7 @@
   <link rel="stylesheet" href="/!template-admin/dist/css/adminlte.min.css">
   <meta name="csrf-token" content="{{ csrf_token() }}">
   <link rel="stylesheet" href="https://cdn.datatables.net/2.1.5/css/dataTables.dataTables.css" />
-
-  <style>
-    .nav-item.active > a.nav-link {
-      color: #0088ff; 
-    }
-
-    .nav-item.active .nav-treeview {
-      display: block;
-    }
-  </style>
-
-  <style>
-    .user-panel .image img {
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-    }
-    .user-panel .user-name {
-        display: flex;
-        flex-direction: column;
-        white-space: wrap; 
-    }
-  </style>  
+  @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="hold-transition sidebar-mini">
 
@@ -107,9 +85,9 @@
         <div class="user-panel mt-3 mb-3 pb-3  d-flex">
           <a href="/dashboard/admin/profile" class="d-block d-flex align-items-center">
               <div class="image mr-1">
-                  <img src="{{ asset('images/user/' . Auth::user()->gambar) }}" class="rounded-circle" alt="User Image" style="width: 50px; height: 50px;">
+                  <img src="{{ asset('images/user/' . Auth::user()->gambar) }}" class="rounded-circle sidebar-user-image" alt="User Image">
               </div>
-              <div class="user-name" style="flex: 1; white-space: wrap;">
+              <div class="user-name sidebar-user-name">
                   {{ Auth::user()->name }}
               </div>
           </a>
@@ -137,7 +115,7 @@
                   <i class="right fas fa-angle-left"></i>
                 </p>
               </a>
-              <ul class="nav nav-treeview" style="{{ $isMasterDataOpen ? 'display: block;' : '' }}">
+              <ul class="nav nav-treeview {{ $isMasterDataOpen ? 'is-open' : '' }}">
                 <li class="nav-item">
                   <a href="{{ route('dataUser.index') }}" class="nav-link {{ Route::is('dataUser.*') ? 'active' : '' }}">
                     <i class="fas fa-solid fa-users nav-icon"></i>

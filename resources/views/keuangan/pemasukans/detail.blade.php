@@ -13,14 +13,14 @@
                             <div class="col-5">
                                 <a href="{{ route('pemasukan.index') }}">
                                     <div class="icon-big text-center">
-                                        <i class="fas fa-arrow-down nav-icon icon-hover" style="font-size: 3rem;"></i>
+                                        <i class="fas fa-arrow-down nav-icon icon-hover icon-hover-yellow dashboard-icon-lg"></i>
                                     </div>
                                 </a>
                             </div>
                             <div class="col-7 d-flex align-items-center">
                                 <div class="numbers">
                                     <p class="card-category ket head">Total Pemasukan Bulan {{ Carbon\Carbon::parse("$tahun-$bulan-01")->translatedFormat('F') }} {{ $tahun }}</p>
-                                    <hr style="border-width: 3px;">
+                                    <hr class="dashboard-card-divider">
                                     <h4 class="card-title ket total">Rp{{ number_format($totalPemasukanBulanIni, 2, ',', '.') }}</h4>
                                 </div>
                             </div>
@@ -69,7 +69,7 @@
                     <h4 class="card-title mb-2">Total Pemasukan Berdasarkan Kategori Sumber</h4>
                     <div class="table-responsive">
                         <table class="table table-bordered table-hover table-striped">
-                            <thead style="background-color: #66aaff" class="text-center">
+                            <thead class="text-center table-head-primary">
                                 <tr>
                                     <th width="50">No</th>
                                     <th>Sumber</th>
@@ -106,7 +106,7 @@
                     <h4 class="card-title mb-2">Selisih Pemasukan dan Pengeluaran Berdasarkan Sumber</h4>
                     <div class="table-responsive">
                         <table class="table table-bordered table-hover table-striped">
-                            <thead style="background-color: #66aaff" class="text-center">
+                            <thead class="text-center table-head-primary">
                                 <tr>
                                     <th width="50">No</th>
                                     <th>Sumber Pemasukan</th>
@@ -142,43 +142,6 @@
             </div>
         </div>
     </div>
-
-    <style>
-        .card-link {
-            text-decoration: none;
-        }
-
-        .card-item {
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-
-        .card-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
-        }
-
-        .icon-hover {
-            transition: color 0.2s, transform 0.2s;
-            color: white; /* Warna ikon awal putih */
-        }
-
-        .icon-hover:hover {
-            cursor: pointer;
-            color: yellow; /* Warna ikon saat di-hover menjadi kuning */
-        }
-
-        .icon-hover:hover:before {
-            content: "\f06e"; /* Kode unicode untuk ikon mata (eye) */
-            font-family: "Font Awesome 5 Free"; /* Pastikan font-family sesuai */
-            font-weight: 900; /* Pastikan font-weight sesuai */
-            color: yellow; /* Warna ikon mata saat di-hover menjadi kuning */
-        }
-
-        .icon-hover {
-            position: relative;
-            z-index: 1;
-        }
-    </style>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>

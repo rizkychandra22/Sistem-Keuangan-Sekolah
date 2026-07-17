@@ -13,54 +13,6 @@
 	<link rel="stylesheet" href="/!template-blog/assets/css/leadmark.css">
     <link rel="manifest" href="/manifest.json">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-
-    {{-- Foto Kepala Sekolah --}}
-    <style>
-        .custom {
-            max-width: 100%; 
-            margin: auto;
-        }
-        .custom img {
-            display: block;
-            margin: 0 auto;
-            width: 20%;
-            height: auto;
-        }
-        .custom .title {
-            text-align: center;
-            margin-top: 0; 
-        }
-    </style>
-
-    {{-- Button pencarian --}}
-    <style>
-        .search-form {
-            display: none;
-            position: absolute;
-            top: 50px;
-            right: 10px;
-            width: 200px;
-            background: #ffffffaa; /* Latar belakang form */
-            padding: 10px;
-            border-radius: 5px;
-        }
-        .search-form.active {
-            display: block;
-        }
-        .search-form input {
-            color: #f44d00; /* Ubah warna teks menjadi putih */
-        }
-        .search-form input::placeholder {
-            color: #f44d00; /* Ubah warna placeholder menjadi putih */
-        }
-        .search-form button {
-            background: none;
-            border: none;
-            color: #f44d00; /* Ubah warna ikon menjadi putih */
-            padding: 0;
-            margin-left: 10px;
-        }
-    </style>
 </head>
 <body data-spy="scroll" data-target=".navbar" data-offset="40" id="home">
 
@@ -129,7 +81,7 @@
     <section id="program-kerja" class="section pt-0">
         <div class="container">
             @foreach ($sambutans as $sambutan)
-            <div class="custom mb-4 mb-md-0">
+            <div class="informasi-custom mb-4 mb-md-0">
                 <div class="body">
                     <h4 class="title">"Sambutan Kepala Sekolah,,</h4><br>
                     <div class="media align-items-center">
@@ -146,7 +98,7 @@
         <div class="container">
             <div class="row">
                 @foreach ( $programkerjas as $programkerja)
-                    <div class="col-md-4" style="margin-top: -20px;">
+                    <div class="col-md-4 program-kerja-card-offset">
                         <div class="card mb-4 mb-md-0">
                             <div class="card-body">
                                 <small class="text-primary font-weight-bold">{{ $loop->iteration }}</small>

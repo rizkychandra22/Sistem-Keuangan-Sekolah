@@ -11,25 +11,7 @@
   <link rel="stylesheet" href="/!template-admin/dist/css/adminlte.min.css">
   <meta name="csrf-token" content="{{ csrf_token() }}">
   <link rel="stylesheet" href="https://cdn.datatables.net/2.1.5/css/dataTables.dataTables.css" />
-
-  <style>
-    .sidebar .nav-link.is-disabled {
-      opacity: 0.75;
-    }
-
-    .user-panel .image img {
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      object-fit: cover;
-    }
-
-    .user-panel .user-name {
-      display: flex;
-      flex-direction: column;
-      line-height: 1.2;
-    }
-  </style>
+  @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
@@ -84,9 +66,9 @@
       <div class="user-panel mt-3 mb-3 pb-3  d-flex">
         <a href="/student/home/profile" class="d-block d-flex align-items-center">
             <div class="image mr-1">
-                <img src="{{ asset('images/user/' . Auth::user()->gambar) }}" class="rounded-circle" alt="User Image" style="width: 50px; height: 50px;">
+                <img src="{{ asset('images/user/' . Auth::user()->gambar) }}" class="rounded-circle sidebar-user-image" alt="User Image">
             </div>
-            <div class="user-name" style="flex: 1; white-space: wrap;">
+            <div class="user-name sidebar-user-name">
                 {{ Auth::user()->name }}
             </div>
         </a>
