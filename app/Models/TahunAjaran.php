@@ -13,23 +13,20 @@ class TahunAjaran extends Model
     protected $fillable = [
         'tahun',
         'semester',
-        'is_active'
+        'is_active',
+        'is_locked',
     ];
 
     protected function casts(): array
     {
         return [
             'is_active' => 'boolean',
+            'is_locked' => 'boolean',
         ];
     }
 
-    public function nilais(): HasMany
+    public function rombels(): HasMany
     {
-        return $this->hasMany(Nilai::class);
-    }
-
-    public function absensis(): HasMany
-    {
-        return $this->hasMany(Absensi::class);
+        return $this->hasMany(Rombel::class);
     }
 }

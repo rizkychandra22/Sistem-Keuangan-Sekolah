@@ -13,12 +13,10 @@ return new class extends Migration
     {
         Schema::create('nilais', function (Blueprint $table) {
             $table->id();
-            $table->index(['siswa_id', 'tahun_ajaran_id']);
-            $table->foreignId('siswa_id')->constrained('siswas')->onDelete('cascade');
-            $table->foreignId('kelas_id')->constrained('kelas')->onDelete('cascade');
+            $table->index(['siswa_rombel_id', 'mapel_id']);
+            $table->foreignId('siswa_rombel_id')->constrained('siswa_rombels')->onDelete('cascade');
+            $table->foreignId('guru_mapel_id')->constrained('guru_mapels')->onDelete('cascade');
             $table->foreignId('mapel_id')->constrained('mapels')->onDelete('cascade');
-            $table->foreignId('guru_id')->constrained('guru_mapels')->onDelete('cascade');
-            $table->foreignId('tahun_ajaran_id')->constrained('tahun_ajarans')->onDelete('cascade');
             $table->decimal('nilai', 5, 2);
             $table->enum('jenis_nilai', ['tugas', 'uts', 'uas']);
             $table->timestamps();

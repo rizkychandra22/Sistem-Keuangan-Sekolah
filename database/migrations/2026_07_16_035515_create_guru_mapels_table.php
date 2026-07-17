@@ -14,9 +14,11 @@ return new class extends Migration
         Schema::create('guru_mapels', function (Blueprint $table) {
             $table->id();
             $table->foreignId('guru_id')->constrained('gurus')->onDelete('cascade');
-            $table->foreignId('kelas_id')->constrained('kelas')->onDelete('cascade');
+            $table->foreignId('rombel_id')->constrained('rombels')->onDelete('cascade');
             $table->foreignId('mapel_id')->constrained('mapels')->onDelete('cascade');
             $table->timestamps();
+
+            $table->unique(['guru_id', 'rombel_id', 'mapel_id']);
         });
     }
 

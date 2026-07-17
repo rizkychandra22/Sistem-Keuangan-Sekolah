@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('kelas', function (Blueprint $table) {
             $table->id();
-            $table->string('nama');
-            $table->string('kode')->unique();
-            $table->foreignId('guru_id')->constrained('gurus')->onDelete('cascade');
+            $table->unsignedTinyInteger('tingkat')->unique();
+            $table->string('nama')->unique();
+            $table->string('deskripsi')->nullable();
             $table->timestamps();
         });
     }

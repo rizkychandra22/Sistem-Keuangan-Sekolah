@@ -11,13 +11,12 @@ class Absensi extends Model
     use HasFactory;
 
     protected $fillable = [
-        'siswa_id',
-        'kelas_id',
+        'siswa_rombel_id',
+        'rombel_id',
         'guru_id',
-        'tahun_ajaran_id',
         'tanggal',
         'status',
-        'keterangan'
+        'keterangan',
     ];
 
     protected function casts(): array
@@ -27,14 +26,14 @@ class Absensi extends Model
         ];
     }
 
-    public function siswa(): BelongsTo
+    public function siswaRombel(): BelongsTo
     {
-        return $this->belongsTo(Siswa::class);
+        return $this->belongsTo(SiswaRombel::class);
     }
 
-    public function kelas(): BelongsTo
+    public function rombel(): BelongsTo
     {
-        return $this->belongsTo(Kelas::class);
+        return $this->belongsTo(Rombel::class);
     }
 
     public function guru(): BelongsTo
@@ -42,8 +41,4 @@ class Absensi extends Model
         return $this->belongsTo(Guru::class);
     }
 
-    public function tahunAjaran(): BelongsTo
-    {
-        return $this->belongsTo(TahunAjaran::class);
-    }
 }

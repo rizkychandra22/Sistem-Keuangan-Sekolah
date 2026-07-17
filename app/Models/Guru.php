@@ -27,14 +27,20 @@ class Guru extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function kelas(): HasMany
+    public function rombelsWali(): HasMany
     {
-        return $this->hasMany(Kelas::class);
+        return $this->hasMany(Rombel::class, 'guru_id');
     }
 
     public function waliKelas(): HasOne
     {
-        return $this->hasOne(Kelas::class);
+        return $this->hasOne(Rombel::class, 'guru_id')
+            ->whereHas('tahunAjaran', fn ($query) => $query->where('is_active', true));
+    }
+
+    public function kelas(): HasMany
+    {
+        return $this->rombelsWali();
     }
 
     public function mapels(): HasMany

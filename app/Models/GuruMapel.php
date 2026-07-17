@@ -13,8 +13,8 @@ class GuruMapel extends Model
 
     protected $fillable = [
         'guru_id',
-        'kelas_id',
-        'mapel_id'
+        'rombel_id',
+        'mapel_id',
     ];
 
     public function guru(): BelongsTo
@@ -22,9 +22,9 @@ class GuruMapel extends Model
         return $this->belongsTo(Guru::class);
     }
 
-    public function kelas(): BelongsTo
+    public function rombel(): BelongsTo
     {
-        return $this->belongsTo(Kelas::class);
+        return $this->belongsTo(Rombel::class);
     }
 
     public function mapel(): BelongsTo
@@ -34,6 +34,6 @@ class GuruMapel extends Model
 
     public function nilais(): HasMany
     {
-        return $this->hasMany(Nilai::class, 'guru_id');
+        return $this->hasMany(Nilai::class);
     }
 }

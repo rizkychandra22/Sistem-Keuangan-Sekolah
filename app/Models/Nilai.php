@@ -11,13 +11,11 @@ class Nilai extends Model
     use HasFactory;
 
     protected $fillable = [
-        'siswa_id',
-        'kelas_id',
+        'siswa_rombel_id',
+        'guru_mapel_id',
         'mapel_id',
-        'guru_id',
-        'tahun_ajaran_id',
         'nilai',
-        'jenis_nilai'
+        'jenis_nilai',
     ];
 
     protected function casts(): array
@@ -27,14 +25,9 @@ class Nilai extends Model
         ];
     }
 
-    public function siswa(): BelongsTo
+    public function siswaRombel(): BelongsTo
     {
-        return $this->belongsTo(Siswa::class);
-    }
-
-    public function kelas(): BelongsTo
-    {
-        return $this->belongsTo(Kelas::class);
+        return $this->belongsTo(SiswaRombel::class);
     }
 
     public function mapel(): BelongsTo
@@ -44,11 +37,6 @@ class Nilai extends Model
 
     public function guruMapel(): BelongsTo
     {
-        return $this->belongsTo(GuruMapel::class, 'guru_id');
-    }
-
-    public function tahunAjaran(): BelongsTo
-    {
-        return $this->belongsTo(TahunAjaran::class);
+        return $this->belongsTo(GuruMapel::class);
     }
 }

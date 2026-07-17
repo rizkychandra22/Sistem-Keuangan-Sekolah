@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\Guru;
-use App\Models\Kelas;
 use App\Models\Siswa;
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -73,13 +72,6 @@ class MultiUserSeeder extends Seeder
             );
         }
 
-        $kelasIds = Kelas::query()->pluck('id')->shuffle()->values();
-        $kelasCount = $kelasIds->count();
-
-        if ($kelasCount === 0) {
-            throw new \RuntimeException('Data kelas tidak ditemukan. Jalankan KelasSeeder terlebih dahulu.');
-        }
-
         for ($i = 1; $i <= 180; $i++) {
             $user = User::updateOrCreate(
                 ['username' => sprintf('siswa%03d', $i)],
@@ -98,11 +90,12 @@ class MultiUserSeeder extends Seeder
                     'user_id' => $user->id,
                     'nisn' => sprintf('202600000%03d', $i),
                     'nama' => sprintf('Siswa %03d', $i),
-                    'kelas_id' => $kelasIds[($i - 1) % $kelasCount],
                     'tgl_lhr' => now()->subYears(10)->subDays($i)->toDateString(),
                     'alamat' => sprintf('Alamat siswa %03d', $i),
                     'orang_tua' => sprintf('Orang Tua Siswa %03d', $i),
                     'kontak_orang_tua' => sprintf('081300000%04d', $i),
+                    'status_akademik' => 'aktif',
+                    'is_active' => true,
                 ]
             );
         }
