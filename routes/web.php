@@ -4,8 +4,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 
 // Import Routing Master Data
-use App\Http\Controllers\Admin\Manages\ControllerGuru;
-use App\Http\Controllers\Admin\Manages\ControllerUser;
+use App\Http\Controllers\Admin\ControllerGuru;
+use App\Http\Controllers\Admin\ControllerSiswa;
+use App\Http\Controllers\Admin\ControllerUser;
+
 // Import Routing Web Profile Sekolah
 use App\Http\Controllers\Blog\HomeController;
 use App\Http\Controllers\Blog\Manages\ControllerBeritaSekolah;
@@ -82,8 +84,9 @@ Route::middleware(['userAkses:admin'])->group(function() {
     Route::get('/dashboard/admin/data/users/{user}/edit', [ControllerUser::class, 'edit'])->name('dataUser.edit');
     Route::put('/dashboard/admin/data/users/{user}', [ControllerUser::class, 'update'])->name('dataUser.update');
     Route::delete('/dashboard/admin/data/users/{user}', [ControllerUser::class, 'destroy'])->name('dataUser.destroy');
-
+    
     // Admin Resource CRUD Master Data
+    Route::resource('/dashboard/admin/siswa', ControllerSiswa::class);
     Route::resource('/dashboard/admin/guru', ControllerGuru::class);
 });
 
