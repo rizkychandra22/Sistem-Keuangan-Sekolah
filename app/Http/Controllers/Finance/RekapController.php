@@ -155,7 +155,7 @@ class RekapController extends Controller
         $tahunList = collect(range(Carbon::now()->year - 4, Carbon::now()->year));
 
         // Route dan nama halaman yang diakses
-        $currentLink = route('keuangan.rekapTransaksi');
+        $currentLink = route('rekap.transaksi');
         $currentTitle = 'Rekap Transaksi';
 
         return view('keuangan.rekap.transaksi', compact(

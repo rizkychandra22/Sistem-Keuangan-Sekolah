@@ -25,7 +25,7 @@
                         <div class="card card-stats mt-2 bg-light card-item">
                             <h5 class="card-title ml-3 mt-3">Pilih Bulan dan Tahun</h5>
                             <div class="card-body">
-                                <form action="{{ route('keuangan.rekapTransaksi') }}" method="GET">
+                                <form action="{{ route('rekap.transaksi') }}" method="GET">
                                     <div class="form-row">
                                         <div class="col-md-6">
                                             <div class="form-group">
@@ -69,7 +69,7 @@
                         <div class="d-flex justify-content-between align-items-center">
                             <h4 class="card-title mb-2">Detail Pemasukan Bulan {{ Carbon\Carbon::parse("$tahunDipilih-$bulanDipilih-01")->translatedFormat('F') }} Tahun {{ $tahunDipilih }}</h4>
                             <!-- Add show entries dropdown -->
-                            <form action="{{ route('keuangan.rekapTransaksi') }}" method="GET" class="form-inline mb-2">
+                            <form action="{{ route('rekap.transaksi') }}" method="GET" class="form-inline mb-2">
                                 <input type="hidden" name="tahun" value="{{ $tahunDipilih }}">
                                 <input type="hidden" name="bulan" value="{{ $bulanDipilih }}">
                                 <input type="hidden" name="request-pengeluaran-page" value="{{ request()->get('request-pengeluaran-page', 10) }}">
@@ -138,7 +138,7 @@
                         <div class="d-flex justify-content-between align-items-center">
                             <h4 class="card-title mb-2">Detail Pengeluaran Bulan {{ Carbon\Carbon::parse("$tahunDipilih-$bulanDipilih-01")->translatedFormat('F') }} Tahun {{ $tahunDipilih }}</h4>
                             <!-- Add show entries dropdown -->
-                            <form action="{{ route('keuangan.rekapTransaksi') }}" method="GET" class="form-inline mb-2">
+                            <form action="{{ route('rekap.transaksi') }}" method="GET" class="form-inline mb-2">
                                 <input type="hidden" name="tahun" value="{{ $tahunDipilih }}">
                                 <input type="hidden" name="bulan" value="{{ $bulanDipilih }}">
                                 <input type="hidden" name="request-pemasukan-page" value="{{ request()->get('request-pemasukan-page', 10) }}">

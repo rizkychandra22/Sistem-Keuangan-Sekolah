@@ -105,7 +105,7 @@ Route::middleware(['userAkses:keuangan'])->group(function() {
     Route::get('/dashboard/keuangan/detail/pengeluaran', [PengeluaranController::class, 'detail'])->middleware('userAkses:keuangan')->name('detail.pengeluaran');
     Route::get('/dashboard/keuangan/rekap/pemasukan', [RekapController::class, 'indexPemasukan'])->middleware('userAkses:keuangan')->name('rekap.pemasukan');
     Route::get('/dashboard/keuangan/rekap/pengeluaran', [RekapController::class, 'indexPengeluaran'])->middleware('userAkses:keuangan')->name('rekap.pengeluaran');
-    Route::get('/dashboard/keuangan/rekap/transaksi', [RekapController::class, 'rekapTransaksi'])->middleware('userAkses:keuangan')->name('keuangan.rekapTransaksi');
+    Route::get('/dashboard/keuangan/rekap/transaksi', [RekapController::class, 'rekapTransaksi'])->middleware('userAkses:keuangan')->name('rekap.transaksi');
 
     // Ekspor Pemasukan PDF, Excel dan Print
     Route::get('/dashboard/keuangan/pemasukan/export/excel', [PemasukanController::class, 'exportExcel'])->name('pemasukan.export.excel');

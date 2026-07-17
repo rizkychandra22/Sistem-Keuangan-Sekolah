@@ -55,7 +55,7 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-5">
-                                <a href="{{ route('keuangan.rekapTransaksi') }}">
+                                <a href="{{ route('rekap.transaksi') }}">
                                     <div class="icon-big text-center">
                                         <i class="fas fa-wallet ikon icon-hover icon-hover-yellow dashboard-icon-lg"></i>
                                     </div>
