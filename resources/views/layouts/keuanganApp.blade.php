@@ -14,6 +14,14 @@
   @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="hold-transition sidebar-mini">
+
+  @php
+      $isInputOpen = Route::is('pemasukan.create', 'pemasukan.edit', 'pengeluaran.create', 'pengeluaran.edit');
+      $isDanaOpen = Route::is('pemasukan.index', 'pengeluaran.index');
+      $isDetailOpen = Route::is('detail.*');
+      $isRekapOpen = Route::is('rekap.*');
+  @endphp
+
   <div class="wrapper">
     <nav class="main-header navbar navbar-expand navbar-white navbar-light">
       <ul class="navbar-nav">
@@ -81,7 +89,7 @@
         <nav class="mt-2">
           <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
             <li class="nav-item">
-              <a href="/dashboard/keuangan" class="nav-link active">
+              <a href="/dashboard/keuangan" class="nav-link {{ request()->routeIs('dashboard.keuangan', 'profile.*') ? 'active' : '' }}">
                 <i class="nav-icon fas fa-tachometer-alt"></i>
                 <p>Dashboard {{ Auth::user()->role; }}</p>
               </a>
@@ -92,98 +100,98 @@
                 <p>Lihat Website</p>
               </a>
             </li>
-            <li class="nav-item has-treeview">
-              <a href="#" class="nav-link" data-toggle="collapse" data-target="#InputDana">
+            <li class="nav-item has-treeview {{ $isInputOpen ? 'menu-open' : '' }}">
+              <a href="#" class="nav-link {{ $isInputOpen ? 'active' : '' }}">
                 <i class="fas fa-money-bill-wave nav-icon"></i>
                 <p>
-                  Input Data
+                  Input Dana
                   <i class="right fas fa-angle-left"></i>
                 </p>
               </a>
-              <ul class="nav nav-treeview collapse" id="InputDana">
+              <ul class="nav nav-treeview {{ $isInputOpen ? 'is-open' : '' }}">
                 <li class="nav-item">
-                  <a href="/dashboard/keuangan/pemasukan/create" class="nav-link">
+                  <a href="/dashboard/keuangan/pemasukan/create" class="nav-link {{ request()->routeIs('pemasukan.create', 'pemasukan.edit') ? 'active' : '' }}">
                     <i class="fas fa-arrow-down nav-icon"></i>
-                    <p>Input Pemasukan</p>
+                    <p>Pemasukan</p>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="/dashboard/keuangan/pengeluaran/create" class="nav-link">
+                  <a href="/dashboard/keuangan/pengeluaran/create" class="nav-link {{ request()->routeIs('pengeluaran.create', 'pengeluaran.edit') ? 'active' : '' }}">
                     <i class="fas fa-arrow-up nav-icon"></i>
-                    <p>Input Pengeluaran</p>
+                    <p>Pengeluaran</p>
                   </a>
                 </li>
               </ul>
             </li>
-            <li class="nav-item has-treeview">
-              <a href="#" class="nav-link" data-toggle="collapse" data-target="#DanaSekolah">
+            <li class="nav-item has-treeview {{ $isDanaOpen ? 'menu-open' : '' }}">
+              <a href="#" class="nav-link {{ $isDanaOpen ? 'active' : '' }}">
                 <i class="fas fa-coins nav-icon"></i>
                 <p>
                   Dana Sekolah
                   <i class="right fas fa-angle-left"></i>
                 </p>
               </a>
-              <ul class="nav nav-treeview collapse" id="DanaSekolah">
+              <ul class="nav nav-treeview {{ $isDanaOpen ? 'is-open' : '' }}" id="DanaSekolah">
                 <li class="nav-item">
-                  <a href="/dashboard/keuangan/pemasukan" class="nav-link">
+                  <a href="/dashboard/keuangan/pemasukan" class="nav-link {{ request()->routeIs('pemasukan.index') ? 'active' : '' }}">
                     <i class="fas fa-arrow-down nav-icon"></i>
-                    <p>Dana Masuk</p>
+                    <p>Pemasukan</p>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="/dashboard/keuangan/pengeluaran" class="nav-link">
+                  <a href="/dashboard/keuangan/pengeluaran" class="nav-link {{ request()->routeIs('pengeluaran.index') ? 'active' : '' }}">
                     <i class="fas fa-arrow-up nav-icon"></i>
-                    <p>Dana Keluar</p>
+                    <p>Pengeluaran</p>
                   </a>
                 </li>
               </ul>
             </li>
-            <li class="nav-item has-treeview">
-              <a href="#" class="nav-link" data-toggle="collapse" data-target="#DetailDana">
+            <li class="nav-item has-treeview {{ $isDetailOpen ? 'menu-open' : '' }}">
+              <a href="#" class="nav-link {{ $isDetailOpen ? 'active' : '' }}">
                 <i class="fas fa-pencil-alt nav-icon"></i>
                 <p>
-                  Detail Transaksi
+                  Detail Dana
                   <i class="right fas fa-angle-left"></i>
                 </p>
               </a>
-              <ul class="nav nav-treeview collapse" id="DetailDana">
+              <ul class="nav nav-treeview {{ $isDetailOpen ? 'is-open' : '' }}">
                 <li class="nav-item">
-                  <a href="/dashboard/keuangan/detail/pemasukan" class="nav-link">
+                  <a href="/dashboard/keuangan/detail/pemasukan" class="nav-link {{ request()->routeIs('detail.pemasukan') ? 'active' : '' }}">
                     <i class="fas fa-arrow-down nav-icon"></i>
-                    <p>Detail Pemasukan</p>
+                    <p>Transaksi Masuk</p>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="/dashboard/keuangan/detail/pengeluaran" class="nav-link">
+                  <a href="/dashboard/keuangan/detail/pengeluaran" class="nav-link {{ request()->routeIs('detail.pengeluaran') ? 'active' : '' }}">
                     <i class="fas fa-arrow-up nav-icon"></i>
-                    <p>Detail Pengeluaran</p>
+                    <p>Transaksi Keluar</p>
                   </a>
                 </li>
               </ul>
             </li>
-            <li class="nav-item has-treeview">
-              <a href="#" class="nav-link" data-toggle="collapse" data-target="#RekapDana">
+            <li class="nav-item has-treeview {{ $isRekapOpen ? 'menu-open' : '' }}">
+              <a href="#" class="nav-link {{ $isRekapOpen ? 'active' : '' }}">
                 <i class="fas fa-money-check nav-icon"></i>
                 <p>
-                  Rekapitulasi Keuangan
+                  Laporan Keuangan
                   <i class="right fas fa-angle-left"></i>
                 </p>
               </a>
-              <ul class="nav nav-treeview collapse" id="RekapDana">
+              <ul class="nav nav-treeview {{ $isRekapOpen ? 'is-open' : '' }}">
                 <li class="nav-item">
-                  <a href="/dashboard/keuangan/rekap/pemasukan" class="nav-link">
+                  <a href="/dashboard/keuangan/rekap/pemasukan" class="nav-link {{ request()->routeIs('rekap.pemasukan') ? 'active' : '' }}">
                     <i class="fas fa-arrow-down nav-icon"></i>
                     <p>Rekap Pemasukan</p>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="/dashboard/keuangan/rekap/pengeluaran" class="nav-link">
+                  <a href="/dashboard/keuangan/rekap/pengeluaran" class="nav-link {{ request()->routeIs('rekap.pengeluaran') ? 'active' : '' }}">
                     <i class="fas fa-arrow-up nav-icon"></i>
                     <p>Rekap Pengeluaran</p>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="/dashboard/keuangan/rekap/transaksi" class="nav-link">
+                  <a href="/dashboard/keuangan/rekap/transaksi" class="nav-link {{ request()->routeIs('rekap.transaksi') ? 'active' : '' }}">
                     <i class="fas fa-file-invoice-dollar nav-icon"></i>
                     <p>Rekap Transaksi</p>
                   </a>
@@ -234,24 +242,6 @@
   </div>
 
   @include('sweetalert::alert')
-
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      const currentPath = window.location.pathname;
-      const navLinks = document.querySelectorAll('.nav-link');
-
-      navLinks.forEach(function(navLink) {
-        if (navLink.getAttribute('href') === currentPath) {
-          navLink.classList.add('active');
-          let parentNav = navLink.closest('.nav-item.has-treeview');
-          if (parentNav) {
-            parentNav.classList.add('active');
-            parentNav.querySelector('.nav-treeview').classList.add('show');
-          }
-        }
-      });
-    });
-  </script>
 
   <script src="/!template-admin/plugins/jquery/jquery.min.js"></script>
   <script src="/!template-admin/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>

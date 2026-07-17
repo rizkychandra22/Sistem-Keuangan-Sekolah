@@ -14,6 +14,19 @@
   @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="hold-transition sidebar-mini">
+
+  @php
+      $isGlrEvnt = Route::is('gallery-event.*');
+      $isGlrLmb = Route::is('gallery-lomba.*');
+      $isGlrPwst = Route::is('gallery-pariwisata.*');
+      $isGlrPpsh = Route::is('gallery-perpisahan.*');
+      $isPrestasi = Route::is('prestasi.*');
+      $isNews = Route::is('berita-sekolah.*');
+
+      $isDataOpen = $isGlrEvnt || $isGlrLmb || $isGlrPwst || $isGlrPpsh || $isPrestasi || $isNews;
+      $isGalleryOpen = $isGlrEvnt || $isGlrLmb || $isGlrPwst || $isGlrPpsh;
+  @endphp
+
   <div class="wrapper">
     <nav class="main-header navbar navbar-expand navbar-white navbar-light">
       <ul class="navbar-nav">
@@ -86,7 +99,7 @@
         <nav class="mt-2">
           <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="true">
             <li class="nav-item">
-              <a href="/dashboard/operator" class="nav-link active">
+              <a href="/dashboard/operator" class="nav-link {{ request()->routeIs('dashboard.operator', 'profile.*') ? 'active' : '' }}">
                 <i class="nav-icon fas fa-tachometer-alt"></i>
                 <p>Dashboard {{ Auth::user()->role; }}</p>
               </a>
@@ -97,38 +110,38 @@
                 <p>Lihat Website</p>
               </a>
             </li>
-            <li class="nav-item has-treeview" id="dataWebsiteMenu">
-              <a href="#" class="nav-link active" data-toggle="collapse" data-target="#DataWebsite">
+            <li class="nav-item has-treeview {{ $isDataOpen ? 'menu-open' : '' }}">
+              <a href="#" class="nav-link {{ $isDataOpen ? 'active' : '' }}">
                 <i class="nav-icon fas fa-globe"></i>
                 <p>Data Website<i class="right fas fa-angle-left"></i></p>
               </a>
-              <ul class="nav nav-treeview collapse" id="DataWebsite">
-                <li class="nav-item has-treeview" id="galleryMenu">
-                  <a href="#" class="nav-link active" data-toggle="collapse" data-target="#GallerySubMenu">
+              <ul class="nav nav-treeview {{ $isDataOpen ? 'is-open' : '' }}">
+                <li class="nav-item has-treeview">
+                  <a href="#" class="nav-link {{ $isGalleryOpen ? 'active' : '' }}">
                     <i class="fas fa-image nav-icon"></i>
                     <p>Gallery<i class="right fas fa-angle-left"></i></p>
                   </a>
-                  <ul class="nav nav-treeview collapse" id="GallerySubMenu">
+                  <ul class="nav nav-treeview {{ $isGalleryOpen ? 'is-open' : '' }}">
                     <li class="nav-item">
-                      <a href="/dashboard/operator/gallery-event" class="nav-link" id="galleryEvent">
+                      <a href="{{ route('gallery-event.index') }}" class="nav-link {{ request()->routeIs('gallery-event.*') ? 'active' : '' }}">
                         <i class="fas fa-calendar-alt nav-icon"></i>
                         <p>Event</p>
                       </a>
                     </li>
                     <li class="nav-item">
-                      <a href="/dashboard/operator/gallery-lomba" class="nav-link" id="galleryLomba">
+                      <a href="{{ route('gallery-lomba.index') }}" class="nav-link {{ request()->routeIs('gallery-lomba.*') ? 'active' : '' }}">
                         <i class="fas fa-medal nav-icon"></i>
                         <p>Lomba</p>
                       </a>
                     </li>
                     <li class="nav-item">
-                      <a href="/dashboard/operator/gallery-pariwisata" class="nav-link" id="galleryPariwisata">
+                      <a href="{{ route('gallery-pariwisata.index') }}" class="nav-link {{ request()->routeIs('gallery-pariwisata.*') ? 'active' : '' }}">
                         <i class="fas fa-bus nav-icon"></i>
                         <p>Study Tour</p>
                       </a>
                     </li>
                     <li class="nav-item">
-                      <a href="/dashboard/operator/gallery-perpisahan" class="nav-link" id="galleryPerpisahan">
+                      <a href="{{ route('gallery-perpisahan.index') }}" class="nav-link {{ request()->routeIs('gallery-perpisahan.*') ? 'active' : '' }}">
                         <i class="fa-sharp fas fa-graduation-cap nav-icon"></i>
                         <p>Perpisahan</p>
                       </a>
@@ -136,13 +149,13 @@
                   </ul>
                 </li>
                 <li class="nav-item">
-                  <a href="/dashboard/operator/prestasi" class="nav-link" id="prestasiMenu">
+                  <a href="{{ route('prestasi.index') }}" class="nav-link {{ request()->routeIs('prestasi.*') ? 'active' : '' }}">
                     <i class="fas fa-solid fa-trophy nav-icon"></i>
                     <p>Prestasi</p>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="/dashboard/operator/berita-sekolah" class="nav-link" id="beritaSekolahMenu">
+                  <a href="{{ route('berita-sekolah.index') }}" class="nav-link {{ request()->routeIs('berita-sekolah.*') ? 'active' : '' }}">
                     <i class="fas fa-newspaper nav-icon"></i>
                     <p>Berita Sekolah</p>
                   </a>
@@ -150,13 +163,13 @@
               </ul>
             </li>
             <li class="nav-item">
-              <a href="/dashboard/operator/program-kerja" class="nav-link" id="programKerjaMenu">
+              <a href="{{ route('program-kerja.index') }}" class="nav-link {{ request()->routeIs('program-kerja.*') ? 'active' : '' }}">
                 <i class="fas fa-tasks nav-icon"></i>
                 <p>Program Kerja</p>
               </a>
             </li>
             <li class="nav-item">
-              <a href="/dashboard/operator/sambutan" class="nav-link" id="sambutanMenu">
+              <a href="{{ route('sambutan.index') }}" class="nav-link {{ request()->routeIs('sambutan.*') ? 'active' : '' }}">
                 <i class="fas fa-user nav-icon"></i>
                 <p>Sambutan Kepsek</p>
               </a>
@@ -203,46 +216,6 @@
       <strong>Copyright &copy; {{ date ("Y") }} <a href="/dashboard/operator">SD Negeri Caringin Ngumbang</a>.</strong> All rights reserved.
     </footer>
   </div>
-
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      const currentPath = window.location.pathname;
-  
-      function openMenu(menuId, subMenuId) {
-        document.getElementById(menuId).classList.add("menu-open");
-        if (subMenuId) {
-          document.getElementById(subMenuId).classList.add("show");
-        }
-      }
-  
-      if (currentPath.startsWith("/dashboard/operator/gallery")) {
-        openMenu("dataWebsiteMenu", "DataWebsite");
-        openMenu("galleryMenu", "GallerySubMenu");
-  
-        if (currentPath === "/dashboard/operator/gallery-event") {
-          document.getElementById("galleryEvent").classList.add("active");
-        } else if (currentPath === "/dashboard/operator/gallery-lomba") {
-          document.getElementById("galleryLomba").classList.add("active");
-        } else if (currentPath === "/dashboard/operator/gallery-pariwisata") {
-          document.getElementById("galleryPariwisata").classList.add("active");
-        } else if (currentPath === "/dashboard/operator/gallery-perpisahan") {
-          document.getElementById("galleryPerpisahan").classList.add("active");
-        }
-      } else if (currentPath.startsWith("/dashboard/operator/prestasi")) {
-        openMenu("dataWebsiteMenu", "DataWebsite");
-        document.getElementById("prestasiMenu").classList.add("active");
-      } else if (currentPath.startsWith("/dashboard/operator/berita-sekolah")) {
-        openMenu("dataWebsiteMenu", "DataWebsite");
-        document.getElementById("beritaSekolahMenu").classList.add("active");
-      }
-  
-      document.querySelectorAll('.nav-link').forEach(link => {
-        if (link.getAttribute('href') === currentPath) {
-          link.classList.add('active');
-        }
-      });
-    });
-  </script>
   
   <script src="/!template-admin/plugins/jquery/jquery.min.js"></script>
   <script src="/!template-admin/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>

@@ -18,6 +18,7 @@
   @php
     $isDataUser = Route::is('dataUser.*');
     $isGuruMenu = Route::is('guru.*');
+    
     $isMasterDataOpen = $isDataUser || $isGuruMenu;
   @endphp
 
