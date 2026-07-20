@@ -21,7 +21,7 @@ class ControllerGuru extends Controller
         $currentLink = route('guru.index');
         $currentTitle = 'Guru Sekolah';
         $createLink = route('guru.create');
-        $createTitle = 'Create';
+        $createTitle = 'Tambah';
 
         return view('admin/guru.index', compact('currentLink', 'currentTitle', 'createLink', 'createTitle'));
     }
@@ -38,7 +38,7 @@ class ControllerGuru extends Controller
         $currentLink = route('guru.index');
         $currentTitle = 'Guru Sekolah';
         $createLink = route('guru.create');
-        $createTitle = 'Create';
+        $createTitle = 'Tambah';
 
         return view('admin/guru.create', compact('availableUsers', 'currentLink', 'currentTitle', 'createLink', 'createTitle'));
     }

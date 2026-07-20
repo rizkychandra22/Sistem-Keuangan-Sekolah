@@ -23,7 +23,7 @@ class ControllerUser extends Controller
         $currentLink = route('dataUser.index');
         $currentTitle = 'Akun User';
         $createLink = route('dataUser.create');
-        $createTitle = 'Create';
+        $createTitle = 'Tambah';
 
         return view('admin.user.index', compact('currentLink', 'currentTitle', 'createLink', 'createTitle'));
     }
@@ -36,7 +36,7 @@ class ControllerUser extends Controller
         $currentLink = route('dataUser.index');
         $currentTitle = 'Akun User';
         $createLink = route('dataUser.create');
-        $createTitle = 'Create';
+        $createTitle = 'Tambah';
 
         return view('admin.user.create', compact('roleOptions', 'currentLink', 'currentTitle', 'createLink', 'createTitle'));
     }

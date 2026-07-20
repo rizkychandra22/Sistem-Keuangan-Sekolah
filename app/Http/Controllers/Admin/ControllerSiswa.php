@@ -23,7 +23,7 @@ class ControllerSiswa extends Controller
         $currentLink = route('siswa.index');
         $currentTitle = 'Siswa Sekolah';
         $createLink = route('siswa.create');
-        $createTitle = 'Create';
+        $createTitle = 'Tambah';
 
         return view('admin.siswa.index', compact('currentLink', 'currentTitle', 'createLink', 'createTitle'));
     }
@@ -33,7 +33,7 @@ class ControllerSiswa extends Controller
         $currentLink = route('siswa.index');
         $currentTitle = 'Siswa Sekolah';
         $createLink = route('siswa.create');
-        $createTitle = 'Create';
+        $createTitle = 'Tambah';
 
         return view('admin.siswa.create', compact('currentLink', 'currentTitle', 'createLink', 'createTitle'));
     }

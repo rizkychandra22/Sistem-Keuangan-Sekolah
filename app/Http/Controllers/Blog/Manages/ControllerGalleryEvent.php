@@ -20,7 +20,7 @@ class ControllerGalleryEvent extends Controller
         $currentLink = route('gallery-event.index');
         $currentTitle = 'Gallery Event';
         $createLink = route('gallery-event.create');
-        $createTitle = 'Create';
+        $createTitle = 'Tambah';
 
         return view('operator/gallery/event.index', compact('currentLink', 'currentTitle', 'createLink', 'createTitle'));
     }
@@ -31,7 +31,7 @@ class ControllerGalleryEvent extends Controller
         $currentLink = route('gallery-event.index');
         $currentTitle = 'Gallery Event';
         $createLink = route('gallery-event.create');
-        $createTitle = 'Create';
+        $createTitle = 'Tambah';
 
         return view('operator/gallery/event.create', compact('currentLink', 'currentTitle', 'createLink', 'createTitle'));
     }

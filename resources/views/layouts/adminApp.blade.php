@@ -174,9 +174,15 @@
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="{{ $menuLinks['guruMapel'] }}" class="nav-link {{ $isGuruMapelMenu ? 'active' : '' }} {{ Route::has('guruMapel.index') ? '' : 'is-disabled' }}">
-                    <i class="fas fa-chalkboard-teacher nav-icon"></i>
-                    <p>Guru Mapel</p>
+                  <a href="{{ $menuLinks['kelas'] }}" class="nav-link {{ $isKelasMenu ? 'active' : '' }} {{ Route::has('kelas.index') ? '' : 'is-disabled' }}">
+                    <i class="fas fa-layer-group nav-icon"></i>
+                    <p>Kelas</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="{{ $menuLinks['tahunAjaran'] }}" class="nav-link {{ $isTahunAjaranMenu ? 'active' : '' }} {{ Route::has('tahunAjaran.index') ? '' : 'is-disabled' }}">
+                    <i class="fas fa-calendar-alt nav-icon"></i>
+                    <p>Tahun Ajaran</p>
                   </a>
                 </li>
                 <li class="nav-item">
@@ -192,15 +198,9 @@
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="{{ $menuLinks['kelas'] }}" class="nav-link {{ $isKelasMenu ? 'active' : '' }} {{ Route::has('kelas.index') ? '' : 'is-disabled' }}">
-                    <i class="fas fa-layer-group nav-icon"></i>
-                    <p>Kelas</p>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a href="{{ $menuLinks['tahunAjaran'] }}" class="nav-link {{ $isTahunAjaranMenu ? 'active' : '' }} {{ Route::has('tahunAjaran.index') ? '' : 'is-disabled' }}">
-                    <i class="fas fa-calendar-alt nav-icon"></i>
-                    <p>Tahun Ajaran</p>
+                  <a href="{{ $menuLinks['guruMapel'] }}" class="nav-link {{ $isGuruMapelMenu ? 'active' : '' }} {{ Route::has('guruMapel.index') ? '' : 'is-disabled' }}">
+                    <i class="fas fa-chalkboard-teacher nav-icon"></i>
+                    <p>Guru Mapel</p>
                   </a>
                 </li>
               </ul>

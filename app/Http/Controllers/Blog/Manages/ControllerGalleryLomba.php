@@ -20,7 +20,7 @@ class ControllerGalleryLomba extends Controller
         $currentLink = route('gallery-lomba.index');
         $currentTitle = 'Gallery Lomba';
         $createLink = route('gallery-lomba.create');
-        $createTitle = 'Create';
+        $createTitle = 'Tambah';
 
         return view('operator/gallery/lomba.index', compact('currentLink', 'currentTitle', 'createLink', 'createTitle'));
     }
@@ -31,7 +31,7 @@ class ControllerGalleryLomba extends Controller
         $currentLink = route('gallery-lomba.index');
         $currentTitle = 'Gallery Lomba';
         $createLink = route('gallery-lomba.create');
-        $createTitle = 'Create';
+        $createTitle = 'Tambah';
 
         return view('operator/gallery/lomba.create', compact('currentLink', 'currentTitle', 'createLink', 'createTitle'));
     }

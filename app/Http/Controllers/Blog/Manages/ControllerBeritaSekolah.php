@@ -23,7 +23,7 @@ class ControllerBeritaSekolah extends Controller
         $currentLink = route('berita-sekolah.index');
         $currentTitle = 'Berita Sekolah';
         $createLink = route('berita-sekolah.create');
-        $createTitle = 'Create';
+        $createTitle = 'Tambah';
 
         return view('operator/berita.index', compact('currentLink', 'currentTitle', 'createLink', 'createTitle'));
     }
@@ -37,7 +37,7 @@ class ControllerBeritaSekolah extends Controller
         $currentLink = route('berita-sekolah.index');
         $currentTitle = 'Berita Sekolah';
         $createLink = route('berita-sekolah.create');
-        $createTitle = 'Create';
+        $createTitle = 'Tambah';
         
         return view('operator/berita.create', compact('currentLink', 'currentTitle', 'createLink', 'createTitle'));
     }
