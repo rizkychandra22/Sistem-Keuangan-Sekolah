@@ -36,7 +36,7 @@
                     responsive: true,
                     processing: true,
                     ajax: {
-                        url: "{{ route('tahunAjaran.index') }}",
+                        url: "{{ route('tahun-ajaran.index') }}",
                         type: 'GET'
                     },
                     columns: [
@@ -103,8 +103,8 @@
                         {
                             data: null,
                             render: function (data, type, row) {
-                                let editUrl = `{{ route('tahunAjaran.edit', ':id') }}`.replace(':id', row.id);
-                                let deleteUrl = `{{ route('tahunAjaran.destroy', ':id') }}`.replace(':id', row.id);
+                                let editUrl = `{{ route('tahun-ajaran.edit', ':id') }}`.replace(':id', row.id);
+                                let deleteUrl = `{{ route('tahun-ajaran.destroy', ':id') }}`.replace(':id', row.id);
 
                                 return `
                                     <a href="${editUrl}" class="btn btn-outline-warning btn-secoundary btn-sm mt-1 mr-1" title="Edit">

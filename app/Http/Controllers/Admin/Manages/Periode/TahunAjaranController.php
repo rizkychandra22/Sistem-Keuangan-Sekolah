@@ -26,9 +26,9 @@ class TahunAjaranController extends Controller
                 ->make(true);
         }
 
-        $currentLink = route('tahunAjaran.index');
+        $currentLink = route('tahun-ajaran.index');
         $currentTitle = 'Tahun Ajaran';
-        $createLink = route('tahunAjaran.create');
+        $createLink = route('tahun-ajaran.create');
         $createTitle = 'Tambah';
 
         return view('admin.tahun-ajaran.index', compact('currentLink', 'currentTitle', 'createLink', 'createTitle'));
@@ -36,9 +36,9 @@ class TahunAjaranController extends Controller
 
     public function create(): View
     {
-        $currentLink = route('tahunAjaran.index');
+        $currentLink = route('tahun-ajaran.index');
         $currentTitle = 'Tahun Ajaran';
-        $createLink = route('tahunAjaran.create');
+        $createLink = route('tahun-ajaran.create');
         $createTitle = 'Tambah';
 
         return view('admin.tahun-ajaran.create', compact('currentLink', 'currentTitle', 'createLink', 'createTitle'));
@@ -71,7 +71,7 @@ class TahunAjaranController extends Controller
 
         TahunAjaran::create($validated);
 
-        return redirect()->route('tahunAjaran.index')->with(
+        return redirect()->route('tahun-ajaran.index')->with(
             'success',
             'Data tahun ajaran ' . $validated['tahun'] . ' semester ' . ucfirst($validated['semester']) . ' berhasil ditambahkan.'
         );
@@ -79,14 +79,14 @@ class TahunAjaranController extends Controller
 
     public function show(TahunAjaran $tahunAjaran): RedirectResponse
     {
-        return redirect()->route('tahunAjaran.edit', $tahunAjaran->id);
+        return redirect()->route('tahun-ajaran.edit', $tahunAjaran->id);
     }
 
     public function edit(TahunAjaran $tahunAjaran): View
     {
-        $currentLink = route('tahunAjaran.index');
+        $currentLink = route('tahun-ajaran.index');
         $currentTitle = 'Tahun Ajaran';
-        $editLink = route('tahunAjaran.edit', $tahunAjaran->id);
+        $editLink = route('tahun-ajaran.edit', $tahunAjaran->id);
         $editTitle = 'Edit';
 
         return view('admin.tahun-ajaran.edit', compact('tahunAjaran', 'currentLink', 'currentTitle', 'editLink', 'editTitle'));
@@ -123,7 +123,7 @@ class TahunAjaranController extends Controller
 
         $tahunAjaran->update($validated);
 
-        return redirect()->route('tahunAjaran.index')->with(
+        return redirect()->route('tahun-ajaran.index')->with(
             'success',
             'Data tahun ajaran ' . $tahunAjaran->tahun . ' semester ' . ucfirst($tahunAjaran->semester) . ' berhasil diupdate.'
         );

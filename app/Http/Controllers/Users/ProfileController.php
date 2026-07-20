@@ -8,210 +8,78 @@ use App\Models\Siswa;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 
 class ProfileController extends Controller
 {
-    public function profileAdmin()
+    public function profileAdmin(): View
     {
-        // Route dan nama halaman yang di akses
         $currentLink = "/dashboard/admin/profile";
         $currentTitle = 'Profile User';
+        $user = Auth::user();
 
-        // Mengambil data pengguna dengan role 'admin' dari database
-        $users = User::where('role', 'admin')->get();
-
-        return view('admin.profile', compact('currentLink', 'currentTitle', 'users'));
+        return view('admin.profile', compact('currentLink', 'currentTitle', 'user'));
     }
 
-    public function editProfileAdmin(User $user)
+    public function editProfileAdmin(User $user): View
     {
-        // Route dan nama halaman yang di akses
         $currentLink = "/dashboard/admin/profile";
         $currentTitle = 'Profile User';
 
         return view('admin.edit-profile', compact('user', 'currentLink', 'currentTitle'));
     }
 
-    public function updateProfileAdmin(Request $request, User $user)
+    public function updateProfileAdmin(Request $request, User $user): RedirectResponse
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'username' => 'required|string|max:255|unique:users,username,'.$user->id,
-            'email' => 'required|string|email|max:255|unique:users,email,'.$user->id,
-            'password' => 'required|nullable|string|min:8',
-            'password_confirmation' => 'required|nullable|string|min:8',
-            'gambar' => 'image|mimes:jpeg,png,jpg,gif,svg',
-        ],[
-            'name.required' => 'Nama user pengguna tidak boleh kosong',
-            'username.required' => 'Username login pengguna tidak boleh kosong',
-            'email.required' => 'Email pengguna tidak boleh kosong',
-            'email.email' => 'Format email tidak valid',
-            'password.required' => 'Password minimal 8 karakter dan harus menggunakan simbol',
-            'password_confirmation.required' => 'Konfirmasi password tidak sesuai',
-        ]);
-
-        if ($request->hasFile('gambar')) {
-            $name = $request->name;
-            $tanggal = now()->format('Ymd_His');
-            $extension = $request->gambar->extension();
-            $imageName = $name . '_' . $tanggal . '.' . $extension;
-
-            $request->gambar->move(public_path('images/user'), $imageName);
-
-            if ($user->gambar && file_exists(public_path('images/user/' . $user->gambar))) {
-                unlink(public_path('images/user/' . $user->gambar));
-            }
-
-            $user->gambar = $imageName;
-        }
-
-        $user->name = $request->name;
-        $user->username = $request->username;
-        $user->email = $request->email;
-        if ($request->filled('password')) {
-            $user->password = bcrypt($request->input('password'));
-        }
-        $user->save();
-
-        return redirect()->route('profile.admin')->with('success', 'Profile berhasil diperbarui');
+        return $this->updateGuruLikeProfile($request, $user, 'profile.admin');
     }
 
-    public function profileOperator()
+    public function profileOperator(): View
     {
-        // Route dan nama halaman yang di akses
+        $currentLink = "/dashboard/operator/profile";
+        $currentTitle = 'Profile User';
+        $user = Auth::user();
+
+        return view('operator.profile', compact('currentLink', 'currentTitle', 'user'));
+    }
+
+    public function editProfileOperator(User $user): View
+    {
         $currentLink = "/dashboard/operator/profile";
         $currentTitle = 'Profile User';
 
-        // Mengambil data pengguna dengan role 'operator' dari database
-        $users = User::where('role', 'operator')->get();
-
-        return view('operator.profile', compact('currentLink', 'currentTitle', 'users'));
+        return view('operator.edit-profile', compact('user', 'currentLink', 'currentTitle'));
     }
 
-    public function editProfileOperator(User $user)
+    public function updateProfileOperator(Request $request, User $user): RedirectResponse
     {
-        // Route dan nama halaman yang di akses
-        $currentLink = "/dashboard/operator/profile";
+        return $this->updateGuruLikeProfile($request, $user, 'profile.operator');
+    }
+
+    public function profileKeuangan(): View
+    {
+        $currentLink = "/dashboard/keuangan/profile";
         $currentTitle = 'Profile User';
-        $editLink = route('profile.edit.operator', $user->id);
-        $editTitle = 'Edit Profile';
+        $user = Auth::user();
 
-        return view('operator.edit-profile', compact('user', 'editLink', 'editTitle', 'currentLink', 'currentTitle'));
+        return view('keuangan.profile', compact('currentLink', 'currentTitle', 'user'));
     }
 
-    public function updateProfileOperator(Request $request, User $user)
+    public function editProfileKeuangan(User $user): View
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'username' => 'required|string|max:255|unique:users,username,'.$user->id,
-            'email' => 'required|string|email|max:255|unique:users,email,'.$user->id,
-            'password' => 'required|nullable|string|min:8',
-            'password_confirmation' => 'required|nullable|string|min:8',
-            'gambar' => 'image|mimes:jpeg,png,jpg,gif,svg',
-        ],[
-            'name.required' => 'Nama user pengguna tidak boleh kosong',
-            'username.required' => 'Username login pengguna tidak boleh kosong',
-            'email.required' => 'Email pengguna tidak boleh kosong',
-            'email.email' => 'Format email tidak valid',
-            'password.required' => 'Password minimal 8 karakter dan harus menggunakan simbol',
-            'password_confirmation.required' => 'Konfirmasi password tidak sesuai',
-        ]);
-
-        if ($request->hasFile('gambar')) {
-            $name = $request->name;
-            $tanggal = now()->format('Ymd_His');
-            $extension = $request->gambar->extension();
-            $imageName = $name . '_' . $tanggal . '.' . $extension;
-
-            $request->gambar->move(public_path('images/user'), $imageName);
-
-            if ($user->gambar && file_exists(public_path('images/user/' . $user->gambar))) {
-                unlink(public_path('images/user/' . $user->gambar));
-            }
-
-            $user->gambar = $imageName;
-        }
-
-        $user->name = $request->name;
-        $user->username = $request->username;
-        $user->email = $request->email;
-        if ($request->filled('password')) {
-            $user->password = bcrypt($request->input('password'));
-        }
-        $user->save();
-
-        return redirect()->route('profile.operator')->with('success', 'Profile berhasil diperbarui');
-    }
-
-    public function profileKeuangan()
-    {
-        
-        // Mengambil data pengguna dengan role 'keuangan' dari database
-        $users = User::where('role', 'keuangan')->get();
-        
-        // Route dan nama halaman yang di akses
         $currentLink = "/dashboard/keuangan/profile";
         $currentTitle = 'Profile User';
 
-        return view('keuangan.profile', compact('currentLink', 'currentTitle', 'users'));
+        return view('keuangan.edit-profile', compact('user', 'currentLink', 'currentTitle'));
     }
 
-    public function editProfileKeuangan(User $user)
+    public function updateProfileKeuangan(Request $request, User $user): RedirectResponse
     {
-        // Route dan nama halaman yang di akses
-        $currentLink = "/dashboard/keuangan/profile";
-        $currentTitle = 'Profile User';
-        $editLink = route('profile.edit.keuangan', $user->id);
-        $editTitle = 'Edit Profile';
-
-        return view('keuangan.edit-profile', compact('user', 'editLink', 'editTitle', 'currentLink', 'currentTitle'));
+        return $this->updateGuruLikeProfile($request, $user, 'profile.keuangan');
     }
 
-    public function updateProfileKeuangan(Request $request, User $user)
-    {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'username' => 'required|string|max:255|unique:users,username,'.$user->id,
-            'email' => 'required|string|email|max:255|unique:users,email,'.$user->id,
-            'password' => 'required|nullable|string|min:8',
-            'password_confirmation' => 'required|nullable|string|min:8',
-            'gambar' => 'image|mimes:jpeg,png,jpg,gif,svg',
-        ],[
-            'name.required' => 'Nama user pengguna tidak boleh kosong',
-            'username.required' => 'Username login pengguna tidak boleh kosong',
-            'email.required' => 'Email pengguna tidak boleh kosong',
-            'email.email' => 'Format email tidak valid',
-            'password.required' => 'Password minimal 8 karakter dan harus menggunakan simbol',
-            'password_confirmation.required' => 'Konfirmasi password tidak sesuai',
-        ]);
-
-        if ($request->hasFile('gambar')) {
-            $name = $request->name;
-            $tanggal = now()->format('Ymd_His');
-            $extension = $request->gambar->extension();
-            $imageName = $name . '_' . $tanggal . '.' . $extension;
-
-            $request->gambar->move(public_path('images/user'), $imageName);
-
-            if ($user->gambar && file_exists(public_path('images/user/' . $user->gambar))) {
-                unlink(public_path('images/user/' . $user->gambar));
-            }
-
-            $user->gambar = $imageName;
-        }
-
-        $user->name = $request->name;
-        $user->username = $request->username;
-        $user->email = $request->email;
-        if ($request->filled('password')) {
-            $user->password = bcrypt($request->input('password'));
-        }
-        $user->save();
-
-        return redirect()->route('profile.keuangan')->with('success', 'Profile berhasil diperbarui');
-    }
-
-    public function profileGuru()
+    public function profileGuru(): View
     {
         // Route dan nama halaman yang di akses
         $currentLink = "/teacher/home/profile";
@@ -223,7 +91,7 @@ class ProfileController extends Controller
         return view('guru.profile', compact('currentLink', 'currentTitle', 'user'));
     }
 
-    public function editProfileGuru(User $user)
+    public function editProfileGuru(User $user): View
     {
         // Route dan nama halaman yang di akses
         $currentLink = "/teacher/home/profile";
@@ -232,72 +100,9 @@ class ProfileController extends Controller
         return view('guru.edit-profile', compact('user', 'currentLink', 'currentTitle'));
     }
 
-    public function updateProfileGuru(Request $request, User $user)
+    public function updateProfileGuru(Request $request, User $user): RedirectResponse
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'username' => 'required|string|max:255|unique:users,username,'.$user->id,
-            'email' => 'required|string|email|max:255|unique:users,email,'.$user->id,
-            'password' => 'nullable|string|min:8',
-            'password_confirmation' => 'nullable|string|min:8',
-            'gambar' => 'image|mimes:jpeg,png,jpg,gif,svg',
-            'nip' => 'nullable|string|max:50',
-            'jabatan' => 'nullable|string|max:100',
-            'kontak' => 'nullable|string|max:20',
-            'motivasi' => 'nullable|string',
-        ],[
-            'name.required' => 'Nama user pengguna tidak boleh kosong',
-            'username.required' => 'Username login pengguna tidak boleh kosong',
-            'email.required' => 'Email pengguna tidak boleh kosong',
-            'email.email' => 'Format email tidak valid',
-            'password.min' => 'Password minimal 8 karakter',
-        ]);
-
-        if ($request->hasFile('gambar')) {
-            $name = $request->name;
-            $tanggal = now()->format('Ymd_His');
-            $extension = $request->gambar->extension();
-            $imageName = $name . '_' . $tanggal . '.' . $extension;
-
-            $request->gambar->move(public_path('images/user'), $imageName);
-
-            if ($user->gambar && file_exists(public_path('images/user/' . $user->gambar))) {
-                unlink(public_path('images/user/' . $user->gambar));
-            }
-
-            $user->gambar = $imageName;
-        }
-
-        $user->name = $request->name;
-        $user->username = $request->username;
-        $user->email = $request->email;
-        if ($request->filled('password')) {
-            $user->password = bcrypt($request->input('password'));
-        }
-        $user->save();
-
-        if ($user->guru) {
-            $user->guru->update([
-                'nama' => $request->name,
-                'nip' => $request->nip,
-                'jabatan' => $request->jabatan,
-                'kontak' => $request->kontak,
-                'motivasi' => $request->motivasi,
-                'gambar' => $user->gambar,
-            ]);
-        } else {
-            Guru::create([
-                'user_id' => $user->id,
-                'nama' => $request->name,
-                'nip' => $request->nip,
-                'jabatan' => $request->jabatan,
-                'kontak' => $request->kontak,
-                'motivasi' => $request->motivasi,
-                'gambar' => $user->gambar,
-            ]);
-        }
-
-        return redirect()->route('profile.guru')->with('success', 'Profile berhasil diperbarui');
+        return $this->updateGuruLikeProfile($request, $user, 'profile.guru');
     }
 
     public function profileSiswa()
@@ -388,5 +193,74 @@ class ProfileController extends Controller
         }
 
         return redirect()->route('profile.siswa')->with('success', 'Profile berhasil diperbarui');
+    }
+
+    private function updateGuruLikeProfile(Request $request, User $user, string $redirectRoute): RedirectResponse
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'username' => 'required|string|max:255|unique:users,username,' . $user->id,
+            'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
+            'password' => 'nullable|string|min:8',
+            'password_confirmation' => 'nullable|string|min:8|same:password',
+            'gambar' => 'image|mimes:jpeg,png,jpg,gif,svg',
+            'nip' => 'nullable|string|max:50',
+            'jabatan' => 'nullable|string|max:100',
+            'kontak' => 'nullable|string|max:20',
+            'motivasi' => 'nullable|string',
+        ], [
+            'name.required' => 'Nama user pengguna tidak boleh kosong',
+            'username.required' => 'Username login pengguna tidak boleh kosong',
+            'email.required' => 'Email pengguna tidak boleh kosong',
+            'email.email' => 'Format email tidak valid',
+            'password.min' => 'Password minimal 8 karakter',
+            'password_confirmation.same' => 'Konfirmasi password harus sama dengan password baru',
+        ]);
+
+        if ($request->hasFile('gambar')) {
+            $name = $request->name;
+            $tanggal = now()->format('Ymd_His');
+            $extension = $request->gambar->extension();
+            $imageName = $name . '_' . $tanggal . '.' . $extension;
+
+            $request->gambar->move(public_path('images/user'), $imageName);
+
+            if ($user->gambar && file_exists(public_path('images/user/' . $user->gambar))) {
+                unlink(public_path('images/user/' . $user->gambar));
+            }
+
+            $user->gambar = $imageName;
+        }
+
+        $user->name = $request->name;
+        $user->username = $request->username;
+        $user->email = $request->email;
+        if ($request->filled('password')) {
+            $user->password = bcrypt($request->input('password'));
+        }
+        $user->save();
+
+        if ($user->guru) {
+            $user->guru->update([
+                'nama' => $request->name,
+                'nip' => $request->nip,
+                'jabatan' => $request->jabatan,
+                'kontak' => $request->kontak,
+                'motivasi' => $request->motivasi,
+                'gambar' => $user->gambar,
+            ]);
+        } else {
+            Guru::create([
+                'user_id' => $user->id,
+                'nama' => $request->name,
+                'nip' => $request->nip,
+                'jabatan' => $request->jabatan,
+                'kontak' => $request->kontak,
+                'motivasi' => $request->motivasi,
+                'gambar' => $user->gambar,
+            ]);
+        }
+
+        return redirect()->route($redirectRoute)->with('success', 'Profile berhasil diperbarui');
     }
 }

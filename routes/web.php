@@ -93,15 +93,7 @@ Route::middleware(['userAkses:admin'])->group(function() {
     Route::resource('/dashboard/admin/guru', ControllerGuru::class);
     Route::resource('/dashboard/admin/kurikulum', KurikulumController::class);
     Route::resource('/dashboard/admin/mapel', MapelController::class);
-    Route::resource('/dashboard/admin/tahun-ajaran', TahunAjaranController::class)->names([
-        'index' => 'tahunAjaran.index',
-        'create' => 'tahunAjaran.create',
-        'store' => 'tahunAjaran.store',
-        'show' => 'tahunAjaran.show',
-        'edit' => 'tahunAjaran.edit',
-        'update' => 'tahunAjaran.update',
-        'destroy' => 'tahunAjaran.destroy',
-    ]);
+    Route::resource('/dashboard/admin/tahun-ajaran', TahunAjaranController::class);
 });
 
 // Route Role User Keuangan
