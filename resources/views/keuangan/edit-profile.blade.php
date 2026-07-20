@@ -40,14 +40,14 @@
                 <div class="col-xs-12 col-sm-12 col-md-12">
                     <div class="form-group">
                         <strong>Password User:</strong>
-                        <input type="password" name="password" class="form-control" placeholder="Password">
+                        <input type="password" name="password" class="form-control" placeholder="Isi jika ingin mengubah password">
                         @error('password')
                             <small style="color:red">{{ $message }}</small>
                         @enderror
                     </div>
                     <div class="form-group">
                         <strong>Konfirmasi Password:</strong>
-                        <input type="password" name="password_confirmation" class="form-control" placeholder="Konfirmasi Password">
+                        <input type="password" name="password_confirmation" class="form-control" placeholder="Konfirmasi Password Baru">
                         @error('password_confirmation')
                             <small style="color:red">{{ $message }}</small>
                         @enderror

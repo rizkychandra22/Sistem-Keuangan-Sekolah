@@ -48,7 +48,7 @@
                     </div>
                     <div class="form-group">
                         <strong>Password Login Baru:</strong>
-                        <input type="password" name="password" class="form-control" placeholder="Kosongkan jika tidak ingin mengubah password">
+                        <input type="password" name="password" class="form-control" placeholder="Isi jika ingin mengubah password">
                     </div>
                     <div class="form-group">
                         <strong>Konfirmasi Password Baru:</strong>

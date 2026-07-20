@@ -10,7 +10,7 @@
             <table id="tableMapel" class="table table-bordered table-hover table-striped">
                 <thead>
                     <tr>
-                        <th>No</th>
+                        <th width="50">No</th>
                         <th>Nama</th>
                         <th>Kode</th>
                         <th>Kurikulum</th>

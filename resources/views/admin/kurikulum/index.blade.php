@@ -10,7 +10,7 @@
             <table id="tableKurikulum" class="table table-bordered table-hover table-striped">
                 <thead>
                     <tr>
-                        <th>No</th>
+                        <th width="50">No</th>
                         <th>Nama</th>
                         <th>Tahun</th>
                         <th>Deskripsi</th>
