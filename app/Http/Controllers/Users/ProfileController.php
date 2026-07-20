@@ -32,7 +32,7 @@ class ProfileController extends Controller
 
     public function updateProfileAdmin(Request $request, User $user): RedirectResponse
     {
-        return $this->updateGuruLikeProfile($request, $user, 'profile.admin');
+        return $this->updateCoreUserProfile($request, $user, 'profile.admin');
     }
 
     public function profileOperator(): View
@@ -54,7 +54,7 @@ class ProfileController extends Controller
 
     public function updateProfileOperator(Request $request, User $user): RedirectResponse
     {
-        return $this->updateGuruLikeProfile($request, $user, 'profile.operator');
+        return $this->updateCoreUserProfile($request, $user, 'profile.operator');
     }
 
     public function profileKeuangan(): View
@@ -76,7 +76,7 @@ class ProfileController extends Controller
 
     public function updateProfileKeuangan(Request $request, User $user): RedirectResponse
     {
-        return $this->updateGuruLikeProfile($request, $user, 'profile.keuangan');
+        return $this->updateCoreUserProfile($request, $user, 'profile.keuangan');
     }
 
     public function profileGuru(): View
@@ -193,6 +193,51 @@ class ProfileController extends Controller
         }
 
         return redirect()->route('profile.siswa')->with('success', 'Profile berhasil diperbarui');
+    }
+
+    private function updateCoreUserProfile(Request $request, User $user, string $redirectRoute): RedirectResponse
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'username' => 'required|string|max:255|unique:users,username,' . $user->id,
+            'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
+            'password' => 'nullable|string|min:8',
+            'password_confirmation' => 'nullable|required_with:password|same:password',
+            'gambar' => 'image|mimes:jpeg,png,jpg,gif,svg',
+        ], [
+            'name.required' => 'Nama user pengguna tidak boleh kosong',
+            'username.required' => 'Username login pengguna tidak boleh kosong',
+            'email.required' => 'Email pengguna tidak boleh kosong',
+            'email.email' => 'Format email tidak valid',
+            'password.min' => 'Password minimal 8 karakter',
+            'password_confirmation.required_with' => 'Konfirmasi password harus diisi jika password diubah',
+            'password_confirmation.same' => 'Konfirmasi password harus sama dengan password baru',
+        ]);
+
+        if ($request->hasFile('gambar')) {
+            $name = $request->name;
+            $tanggal = now()->format('Ymd_His');
+            $extension = $request->gambar->extension();
+            $imageName = $name . '_' . $tanggal . '.' . $extension;
+
+            $request->gambar->move(public_path('images/user'), $imageName);
+
+            if ($user->gambar && file_exists(public_path('images/user/' . $user->gambar))) {
+                unlink(public_path('images/user/' . $user->gambar));
+            }
+
+            $user->gambar = $imageName;
+        }
+
+        $user->name = $request->name;
+        $user->username = $request->username;
+        $user->email = $request->email;
+        if ($request->filled('password')) {
+            $user->password = bcrypt($request->input('password'));
+        }
+        $user->save();
+
+        return redirect()->route($redirectRoute)->with('success', 'Profile berhasil diperbarui');
     }
 
     private function updateGuruLikeProfile(Request $request, User $user, string $redirectRoute): RedirectResponse
