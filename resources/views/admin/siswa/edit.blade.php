@@ -6,7 +6,7 @@
     <div class="container">
         @include('components.alert-messages')
         
-        <form action="{{ route('siswa.update', $siswa->id) }}" method="POST">
+        <form action="{{ route('siswa.update', $siswa->id) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
             <div class="row">
@@ -106,6 +106,20 @@
                         @error('is_active')
                             <small style="color:red">{{ $message }}</small>
                         @enderror
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <strong>Gambar:</strong>
+                        <input type="file" name="gambar" class="form-control" placeholder="Gambar Siswa">
+                        @error('gambar')
+                            <small style="color:red">{{ $message }}</small>
+                        @enderror
+                        @if ($siswa->gambar)
+                            <div class="d-flex justify-content-center mt-3">
+                                <img src="{{ asset('images/user/siswa/' . $siswa->gambar) }}" width="50%">
+                            </div>
+                        @endif
                     </div>
                 </div>
                 <div class="col-md-12 text-center">

@@ -12,6 +12,8 @@ use Illuminate\Validation\Rule;
 
 class ControllerSiswa extends Controller
 {
+    private const SISWA_IMAGE_PATH = 'images/user/siswa';
+
     public function index()
     {
         $dataSiswa = Siswa::query()->orderBy('created_at', 'desc')->get();
@@ -51,6 +53,7 @@ class ControllerSiswa extends Controller
             'kontak_orang_tua' => 'nullable|string|max:20',
             'status_akademik' => ['required', Rule::in(['aktif', 'lulus', 'keluar', 'pindah'])],
             'is_active' => 'required|boolean',
+            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg',
         ], [
             'name.required' => 'Nama siswa harus diisi',
             'username.required' => 'Username akun siswa harus diisi',
@@ -66,7 +69,9 @@ class ControllerSiswa extends Controller
             'is_active.required' => 'Status aktif siswa harus dipilih',
         ]);
 
-        DB::transaction(function () use ($validated) {
+        DB::transaction(function () use ($validated, $request) {
+            $imageName = $this->storeSiswaImage($request, $validated['name']);
+
             $user = User::create([
                 'name' => $validated['name'],
                 'username' => $validated['username'],
@@ -85,6 +90,7 @@ class ControllerSiswa extends Controller
                 'kontak_orang_tua' => $validated['kontak_orang_tua'],
                 'status_akademik' => $validated['status_akademik'],
                 'is_active' => (bool) $validated['is_active'],
+                'gambar' => $imageName,
             ]);
         });
 
@@ -132,6 +138,7 @@ class ControllerSiswa extends Controller
             'kontak_orang_tua' => 'nullable|string|max:20',
             'status_akademik' => ['required', Rule::in(['aktif', 'lulus', 'keluar', 'pindah'])],
             'is_active' => 'required|boolean',
+            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg',
         ], [
             'name.required' => 'Nama siswa harus diisi',
             'username.required' => 'Username akun siswa harus diisi',
@@ -147,7 +154,9 @@ class ControllerSiswa extends Controller
             'is_active.required' => 'Status aktif siswa harus dipilih',
         ]);
 
-        DB::transaction(function () use ($validated, $siswa) {
+        DB::transaction(function () use ($validated, $siswa, $request) {
+            $imageName = $this->storeSiswaImage($request, $validated['name']);
+
             $siswa->user->update([
                 'name' => $validated['name'],
                 'username' => $validated['username'],
@@ -163,7 +172,12 @@ class ControllerSiswa extends Controller
                 'kontak_orang_tua' => $validated['kontak_orang_tua'],
                 'status_akademik' => $validated['status_akademik'],
                 'is_active' => (bool) $validated['is_active'],
+                'gambar' => $imageName ?: $siswa->gambar,
             ]);
+
+            if ($imageName) {
+                $this->deleteSiswaImageIfNeeded($siswa->getOriginal('gambar'));
+            }
         });
 
         return redirect()->route('siswa.index')->with('success', 'Data siswa ' . $validated['name'] . ' berhasil diupdate.');
@@ -174,6 +188,7 @@ class ControllerSiswa extends Controller
         $nama = $siswa->nama;
 
         DB::transaction(function () use ($siswa) {
+            $this->deleteSiswaImageIfNeeded($siswa->gambar);
             $user = $siswa->user;
             $siswa->delete();
 
@@ -185,5 +200,31 @@ class ControllerSiswa extends Controller
         return response()->json([
             'message' => 'Data siswa ' . $nama . ' berhasil dihapus.',
         ]);
+    }
+
+    private function storeSiswaImage(Request $request, string $nama): ?string
+    {
+        if (! $request->hasFile('gambar')) {
+            return null;
+        }
+
+        $tanggal = now()->format('Ymd_His');
+        $extension = $request->file('gambar')->extension();
+        $imageName = $nama . '_' . $tanggal . '.' . $extension;
+        $request->file('gambar')->move(public_path(self::SISWA_IMAGE_PATH), $imageName);
+
+        return $imageName;
+    }
+
+    private function deleteSiswaImageIfNeeded(?string $gambar): void
+    {
+        if (! $gambar) {
+            return;
+        }
+
+        $imagePath = public_path(self::SISWA_IMAGE_PATH . '/' . $gambar);
+        if (file_exists($imagePath)) {
+            unlink($imagePath);
+        }
     }
 }

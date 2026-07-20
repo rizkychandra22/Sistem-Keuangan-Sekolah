@@ -21,7 +21,7 @@
                                     {{ old('user_id') == $user->id ? 'selected' : '' }}
                                     {{ $user->guru ? 'disabled' : '' }}
                                 >
-                                    {{ $user->username }} - {{ $user->name }}{{ $user->guru ? ' (sudah terdaftar)' : '' }}
+                                    {{ $user->name }} &mdash; {{ $user->username }}{{ $user->guru ? ' (sudah terdaftar)' : '' }}
                                 </option>
                             @endforeach
                         </select>
@@ -63,7 +63,7 @@
                 <div class="col-xs-12 col-sm-12 col-md-12">
                     <div class="form-group">
                         <strong>Kontak:</strong>
-                        <textarea name="kontak" class="form-control" rows="3" placeholder="Nomor telepon, email, atau kontak lain">{{ old('kontak') }}</textarea>
+                        <input type="text" name="kontak" value="{{ old('kontak') }}" class="form-control" placeholder="Nomor telepon atau whatsapp">
                         @error('kontak')
                             <small style="color:red">{{$message}}</small>
                         @enderror

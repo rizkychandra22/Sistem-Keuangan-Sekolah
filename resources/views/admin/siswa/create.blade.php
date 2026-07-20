@@ -10,7 +10,7 @@
             Akun user siswa akan dibuat otomatis dengan password default <strong>sekolah</strong>.
         </div>
         
-        <form action="{{ route('siswa.store') }}" method="POST">
+        <form action="{{ route('siswa.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="row">
                 <div class="col-md-12">
@@ -107,6 +107,15 @@
                             <option value="0" {{ old('is_active') == '0' ? 'selected' : '' }}>Nonaktif</option>
                         </select>
                         @error('is_active')
+                            <small style="color:red">{{ $message }}</small>
+                        @enderror
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <strong>Gambar:</strong>
+                        <input type="file" name="gambar" class="form-control" placeholder="Gambar Siswa">
+                        @error('gambar')
                             <small style="color:red">{{ $message }}</small>
                         @enderror
                     </div>

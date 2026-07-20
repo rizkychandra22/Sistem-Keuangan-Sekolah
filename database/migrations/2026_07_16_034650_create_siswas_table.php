@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('kontak_orang_tua')->nullable();
             $table->enum('status_akademik', ['aktif', 'lulus', 'keluar', 'pindah'])->default('aktif');
             $table->boolean('is_active')->default(true);
+            $table->string('gambar')->nullable();
             $table->timestamps();
         });
     }

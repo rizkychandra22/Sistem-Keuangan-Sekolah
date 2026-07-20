@@ -24,6 +24,7 @@ class Siswa extends Model
         'kontak_orang_tua',
         'status_akademik',
         'is_active',
+        'gambar'
     ];
 
     protected function casts(): array
