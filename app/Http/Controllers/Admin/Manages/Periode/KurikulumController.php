@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Manages;
+namespace App\Http\Controllers\Admin\Manages\Periode;
 
 use App\Http\Controllers\Controller;
 use App\Models\Kurikulum;

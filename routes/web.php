@@ -7,8 +7,8 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Admin\ControllerGuru;
 use App\Http\Controllers\Admin\ControllerSiswa;
 use App\Http\Controllers\Admin\ControllerUser;
-use App\Http\Controllers\Admin\Manages\KurikulumController;
-use App\Http\Controllers\Admin\Manages\MapelController;
+use App\Http\Controllers\Admin\Manages\Akademik\MapelController;
+use App\Http\Controllers\Admin\Manages\Periode\KurikulumController;
 
 // Import Routing Web Profile Sekolah
 use App\Http\Controllers\Blog\HomeController;
