@@ -15,37 +15,6 @@ class MultiUserSeeder extends Seeder
      */
     public function run(): void
     {
-        $userData = [
-            [
-                'name' => 'Admin',
-                'email' => 'admin@sekolah.com',
-                'username' => 'adminsekolah',
-                'role' => 'admin',
-                'password' => Hash::make('sekolah'),
-            ],
-            [
-                'name' => 'Operator',
-                'email' => 'operator@sekolah.com',
-                'username' => 'operatorweb',
-                'role' => 'operator',
-                'password' => Hash::make('sekolah'),
-            ],
-            [
-                'name' => 'Keuangan',
-                'email' => 'keuangan@sekolah.com',
-                'username' => 'bendahara123',
-                'role' => 'keuangan',
-                'password' => Hash::make('sekolah'),
-            ],
-        ];
-
-        foreach ($userData as $val) {
-            User::updateOrCreate(
-                ['username' => $val['username']],
-                $val
-            );
-        }
-
         for ($i = 1; $i <= 30; $i++) {
             $user = User::updateOrCreate(
                 ['username' => sprintf('guru%02d', $i)],
