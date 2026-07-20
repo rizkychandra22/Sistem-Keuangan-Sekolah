@@ -29,7 +29,7 @@ class ControllerGuru extends Controller
     public function create()
     {
         $availableUsers = User::query()
-            ->where('role', 'guru')
+            ->where('role', 'teacher')
             ->with('guru')
             ->orderBy('username')
             ->get();
@@ -48,7 +48,7 @@ class ControllerGuru extends Controller
         $validated = $request->validate([
             'user_id' => [
                 'required',
-                Rule::exists('users', 'id')->where(fn ($query) => $query->where('role', 'guru')),
+                Rule::exists('users', 'id')->where(fn ($query) => $query->where('role', 'teacher')),
                 'unique:gurus,user_id',
             ],
             'nip' => 'required|string|max:255|unique:gurus,nip',
@@ -67,7 +67,7 @@ class ControllerGuru extends Controller
         ]);
 
         $selectedUser = User::query()
-            ->where('role', 'guru')
+            ->where('role', 'teacher')
             ->findOrFail($validated['user_id']);
 
         $nama = $selectedUser->name;
@@ -97,7 +97,7 @@ class ControllerGuru extends Controller
     public function edit(Guru $guru)
     {
         $availableUsers = User::query()
-            ->where('role', 'guru')
+            ->where('role', 'teacher')
             ->with('guru')
             ->orderBy('username')
             ->get();
@@ -116,7 +116,7 @@ class ControllerGuru extends Controller
         $validated = $request->validate([
             'user_id' => [
                 'required',
-                Rule::exists('users', 'id')->where(fn ($query) => $query->where('role', 'guru')),
+                Rule::exists('users', 'id')->where(fn ($query) => $query->where('role', 'teacher')),
                 Rule::unique('gurus', 'user_id')->ignore($guru->id),
             ],
             'nip' => [
@@ -139,7 +139,7 @@ class ControllerGuru extends Controller
         ]);
 
         $selectedUser = User::query()
-            ->where('role', 'guru')
+            ->where('role', 'teacher')
             ->findOrFail($validated['user_id']);
 
         $nama = $selectedUser->name;

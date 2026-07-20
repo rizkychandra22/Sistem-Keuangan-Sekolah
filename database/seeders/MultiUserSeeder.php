@@ -22,7 +22,7 @@ class MultiUserSeeder extends Seeder
                     'name' => sprintf('Guru %02d', $i),
                     'email' => sprintf('guru%02d@sekolah.com', $i),
                     'username' => sprintf('guru%02d', $i),
-                    'role' => 'guru',
+                    'role' => 'teacher',
                     'password' => Hash::make('sekolah'),
                 ]
             );
@@ -48,7 +48,7 @@ class MultiUserSeeder extends Seeder
                     'name' => sprintf('Siswa %03d', $i),
                     'email' => sprintf('siswa%03d@sekolah.com', $i),
                     'username' => sprintf('siswa%03d', $i),
-                    'role' => 'siswa',
+                    'role' => 'student',
                     'password' => Hash::make('sekolah'),
                 ]
             );

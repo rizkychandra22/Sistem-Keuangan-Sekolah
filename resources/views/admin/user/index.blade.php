@@ -31,7 +31,7 @@
 
         <script>
             const currentUserId = {{ auth()->id() }};
-            const protectedRoles = ['admin', 'operator', 'keuangan'];
+            const protectedRoles = ['admin', 'operator', 'finance'];
 
             $(document).ready(function () {
                 $('#tableUser').DataTable({

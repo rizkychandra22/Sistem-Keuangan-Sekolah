@@ -97,7 +97,7 @@ Route::middleware(['userAkses:admin'])->group(function() {
 });
 
 // Route Role User Keuangan
-Route::middleware(['userAkses:keuangan'])->group(function() {
+Route::middleware(['userAkses:finance'])->group(function() {
     Route::get('/dashboard/keuangan', [DashboardController::class, 'keuangan'])->name('dashboard.keuangan');
     
     // Profile User Keuangan
@@ -106,15 +106,15 @@ Route::middleware(['userAkses:keuangan'])->group(function() {
     Route::put('/dashboard/keuangan/profile/{user}', [ProfileController::class, 'updateProfileKeuangan'])->name('profile.update.keuangan');
 
     // Route CRUD Resource Keuangan Pemasukan dan Pengeluaran
-    Route::resource('/dashboard/keuangan/pemasukan', PemasukanController::class)->middleware('userAkses:keuangan');
-    Route::resource('/dashboard/keuangan/pengeluaran', PengeluaranController::class)->middleware('userAkses:keuangan');
+    Route::resource('/dashboard/keuangan/pemasukan', PemasukanController::class);
+    Route::resource('/dashboard/keuangan/pengeluaran', PengeluaranController::class);
 
     // Rekap Keuangan
-    Route::get('/dashboard/keuangan/detail/pemasukan', [PemasukanController::class, 'detail'])->middleware('userAkses:keuangan')->name('detail.pemasukan');
-    Route::get('/dashboard/keuangan/detail/pengeluaran', [PengeluaranController::class, 'detail'])->middleware('userAkses:keuangan')->name('detail.pengeluaran');
-    Route::get('/dashboard/keuangan/rekap/pemasukan', [RekapController::class, 'indexPemasukan'])->middleware('userAkses:keuangan')->name('rekap.pemasukan');
-    Route::get('/dashboard/keuangan/rekap/pengeluaran', [RekapController::class, 'indexPengeluaran'])->middleware('userAkses:keuangan')->name('rekap.pengeluaran');
-    Route::get('/dashboard/keuangan/rekap/transaksi', [RekapController::class, 'rekapTransaksi'])->middleware('userAkses:keuangan')->name('rekap.transaksi');
+    Route::get('/dashboard/keuangan/detail/pemasukan', [PemasukanController::class, 'detail'])->name('detail.pemasukan');
+    Route::get('/dashboard/keuangan/detail/pengeluaran', [PengeluaranController::class, 'detail'])->name('detail.pengeluaran');
+    Route::get('/dashboard/keuangan/rekap/pemasukan', [RekapController::class, 'indexPemasukan'])->name('rekap.pemasukan');
+    Route::get('/dashboard/keuangan/rekap/pengeluaran', [RekapController::class, 'indexPengeluaran'])->name('rekap.pengeluaran');
+    Route::get('/dashboard/keuangan/rekap/transaksi', [RekapController::class, 'rekapTransaksi'])->name('rekap.transaksi');
 
     // Ekspor Pemasukan PDF, Excel dan Print
     Route::get('/dashboard/keuangan/pemasukan/export/excel', [PemasukanController::class, 'exportExcel'])->name('pemasukan.export.excel');
@@ -156,7 +156,7 @@ Route::middleware(['userAkses:operator'])->group(function() {
 });
 
 // Route Role User Guru
-Route::middleware(['userAkses:guru'])->group(function() {
+Route::middleware(['userAkses:teacher'])->group(function() {
     Route::get('/teacher/home', [DashboardController::class, 'guru']);
 
     // Profile User Guru
@@ -166,7 +166,7 @@ Route::middleware(['userAkses:guru'])->group(function() {
 });
 
 // Route Role User Siswa
-Route::middleware(['userAkses:siswa'])->group(function() {
+Route::middleware(['userAkses:student'])->group(function() {
     Route::get('/student/home', [DashboardController::class, 'siswa']);
     
     // Profile User Siswa

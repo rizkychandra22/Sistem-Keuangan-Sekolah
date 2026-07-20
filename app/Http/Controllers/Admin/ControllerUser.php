@@ -157,12 +157,12 @@ class ControllerUser extends Controller
 
     private function creatableRoles(): array
     {
-        return ['guru', 'siswa'];
+        return ['teacher', 'student'];
     }
 
     private function protectedRoles(): array
     {
-        return ['admin', 'operator', 'keuangan'];
+        return ['admin', 'operator', 'finance'];
     }
 
     private function isRoleLocked(User $user): bool

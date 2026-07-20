@@ -29,7 +29,7 @@
                             <small style="color:red">{{$message}}</small>
                         @enderror
                         @if ($availableUsers->whereNull('guru')->count() === 0)
-                            <small style="color:#856404">Semua akun user role guru sudah terhubung ke data guru.</small>
+                            <small style="color:#856404">Semua akun user role teacher sudah terhubung ke data guru.</small>
                         @endif
                     </div>
                 </div>

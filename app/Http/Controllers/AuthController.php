@@ -48,7 +48,7 @@ class AuthController extends Controller
             'username' => $request->username,
             'password' => Hash::make($request->password),
             'gambar' => $imageName,
-            'role' => 'siswa'
+            'role' => 'student'
         ]);
 
         return redirect('/login')->with('success', 'Registrasi telah berhasil. Silakan login untuk mengakses halaman selanjutnya.');
@@ -67,15 +67,15 @@ class AuthController extends Controller
         $datalogin = $request->only('username', 'password');
 
         if (Auth::attempt($datalogin)) {
-            if (Auth::user()->role == 'keuangan') {
+            if (Auth::user()->role == 'finance') {
                 return redirect('dashboard/keuangan');
             } elseif (Auth::user()->role == 'operator') {
                 return redirect('dashboard/operator');
             } elseif (Auth::user()->role == 'admin') {
                 return redirect('dashboard/admin');
-            } elseif (Auth::user()->role == 'guru') {
+            } elseif (Auth::user()->role == 'teacher') {
                 return redirect('teacher/home');
-            } elseif (Auth::user()->role == 'siswa') {
+            } elseif (Auth::user()->role == 'student') {
                 return redirect('student/home');
             }
         }

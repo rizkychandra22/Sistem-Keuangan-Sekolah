@@ -71,7 +71,7 @@ class ControllerSiswa extends Controller
                 'name' => $validated['name'],
                 'username' => $validated['username'],
                 'email' => $validated['email'],
-                'role' => 'siswa',
+                'role' => 'student',
                 'password' => Hash::make('sekolah'),
             ]);
 

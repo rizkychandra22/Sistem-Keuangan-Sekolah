@@ -16,24 +16,24 @@ class CoreAccountSeeder extends Seeder
     {
         $userData = [
             [
-                'name' => 'Admin',
+                'name' => 'Admin System',
                 'email' => 'admin@sekolah.com',
-                'username' => 'adminsekolah',
+                'username' => 'admincore',
                 'role' => 'admin',
                 'password' => Hash::make('sekolah'),
             ],
             [
-                'name' => 'Operator',
+                'name' => 'Operator System',
                 'email' => 'operator@sekolah.com',
-                'username' => 'operatorweb',
+                'username' => 'operatorcore',
                 'role' => 'operator',
                 'password' => Hash::make('sekolah'),
             ],
             [
-                'name' => 'Keuangan',
-                'email' => 'keuangan@sekolah.com',
-                'username' => 'bendahara123',
-                'role' => 'keuangan',
+                'name' => 'Keuangan System',
+                'email' => 'finance@sekolah.com',
+                'username' => 'financecore',
+                'role' => 'finance',
                 'password' => Hash::make('sekolah'),
             ],
         ];
