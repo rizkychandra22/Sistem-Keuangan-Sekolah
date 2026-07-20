@@ -1,20 +1,19 @@
 @extends('layouts.adminApp')
 
-@section('title', 'Data Mata Pelajaran SDN Caringin Ngumbang')
+@section('title', 'Data Kurikulum SDN Caringin Ngumbang')
 
 @section('content')
     <div class="container">
         @include('components.alert-messages')
-        
+
         <div class="table-responsive">
-            <table id="tableMapel" class="table table-bordered table-hover table-striped">
+            <table id="tableKurikulum" class="table table-bordered table-hover table-striped">
                 <thead>
                     <tr>
                         <th>No</th>
                         <th>Nama</th>
-                        <th>Kode</th>
-                        <th>Kurikulum</th>
-                        <th>Guru Pengampu</th>
+                        <th>Tahun</th>
+                        <th>Deskripsi</th>
                         <th width="115">Create</th>
                         <th width="115">Update</th>
                         <th width="95">Aksi</th>
@@ -22,7 +21,7 @@
                 </thead>
             </table>
         </div>
-    </div>    
+    </div>
 
     @push('js')
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -31,31 +30,32 @@
 
         <script>
             $(document).ready(function () {
-                dataMapel();
-            });
-        
-            function dataMapel() {
-                $('#tableMapel').DataTable({
+                $('#tableKurikulum').DataTable({
                     serverSide: true,
                     responsive: true,
                     processing: true,
                     ajax: {
-                        url: "{{ route('mapel.index') }}",
+                        url: "{{ route('kurikulum.index') }}",
                         type: 'GET'
                     },
                     columns: [
                         {
-                            "data": null,
-                            "sortable": false,
-                            "searchable": false, 
+                            data: null,
+                            sortable: false,
+                            searchable: false,
                             render: function (data, type, row, meta) {
                                 return meta.row + meta.settings._iDisplayStart + 1;
                             }
                         },
                         {data: 'nama', name: 'nama'},
-                        {data: 'kode', name: 'kode'},
-                        {data: 'kurikulum_nama', name: 'kurikulum_nama'},
-                        {data: 'guru_pengampu', name: 'guru_pengampu'},
+                        {data: 'tahun', name: 'tahun'},
+                        {
+                            data: 'deskripsi',
+                            name: 'deskripsi',
+                            render: function (data) {
+                                return data ?? '-';
+                            }
+                        },
                         {
                             data: 'created_at',
                             render: function (data) {
@@ -87,8 +87,8 @@
                         {
                             data: null,
                             render: function (data, type, row) {
-                                let editUrl = `{{ route('mapel.edit', ':id') }}`.replace(':id', row.id);
-                                let deleteUrl = `{{ route('mapel.destroy', ':id') }}`.replace(':id', row.id);
+                                let editUrl = `{{ route('kurikulum.edit', ':id') }}`.replace(':id', row.id);
+                                let deleteUrl = `{{ route('kurikulum.destroy', ':id') }}`.replace(':id', row.id);
 
                                 return `
                                     <a href="${editUrl}" class="btn btn-outline-warning btn-secondary btn-sm mt-1 mr-1" title="Edit">
@@ -103,14 +103,14 @@
                         }
                     ]
                 });
-            }
+            });
         </script>
 
         <script>
             function confirmDelete(nama, deleteUrl) {
                 Swal.fire({
                     title: 'Apakah Anda yakin?',
-                    text: `Data mata pelajaran ${nama} akan dihapus.`,
+                    text: `Data kurikulum ${nama} akan dihapus.`,
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
@@ -129,18 +129,20 @@
                             success: function() {
                                 Swal.fire({
                                     title: 'Dihapus!',
-                                    text: `Data mata pelajaran ${nama} berhasil dihapus.`,
+                                    text: `Data kurikulum ${nama} berhasil dihapus.`,
                                     icon: 'success',
                                     confirmButtonColor: '#28a745',
                                     confirmButtonText: 'Oke'
                                 }).then(() => {
-                                    $('#tableMapel').DataTable().ajax.reload();
+                                    $('#tableKurikulum').DataTable().ajax.reload();
                                 });
                             },
-                            error: function() {
+                            error: function(xhr) {
+                                const message = xhr.responseJSON?.message ?? `Terjadi kesalahan saat menghapus data kurikulum ${nama}.`;
+
                                 Swal.fire({
                                     title: 'Error!',
-                                    text: `Terjadi kesalahan saat menghapus data mata pelajaran ${nama}.`,
+                                    text: message,
                                     icon: 'error',
                                     confirmButtonColor: '#d33',
                                     confirmButtonText: 'Oke'

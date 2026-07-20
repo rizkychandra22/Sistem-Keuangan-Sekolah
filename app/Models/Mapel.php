@@ -14,9 +14,14 @@ class Mapel extends Model
     protected $fillable = [
         'nama',
         'kode',
-        'kkm',
+        'kurikulum_id',
         'guru_id'
     ];
+
+    public function kurikulum(): BelongsTo
+    {
+        return $this->belongsTo(Kurikulum::class);
+    }
 
     public function guru(): BelongsTo
     {

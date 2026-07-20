@@ -3,16 +3,43 @@
 namespace App\Http\Controllers\Admin\Manages;
 
 use App\Http\Controllers\Controller;
+use App\Models\Guru;
+use App\Models\Kurikulum;
+use App\Models\Mapel;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
+use Illuminate\View\View;
 
 class MapelController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function index(): View|JsonResponse
     {
-        // Route dan nama halaman yang di akses
+        $dataMapel = Mapel::with(['guru.user', 'kurikulum'])->latest()->get();
+        if (request()->ajax()) {
+            return datatables()->of($dataMapel)
+                ->addColumn('kurikulum_nama', function (Mapel $mapel) {
+                    if (! $mapel->kurikulum) {
+                        return '-';
+                    }
+
+                    return $mapel->kurikulum->nama . ' - ' . $mapel->kurikulum->tahun;
+                })
+                ->addColumn('guru_pengampu', function (Mapel $mapel) {
+                    if (! $mapel->guru) {
+                        return '-';
+                    }
+
+                    $username = $mapel->guru->user?->username;
+
+                    return $username
+                        ? $username . ' - ' . $mapel->guru->nama
+                        : $mapel->guru->nama;
+                })
+                ->make(true);
+        }
+
         $currentLink = route('mapel.index');
         $currentTitle = 'Mata Pelajaran';
         $createLink = route('mapel.create');
@@ -21,57 +48,109 @@ class MapelController extends Controller
         return view('admin/mapel.index', compact('currentLink', 'currentTitle', 'createLink', 'createTitle'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function create(): View
     {
-        // Route dan nama halaman yang di akses
+        $gurus = Guru::with('user')->orderBy('nama')->get();
+        $kurikulums = Kurikulum::orderBy('nama')->orderBy('tahun')->get();
+
         $currentLink = route('mapel.index');
         $currentTitle = 'Mata Pelajaran';
         $createLink = route('mapel.create');
         $createTitle = 'Tambah';
 
-        return view('admin/mapel.create', compact('currentLink', 'currentTitle', 'createLink', 'createTitle'));
+        return view('admin/mapel.create', compact('gurus', 'kurikulums', 'currentLink', 'currentTitle', 'createLink', 'createTitle'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
-        //
+        $validated = $request->validate([
+            'nama' => 'required|string|max:255',
+            'kode' => 'required|string|max:50|unique:mapels,kode',
+            'kurikulum_id' => [
+                'required',
+                'integer',
+                Rule::exists('kurikulums', 'id'),
+            ],
+            'guru_id' => [
+                'required',
+                'integer',
+                Rule::exists('gurus', 'id'),
+            ],
+        ], [
+            'nama.required' => 'Nama mata pelajaran harus diisi',
+            'kode.required' => 'Kode mata pelajaran harus diisi',
+            'kode.unique' => 'Kode mata pelajaran sudah digunakan',
+            'kurikulum_id.required' => 'Kurikulum mata pelajaran harus dipilih',
+            'kurikulum_id.exists' => 'Kurikulum yang dipilih tidak valid',
+            'guru_id.required' => 'Guru pengampu mata pelajaran harus dipilih',
+            'guru_id.exists' => 'Guru pengampu yang dipilih tidak valid',
+        ]);
+
+        Mapel::create($validated);
+
+        return redirect()->route('mapel.index')->with('success', 'Data mata pelajaran ' . $validated['nama'] . ' berhasil ditambahkan.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function show(Mapel $mapel): RedirectResponse
     {
-        //
+        return redirect()->route('mapel.edit', $mapel->id);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function edit(Mapel $mapel): View
     {
-        //
+        $gurus = Guru::with('user')->orderBy('nama')->get();
+        $kurikulums = Kurikulum::orderBy('nama')->orderBy('tahun')->get();
+
+        $currentLink = route('mapel.index');
+        $currentTitle = 'Mata Pelajaran';
+        $editLink = route('mapel.edit', $mapel->id);
+        $editTitle = 'Edit';
+
+        return view('admin.mapel.edit', compact('mapel', 'gurus', 'kurikulums', 'currentLink', 'currentTitle', 'editLink', 'editTitle'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Mapel $mapel): RedirectResponse
     {
-        //
+        $validated = $request->validate([
+            'nama' => 'required|string|max:255',
+            'kode' => [
+                'required',
+                'string',
+                'max:50',
+                Rule::unique('mapels', 'kode')->ignore($mapel->id),
+            ],
+            'kurikulum_id' => [
+                'required',
+                'integer',
+                Rule::exists('kurikulums', 'id'),
+            ],
+            'guru_id' => [
+                'required',
+                'integer',
+                Rule::exists('gurus', 'id'),
+            ],
+        ], [
+            'nama.required' => 'Nama mata pelajaran harus diisi',
+            'kode.required' => 'Kode mata pelajaran harus diisi',
+            'kode.unique' => 'Kode mata pelajaran sudah digunakan',
+            'kurikulum_id.required' => 'Kurikulum mata pelajaran harus dipilih',
+            'kurikulum_id.exists' => 'Kurikulum yang dipilih tidak valid',
+            'guru_id.required' => 'Guru pengampu mata pelajaran harus dipilih',
+            'guru_id.exists' => 'Guru pengampu yang dipilih tidak valid',
+        ]);
+
+        $mapel->update($validated);
+
+        return redirect()->route('mapel.index')->with('success', 'Data mata pelajaran ' . $mapel->nama . ' berhasil diupdate.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function destroy(Mapel $mapel): JsonResponse
     {
-        //
+        $nama = $mapel->nama;
+        $mapel->delete();
+
+        return response()->json([
+            'message' => 'Data mata pelajaran ' . $nama . ' berhasil dihapus.',
+        ]);
     }
 }

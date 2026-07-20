@@ -20,6 +20,7 @@
     $isGuruMenu = Route::is('guru.*');
     $isSiswaMenu = Route::is('siswa.*');
 
+    $isKurikulumMenu = Route::is('kurikulum.*');
     $isMapelMenu = Route::is('mapel.*');
     $isKelasMenu = Route::is('kelas.*');
     $isTahunAjaranMenu = Route::is('tahunAjaran.*');
@@ -28,12 +29,14 @@
     $isGuruMapelMenu = Route::is('guruMapel.*');
 
     $isPenggunaOpen = $isDataUser || $isGuruMenu || $isSiswaMenu;
-    $isAkademikOpen = $isMapelMenu || $isKelasMenu || $isTahunAjaranMenu || $isRombelMenu || $isSiswaRombelMenu || $isGuruMapelMenu;
+    $isPeriodeAkademikOpen = $isKurikulumMenu || $isTahunAjaranMenu;
+    $isAkademikOpen = $isKurikulumMenu || $isMapelMenu || $isKelasMenu || $isTahunAjaranMenu || $isRombelMenu || $isSiswaRombelMenu || $isGuruMapelMenu;
 
     $menuLinks = [
         'dataUser' => Route::has('dataUser.index') ? route('dataUser.index') : '#',
         'guru' => Route::has('guru.index') ? route('guru.index') : '#',
         'siswa' => Route::has('siswa.index') ? route('siswa.index') : '#',
+        'kurikulum' => Route::has('kurikulum.index') ? route('kurikulum.index') : '#',
         'mapel' => Route::has('mapel.index') ? route('mapel.index') : '#',
         'kelas' => Route::has('kelas.index') ? route('kelas.index') : '#',
         'tahunAjaran' => Route::has('tahunAjaran.index') ? route('tahunAjaran.index') : '#',
@@ -167,6 +170,29 @@
                 </p>
               </a>
               <ul class="nav nav-treeview {{ $isAkademikOpen ? 'is-open' : '' }}">
+                <li class="nav-item has-treeview {{ $isPeriodeAkademikOpen ? 'menu-open' : '' }}">
+                  <a href="#" class="nav-link {{ $isPeriodeAkademikOpen ? 'active' : '' }}">
+                    <i class="fas fa-calendar-week nav-icon"></i>
+                    <p>
+                      Periode Akademik
+                      <i class="right fas fa-angle-left"></i>
+                    </p>
+                  </a>
+                  <ul class="nav nav-treeview {{ $isPeriodeAkademikOpen ? 'is-open' : '' }}">
+                    <li class="nav-item">
+                      <a href="{{ $menuLinks['kurikulum'] }}" class="nav-link {{ $isKurikulumMenu ? 'active' : '' }} {{ Route::has('kurikulum.index') ? '' : 'is-disabled' }}">
+                        <i class="fas fa-book-open nav-icon"></i>
+                        <p>Kurikulum</p>
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a href="{{ $menuLinks['tahunAjaran'] }}" class="nav-link {{ $isTahunAjaranMenu ? 'active' : '' }} {{ Route::has('tahunAjaran.index') ? '' : 'is-disabled' }}">
+                        <i class="fas fa-calendar-alt nav-icon"></i>
+                        <p>Tahun Ajaran</p>
+                      </a>
+                    </li>
+                  </ul>
+                </li>
                 <li class="nav-item">
                   <a href="{{ $menuLinks['mapel'] }}" class="nav-link {{ $isMapelMenu ? 'active' : '' }} {{ Route::has('mapel.index') ? '' : 'is-disabled' }}">
                     <i class="fas fa-book nav-icon"></i>
@@ -177,12 +203,6 @@
                   <a href="{{ $menuLinks['kelas'] }}" class="nav-link {{ $isKelasMenu ? 'active' : '' }} {{ Route::has('kelas.index') ? '' : 'is-disabled' }}">
                     <i class="fas fa-layer-group nav-icon"></i>
                     <p>Kelas</p>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a href="{{ $menuLinks['tahunAjaran'] }}" class="nav-link {{ $isTahunAjaranMenu ? 'active' : '' }} {{ Route::has('tahunAjaran.index') ? '' : 'is-disabled' }}">
-                    <i class="fas fa-calendar-alt nav-icon"></i>
-                    <p>Tahun Ajaran</p>
                   </a>
                 </li>
                 <li class="nav-item">

@@ -7,6 +7,8 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Admin\ControllerGuru;
 use App\Http\Controllers\Admin\ControllerSiswa;
 use App\Http\Controllers\Admin\ControllerUser;
+use App\Http\Controllers\Admin\Manages\KurikulumController;
+use App\Http\Controllers\Admin\Manages\MapelController;
 
 // Import Routing Web Profile Sekolah
 use App\Http\Controllers\Blog\HomeController;
@@ -88,6 +90,8 @@ Route::middleware(['userAkses:admin'])->group(function() {
     // Admin Resource CRUD Master Data
     Route::resource('/dashboard/admin/siswa', ControllerSiswa::class);
     Route::resource('/dashboard/admin/guru', ControllerGuru::class);
+    Route::resource('/dashboard/admin/kurikulum', KurikulumController::class);
+    Route::resource('/dashboard/admin/mapel', MapelController::class);
 });
 
 // Route Role User Keuangan
