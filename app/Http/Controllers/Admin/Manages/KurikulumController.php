@@ -80,7 +80,7 @@ class KurikulumController extends Controller
 
         $kurikulum->update($validated);
 
-        return redirect()->route('kurikulum.index')->with('success', 'Data kurikulum ' . $kurikulum->nama . ' berhasil diupdate.');
+        return redirect()->route('kurikulum.index')->with('success', 'Data kurikulum tahun ' . $kurikulum->tahun . ' dengan nama ' . $kurikulum->nama . ' berhasil diupdate.');
     }
 
     public function destroy(Kurikulum $kurikulum): JsonResponse

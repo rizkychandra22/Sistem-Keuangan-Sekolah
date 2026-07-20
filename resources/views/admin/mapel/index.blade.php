@@ -91,10 +91,10 @@
                                 let deleteUrl = `{{ route('mapel.destroy', ':id') }}`.replace(':id', row.id);
 
                                 return `
-                                    <a href="${editUrl}" class="btn btn-outline-warning btn-secondary btn-sm mt-1 mr-1" title="Edit">
+                                    <a href="${editUrl}" class="btn btn-outline-warning btn-secoundary btn-sm mt-1 mr-1" title="Edit">
                                         <i class="fas fa-edit"></i>
                                     </a>
-                                    <button type="button" class="btn btn-outline-danger btn-secondary btn-sm mt-1"
+                                    <button type="button" class="btn btn-outline-danger btn-secoundary btn-sm mt-1"
                                             onclick="confirmDelete('${row.nama}', '${deleteUrl}')">
                                         <i class="fas fa-trash"></i>
                                     </button>

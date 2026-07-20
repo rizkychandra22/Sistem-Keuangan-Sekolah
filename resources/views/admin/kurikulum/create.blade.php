@@ -12,7 +12,7 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <strong>Nama Kurikulum:</strong>
-                        <input type="text" name="nama" value="{{ old('nama') }}" class="form-control" placeholder="Nama Kurikulum" required>
+                        <input type="text" name="nama" value="{{ old('nama') }}" class="form-control" placeholder="Nama Kurikulum">
                         @error('nama')
                             <small style="color:red">{{ $message }}</small>
                         @enderror
@@ -21,7 +21,7 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <strong>Tahun Kurikulum:</strong>
-                        <input type="text" name="tahun" value="{{ old('tahun') }}" class="form-control" placeholder="Contoh: 2013 / 2024" required>
+                        <input type="text" name="tahun" value="{{ old('tahun') }}" class="form-control" placeholder="Contoh: 2013 / 2024">
                         @error('tahun')
                             <small style="color:red">{{ $message }}</small>
                         @enderror
@@ -42,4 +42,6 @@
             </div>
         </form>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 @endsection

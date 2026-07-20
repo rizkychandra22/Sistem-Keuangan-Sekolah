@@ -31,11 +31,7 @@ class MapelController extends Controller
                         return '-';
                     }
 
-                    $username = $mapel->guru->user?->username;
-
-                    return $username
-                        ? $username . ' - ' . $mapel->guru->nama
-                        : $mapel->guru->nama;
+                    return $mapel->guru->nama;
                 })
                 ->make(true);
         }
