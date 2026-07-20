@@ -23,7 +23,7 @@ class KurikulumController extends Controller
         $createLink = route('kurikulum.create');
         $createTitle = 'Tambah';
 
-        return view('admin.kurikulum.index', compact('currentLink', 'currentTitle', 'createLink', 'createTitle'));
+        return view('admin/manages/periode/kurikulum.index', compact('currentLink', 'currentTitle', 'createLink', 'createTitle'));
     }
 
     public function create(): View
@@ -33,7 +33,7 @@ class KurikulumController extends Controller
         $createLink = route('kurikulum.create');
         $createTitle = 'Tambah';
 
-        return view('admin.kurikulum.create', compact('currentLink', 'currentTitle', 'createLink', 'createTitle'));
+        return view('admin/manages/periode/kurikulum.create', compact('currentLink', 'currentTitle', 'createLink', 'createTitle'));
     }
 
     public function store(Request $request): RedirectResponse
@@ -64,7 +64,7 @@ class KurikulumController extends Controller
         $editLink = route('kurikulum.edit', $kurikulum->id);
         $editTitle = 'Edit';
 
-        return view('admin.kurikulum.edit', compact('kurikulum', 'currentLink', 'currentTitle', 'editLink', 'editTitle'));
+        return view('admin/manages/periode/kurikulum.edit', compact('kurikulum', 'currentLink', 'currentTitle', 'editLink', 'editTitle'));
     }
 
     public function update(Request $request, Kurikulum $kurikulum): RedirectResponse

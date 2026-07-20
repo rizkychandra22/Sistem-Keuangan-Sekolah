@@ -41,7 +41,7 @@ class MapelController extends Controller
         $createLink = route('mapel.create');
         $createTitle = 'Tambah';
 
-        return view('admin/mapel.index', compact('currentLink', 'currentTitle', 'createLink', 'createTitle'));
+        return view('admin/manages/akademik/mapel.index', compact('currentLink', 'currentTitle', 'createLink', 'createTitle'));
     }
 
     public function create(): View
@@ -54,7 +54,7 @@ class MapelController extends Controller
         $createLink = route('mapel.create');
         $createTitle = 'Tambah';
 
-        return view('admin/mapel.create', compact('gurus', 'kurikulums', 'currentLink', 'currentTitle', 'createLink', 'createTitle'));
+        return view('admin/manages/akademik/mapel.create', compact('gurus', 'kurikulums', 'currentLink', 'currentTitle', 'createLink', 'createTitle'));
     }
 
     public function store(Request $request): RedirectResponse
@@ -102,7 +102,7 @@ class MapelController extends Controller
         $editLink = route('mapel.edit', $mapel->id);
         $editTitle = 'Edit';
 
-        return view('admin.mapel.edit', compact('mapel', 'gurus', 'kurikulums', 'currentLink', 'currentTitle', 'editLink', 'editTitle'));
+        return view('admin/manages/akademik/mapel.edit', compact('mapel', 'gurus', 'kurikulums', 'currentLink', 'currentTitle', 'editLink', 'editTitle'));
     }
 
     public function update(Request $request, Mapel $mapel): RedirectResponse

@@ -31,7 +31,7 @@ class TahunAjaranController extends Controller
         $createLink = route('tahun-ajaran.create');
         $createTitle = 'Tambah';
 
-        return view('admin.tahun-ajaran.index', compact('currentLink', 'currentTitle', 'createLink', 'createTitle'));
+        return view('admin/manages/periode/tahun-ajaran.index', compact('currentLink', 'currentTitle', 'createLink', 'createTitle'));
     }
 
     public function create(): View
@@ -41,7 +41,7 @@ class TahunAjaranController extends Controller
         $createLink = route('tahun-ajaran.create');
         $createTitle = 'Tambah';
 
-        return view('admin.tahun-ajaran.create', compact('currentLink', 'currentTitle', 'createLink', 'createTitle'));
+        return view('admin/manages/periode/tahun-ajaran.create', compact('currentLink', 'currentTitle', 'createLink', 'createTitle'));
     }
 
     public function store(Request $request): RedirectResponse
@@ -89,7 +89,7 @@ class TahunAjaranController extends Controller
         $editLink = route('tahun-ajaran.edit', $tahunAjaran->id);
         $editTitle = 'Edit';
 
-        return view('admin.tahun-ajaran.edit', compact('tahunAjaran', 'currentLink', 'currentTitle', 'editLink', 'editTitle'));
+        return view('admin/manages/periode/tahun-ajaran.edit', compact('tahunAjaran', 'currentLink', 'currentTitle', 'editLink', 'editTitle'));
     }
 
     public function update(Request $request, TahunAjaran $tahunAjaran): RedirectResponse
