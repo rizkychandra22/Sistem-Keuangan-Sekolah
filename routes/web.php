@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\ControllerSiswa;
 use App\Http\Controllers\Admin\ControllerUser;
 use App\Http\Controllers\Admin\Manages\Akademik\MapelController;
 use App\Http\Controllers\Admin\Manages\Periode\KurikulumController;
+use App\Http\Controllers\Admin\Manages\Periode\TahunAjaranController;
 
 // Import Routing Web Profile Sekolah
 use App\Http\Controllers\Blog\HomeController;
@@ -92,6 +93,15 @@ Route::middleware(['userAkses:admin'])->group(function() {
     Route::resource('/dashboard/admin/guru', ControllerGuru::class);
     Route::resource('/dashboard/admin/kurikulum', KurikulumController::class);
     Route::resource('/dashboard/admin/mapel', MapelController::class);
+    Route::resource('/dashboard/admin/tahun-ajaran', TahunAjaranController::class)->names([
+        'index' => 'tahunAjaran.index',
+        'create' => 'tahunAjaran.create',
+        'store' => 'tahunAjaran.store',
+        'show' => 'tahunAjaran.show',
+        'edit' => 'tahunAjaran.edit',
+        'update' => 'tahunAjaran.update',
+        'destroy' => 'tahunAjaran.destroy',
+    ]);
 });
 
 // Route Role User Keuangan
