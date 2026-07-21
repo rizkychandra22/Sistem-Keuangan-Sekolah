@@ -43,11 +43,6 @@ class Guru extends Model
         return $this->rombelsWali();
     }
 
-    public function mapels(): HasMany
-    {
-        return $this->hasMany(Mapel::class);
-    }
-
     public function guruMapels(): HasMany
     {
         return $this->hasMany(GuruMapel::class);

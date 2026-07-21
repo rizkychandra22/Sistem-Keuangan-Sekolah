@@ -15,17 +15,11 @@ class Mapel extends Model
         'nama',
         'kode',
         'kurikulum_id',
-        'guru_id'
     ];
 
     public function kurikulum(): BelongsTo
     {
         return $this->belongsTo(Kurikulum::class);
-    }
-
-    public function guru(): BelongsTo
-    {
-        return $this->belongsTo(Guru::class);
     }
 
     public function guruMapels(): HasMany

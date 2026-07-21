@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin\Manages\Akademik;
 
 use App\Http\Controllers\Controller;
-use App\Models\Guru;
 use App\Models\Kurikulum;
 use App\Models\Mapel;
 use Illuminate\Http\JsonResponse;
@@ -16,7 +15,12 @@ class MapelController extends Controller
 {
     public function index(): View|JsonResponse
     {
-        $dataMapel = Mapel::with(['guru.user', 'kurikulum'])->latest()->get();
+        $dataMapel = Mapel::query()
+            ->with('kurikulum')
+            ->withCount('guruMapels')
+            ->latest()
+            ->get();
+
         if (request()->ajax()) {
             return datatables()->of($dataMapel)
                 ->addColumn('kurikulum_nama', function (Mapel $mapel) {
@@ -26,13 +30,7 @@ class MapelController extends Controller
 
                     return $mapel->kurikulum->nama . ' - ' . $mapel->kurikulum->tahun;
                 })
-                ->addColumn('guru_pengampu', function (Mapel $mapel) {
-                    if (! $mapel->guru) {
-                        return '-';
-                    }
-
-                    return $mapel->guru->nama;
-                })
+                ->addColumn('total_pengampu', fn (Mapel $mapel) => $mapel->guru_mapels_count)
                 ->make(true);
         }
 
@@ -46,7 +44,6 @@ class MapelController extends Controller
 
     public function create(): View
     {
-        $gurus = Guru::with('user')->orderBy('nama')->get();
         $kurikulums = Kurikulum::orderBy('nama')->orderBy('tahun')->get();
 
         $currentLink = route('mapel.index');
@@ -54,7 +51,7 @@ class MapelController extends Controller
         $createLink = route('mapel.create');
         $createTitle = 'Tambah';
 
-        return view('admin/manages/akademik/mapel.create', compact('gurus', 'kurikulums', 'currentLink', 'currentTitle', 'createLink', 'createTitle'));
+        return view('admin/manages/akademik/mapel.create', compact('kurikulums', 'currentLink', 'currentTitle', 'createLink', 'createTitle'));
     }
 
     public function store(Request $request): RedirectResponse
@@ -67,19 +64,12 @@ class MapelController extends Controller
                 'integer',
                 Rule::exists('kurikulums', 'id'),
             ],
-            'guru_id' => [
-                'required',
-                'integer',
-                Rule::exists('gurus', 'id'),
-            ],
         ], [
             'nama.required' => 'Nama mata pelajaran harus diisi',
             'kode.required' => 'Kode mata pelajaran harus diisi',
             'kode.unique' => 'Kode mata pelajaran sudah digunakan',
             'kurikulum_id.required' => 'Kurikulum mata pelajaran harus dipilih',
             'kurikulum_id.exists' => 'Kurikulum yang dipilih tidak valid',
-            'guru_id.required' => 'Guru pengampu mata pelajaran harus dipilih',
-            'guru_id.exists' => 'Guru pengampu yang dipilih tidak valid',
         ]);
 
         Mapel::create($validated);
@@ -94,7 +84,6 @@ class MapelController extends Controller
 
     public function edit(Mapel $mapel): View
     {
-        $gurus = Guru::with('user')->orderBy('nama')->get();
         $kurikulums = Kurikulum::orderBy('nama')->orderBy('tahun')->get();
 
         $currentLink = route('mapel.index');
@@ -102,7 +91,7 @@ class MapelController extends Controller
         $editLink = route('mapel.edit', $mapel->id);
         $editTitle = 'Edit';
 
-        return view('admin/manages/akademik/mapel.edit', compact('mapel', 'gurus', 'kurikulums', 'currentLink', 'currentTitle', 'editLink', 'editTitle'));
+        return view('admin/manages/akademik/mapel.edit', compact('mapel', 'kurikulums', 'currentLink', 'currentTitle', 'editLink', 'editTitle'));
     }
 
     public function update(Request $request, Mapel $mapel): RedirectResponse
@@ -120,19 +109,12 @@ class MapelController extends Controller
                 'integer',
                 Rule::exists('kurikulums', 'id'),
             ],
-            'guru_id' => [
-                'required',
-                'integer',
-                Rule::exists('gurus', 'id'),
-            ],
         ], [
             'nama.required' => 'Nama mata pelajaran harus diisi',
             'kode.required' => 'Kode mata pelajaran harus diisi',
             'kode.unique' => 'Kode mata pelajaran sudah digunakan',
             'kurikulum_id.required' => 'Kurikulum mata pelajaran harus dipilih',
             'kurikulum_id.exists' => 'Kurikulum yang dipilih tidak valid',
-            'guru_id.required' => 'Guru pengampu mata pelajaran harus dipilih',
-            'guru_id.exists' => 'Guru pengampu yang dipilih tidak valid',
         ]);
 
         $mapel->update($validated);
@@ -142,6 +124,18 @@ class MapelController extends Controller
 
     public function destroy(Mapel $mapel): JsonResponse
     {
+        if ($mapel->guruMapels()->exists()) {
+            return response()->json([
+                'message' => 'Data mata pelajaran masih digunakan oleh guru mapel.',
+            ], 422);
+        }
+
+        if ($mapel->nilais()->exists()) {
+            return response()->json([
+                'message' => 'Data mata pelajaran masih digunakan oleh data nilai.',
+            ], 422);
+        }
+
         $nama = $mapel->nama;
         $mapel->delete();
 

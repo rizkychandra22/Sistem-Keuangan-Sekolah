@@ -10,7 +10,7 @@
             @csrf
             @method('PUT')
             <div class="row">
-                <div class="col-xs-6 col-sm-6 col-md-6">
+                <div class="col-xs-4 col-sm-4 col-md-4">
                     <div class="form-group">
                         <strong>Nama Mata Pelajaran:</strong>
                         <input type="text" name="nama" value="{{ old('nama', $mapel->nama) }}" class="form-control" placeholder="Nama Mata Pelajaran">
@@ -19,7 +19,7 @@
                         @enderror
                     </div>
                 </div>
-                <div class="col-xs-6 col-sm-6 col-md-6">
+                <div class="col-xs-4 col-sm-4 col-md-4">
                     <div class="form-group">
                         <strong>Kode Mata Pelajaran:</strong>
                         <input type="text" name="kode" value="{{ old('kode', $mapel->kode) }}" class="form-control" placeholder="Kode Mata Pelajaran">
@@ -28,7 +28,7 @@
                         @enderror
                     </div>
                 </div>
-                <div class="col-xs-6 col-sm-6 col-md-6">
+                <div class="col-xs-4 col-sm-4 col-md-4">
                     <div class="form-group">
                         <strong>Kurikulum:</strong>
                         <select name="kurikulum_id" class="form-control">
@@ -40,22 +40,6 @@
                             @endforeach
                         </select>
                         @error('kurikulum_id')
-                            <small style="color:red">{{ $message }}</small>
-                        @enderror
-                    </div>
-                </div>
-                <div class="col-xs-6 col-sm-6 col-md-6">
-                    <div class="form-group">
-                        <strong>Guru Pengampu:</strong>
-                        <select name="guru_id" class="form-control">
-                            <option value="">-- Pilih Guru Pengampu --</option>
-                            @foreach ($gurus as $guru)
-                                <option value="{{ $guru->id }}" {{ old('guru_id', $mapel->guru_id) == $guru->id ? 'selected' : '' }}>
-                                    {{ $guru->nama }}
-                                </option>
-                            @endforeach
-                        </select>
-                        @error('guru_id')
                             <small style="color:red">{{ $message }}</small>
                         @enderror
                     </div>

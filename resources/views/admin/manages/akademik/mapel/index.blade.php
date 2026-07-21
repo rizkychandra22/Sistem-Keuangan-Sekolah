@@ -14,7 +14,7 @@
                         <th>Nama Pelajaran</th>
                         <th>Kode</th>
                         <th>Kurikulum</th>
-                        <th>Guru Pengampu</th>
+                        <th>Total Pengampu</th>
                         <th width="95">Aksi</th>
                     </tr>
                 </thead>
@@ -53,7 +53,7 @@
                         {data: 'nama', name: 'nama'},
                         {data: 'kode', name: 'kode'},
                         {data: 'kurikulum_nama', name: 'kurikulum_nama'},
-                        {data: 'guru_pengampu', name: 'guru_pengampu'},
+                        {data: 'total_pengampu', name: 'total_pengampu'},
                         {
                             data: null,
                             render: function (data, type, row) {
@@ -96,10 +96,10 @@
                                 _method: 'DELETE',
                                 _token: '{{ csrf_token() }}'
                             },
-                            success: function() {
+                            success: function(response) {
                                 Swal.fire({
                                     title: 'Dihapus!',
-                                    text: `Data mata pelajaran ${nama} berhasil dihapus.`,
+                                    text: response.message,
                                     icon: 'success',
                                     confirmButtonColor: '#28a745',
                                     confirmButtonText: 'Oke'
@@ -107,10 +107,12 @@
                                     $('#tableMapel').DataTable().ajax.reload();
                                 });
                             },
-                            error: function() {
+                            error: function(xhr) {
+                                const message = xhr.responseJSON?.message ?? `Terjadi kesalahan saat menghapus data mata pelajaran ${nama}.`;
+
                                 Swal.fire({
                                     title: 'Error!',
-                                    text: `Terjadi kesalahan saat menghapus data mata pelajaran ${nama}.`,
+                                    text: message,
                                     icon: 'error',
                                     confirmButtonColor: '#d33',
                                     confirmButtonText: 'Oke'
