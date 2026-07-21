@@ -7,6 +7,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Admin\ControllerGuru;
 use App\Http\Controllers\Admin\ControllerSiswa;
 use App\Http\Controllers\Admin\ControllerUser;
+use App\Http\Controllers\Admin\Manages\Akademik\KelasController;
 use App\Http\Controllers\Admin\Manages\Akademik\MapelController;
 use App\Http\Controllers\Admin\Manages\Periode\KurikulumController;
 use App\Http\Controllers\Admin\Manages\Periode\TahunAjaranController;
@@ -94,6 +95,8 @@ Route::middleware(['userAkses:admin'])->group(function() {
     Route::resource('/dashboard/admin/kurikulum', KurikulumController::class);
     Route::resource('/dashboard/admin/mapel', MapelController::class);
     Route::resource('/dashboard/admin/tahun-ajaran', TahunAjaranController::class);
+    Route::resource('/dashboard/admin/kelas', KelasController::class)
+        ->parameters(['kelas' => 'kelas']);
 });
 
 // Route Role User Keuangan
