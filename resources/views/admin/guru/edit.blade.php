@@ -1,6 +1,6 @@
 @extends('layouts.adminApp')
 
-@section('title', 'Edit Data Guru SDN Caringin Ngumbang')
+@section('title', 'Edit Data Guru Sekolah')
 
 @section('content')
     <div class="container">
