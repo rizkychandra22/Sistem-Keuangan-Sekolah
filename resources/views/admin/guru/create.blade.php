@@ -33,7 +33,7 @@
                         @endif
                     </div>
                 </div>
-                <div class="col-xs-12 col-sm-12 col-md-12">
+                <div class="col-xs-6 col-sm-6 col-md-6">
                     <div class="form-group">
                         <strong>Nama:</strong>
                         <input type="text" name="nama" id="nama" value="{{ old('nama') }}" class="form-control" placeholder="Nama Guru" readonly>
@@ -42,7 +42,7 @@
                         @enderror
                     </div>
                 </div>
-                <div class="col-xs-12 col-sm-12 col-md-12">
+                <div class="col-xs-6 col-sm-6 col-md-6">
                     <div class="form-group">
                         <strong>NIP:</strong>
                         <input type="text" name="nip" value="{{ old('nip') }}" class="form-control" placeholder="NIP Guru">
@@ -51,7 +51,7 @@
                         @enderror
                     </div>
                 </div>
-                <div class="col-xs-12 col-sm-12 col-md-12">
+                <div class="col-xs-6 col-sm-6 col-md-6">
                     <div class="form-group">
                         <strong>Jabatan:</strong>
                         <input type="text" name="jabatan" value="{{ old('jabatan') }}" class="form-control" placeholder="Jabatan Guru">
@@ -60,7 +60,7 @@
                         @enderror
                     </div>
                 </div>
-                <div class="col-xs-12 col-sm-12 col-md-12">
+                <div class="col-xs-6 col-sm-6 col-md-6">
                     <div class="form-group">
                         <strong>Kontak:</strong>
                         <input type="text" name="kontak" value="{{ old('kontak') }}" class="form-control" placeholder="Nomor telepon atau whatsapp">
@@ -72,7 +72,7 @@
                 <div class="col-xs-12 col-sm-12 col-md-12">
                     <div class="form-group">
                         <strong>Motivasi:</strong>
-                        <input type="text" name="motivasi" value="{{ old('motivasi') }}" class="form-control" placeholder="Motivasi Untuk Siswa & Siswi">
+                        <textarea name="motivasi" class="form-control" rows="3" placeholder="Motivasi Untuk Siswa & Siswi">{{ old('motivasi') }}</textarea>
                         @error('motivasi')
                             <small style="color:red">{{$message}}</small>
                         @enderror

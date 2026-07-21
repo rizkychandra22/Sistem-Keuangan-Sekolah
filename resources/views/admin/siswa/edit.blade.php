@@ -10,7 +10,7 @@
             @csrf
             @method('PUT')
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-xs-4 col-sm-4 col-md-4">
                     <div class="form-group">
                         <strong>Nama Siswa:</strong>
                         <input type="text" name="name" value="{{ old('name', $siswa->user->name ?? $siswa->nama) }}" class="form-control" placeholder="Nama Siswa">
@@ -19,7 +19,7 @@
                         @enderror
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-xs-4 col-sm-4 col-md-4">
                     <div class="form-group">
                         <strong>Username:</strong>
                         <input type="text" name="username" value="{{ old('username', $siswa->user->username) }}" class="form-control" placeholder="Username Login">
@@ -28,7 +28,7 @@
                         @enderror
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-xs-4 col-sm-4 col-md-4">
                     <div class="form-group">
                         <strong>Email:</strong>
                         <input type="email" name="email" value="{{ old('email', $siswa->user->email) }}" class="form-control" placeholder="Email Akun Siswa">
@@ -37,7 +37,7 @@
                         @enderror
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-xs-6 col-sm-6 col-md-6">
                     <div class="form-group">
                         <strong>NISN:</strong>
                         <input type="text" name="nisn" value="{{ old('nisn', $siswa->nisn) }}" class="form-control" placeholder="NISN Siswa">
@@ -46,7 +46,7 @@
                         @enderror
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-xs-6 col-sm-6 col-md-6">
                     <div class="form-group">
                         <strong>Tanggal Lahir:</strong>
                         <input type="date" name="tgl_lhr" value="{{ old('tgl_lhr', optional($siswa->tgl_lhr)->format('Y-m-d')) }}" class="form-control">
@@ -55,7 +55,7 @@
                         @enderror
                     </div>
                 </div>
-                <div class="col-md-12">
+                <div class="col-xs-12 col-sm-12 col-md-12">
                     <div class="form-group">
                         <strong>Alamat:</strong>
                         <textarea name="alamat" class="form-control" rows="3" placeholder="Alamat Siswa">{{ old('alamat', $siswa->alamat) }}</textarea>
@@ -64,7 +64,7 @@
                         @enderror
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-xs-6 col-sm-6 col-md-6">
                     <div class="form-group">
                         <strong>Nama Orang Tua:</strong>
                         <input type="text" name="orang_tua" value="{{ old('orang_tua', $siswa->orang_tua) }}" class="form-control" placeholder="Nama Orang Tua">
@@ -73,7 +73,7 @@
                         @enderror
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-xs-6 col-sm-6 col-md-6">
                     <div class="form-group">
                         <strong>Kontak Orang Tua:</strong>
                         <input type="text" name="kontak_orang_tua" value="{{ old('kontak_orang_tua', $siswa->kontak_orang_tua) }}" class="form-control" placeholder="Kontak Orang Tua">
@@ -82,7 +82,7 @@
                         @enderror
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-xs-6 col-sm-6 col-md-6">
                     <div class="form-group">
                         <strong>Status Akademik:</strong>
                         <select name="status_akademik" class="form-control">
@@ -96,7 +96,7 @@
                         @enderror
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-xs-6 col-sm-6 col-md-6">
                     <div class="form-group">
                         <strong>Status Aktif:</strong>
                         <select name="is_active" class="form-control">
@@ -108,7 +108,7 @@
                         @enderror
                     </div>
                 </div>
-                <div class="col-md-12">
+                <div class="col-xs-12 col-sm-12 col-md-12">
                     <div class="form-group">
                         <strong>Gambar:</strong>
                         <input type="file" name="gambar" class="form-control" placeholder="Gambar Siswa">
@@ -122,7 +122,7 @@
                         @endif
                     </div>
                 </div>
-                <div class="col-md-12 text-center">
+                <div class="col-xs-12 col-sm-12 col-md-12 text-center">
                     <button type="submit" class="btn btn-primary btn-block">Simpan</button>
                 </div>
             </div>

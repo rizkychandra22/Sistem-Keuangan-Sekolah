@@ -32,20 +32,36 @@ class ControllerSiswa extends Controller
 
     public function create()
     {
+        $availableUsers = User::query()
+            ->where('role', 'student')
+            ->with('siswa')
+            ->orderBy('username')
+            ->get();
+
         $currentLink = route('siswa.index');
         $currentTitle = 'Siswa Sekolah';
         $createLink = route('siswa.create');
         $createTitle = 'Tambah';
 
-        return view('admin.siswa.create', compact('currentLink', 'currentTitle', 'createLink', 'createTitle'));
+        return view('admin.siswa.create', compact('availableUsers', 'currentLink', 'currentTitle', 'createLink', 'createTitle'));
     }
 
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'username' => 'required|string|max:255|unique:users,username',
-            'email' => 'required|string|email|max:255|unique:users,email',
+            'user_id' => [
+                'nullable',
+                'integer',
+                Rule::exists('users', 'id')->where(fn ($query) => $query->where('role', 'student')),
+                'unique:siswas,user_id',
+            ],
+            'name' => 'nullable|string|max:255',
+            'username' => $request->filled('user_id')
+                ? ['nullable', 'string', 'max:255']
+                : ['nullable', 'string', 'max:255', 'unique:users,username'],
+            'email' => $request->filled('user_id')
+                ? ['nullable', 'string', 'email', 'max:255']
+                : ['nullable', 'string', 'email', 'max:255', 'unique:users,email'],
             'nisn' => 'required|string|max:50|unique:siswas,nisn',
             'tgl_lhr' => 'required|date',
             'alamat' => 'nullable|string',
@@ -55,10 +71,9 @@ class ControllerSiswa extends Controller
             'is_active' => 'required|boolean',
             'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg',
         ], [
-            'name.required' => 'Nama siswa harus diisi',
-            'username.required' => 'Username akun siswa harus diisi',
+            'user_id.exists' => 'Akun user siswa yang dipilih tidak valid',
+            'user_id.unique' => 'Akun user siswa tersebut sudah terhubung ke data siswa',
             'username.unique' => 'Username akun siswa sudah digunakan',
-            'email.required' => 'Email akun siswa harus diisi',
             'email.email' => 'Format email tidak valid',
             'email.unique' => 'Email akun siswa sudah digunakan',
             'nisn.required' => 'NISN siswa harus diisi',
@@ -69,21 +84,46 @@ class ControllerSiswa extends Controller
             'is_active.required' => 'Status aktif siswa harus dipilih',
         ]);
 
-        DB::transaction(function () use ($validated, $request) {
-            $imageName = $this->storeSiswaImage($request, $validated['name']);
-
-            $user = User::create([
-                'name' => $validated['name'],
-                'username' => $validated['username'],
-                'email' => $validated['email'],
-                'role' => 'student',
-                'password' => Hash::make('sekolah'),
+        if (! $request->filled('user_id')) {
+            $request->validate([
+                'name' => 'required|string|max:255',
+                'username' => 'required|string|max:255|unique:users,username',
+                'email' => 'required|string|email|max:255|unique:users,email',
+            ], [
+                'name.required' => 'Nama siswa harus diisi',
+                'username.required' => 'Username akun siswa harus diisi',
+                'email.required' => 'Email akun siswa harus diisi',
             ]);
+        }
+
+        $selectedUser = null;
+
+        DB::transaction(function () use ($validated, $request, &$selectedUser) {
+            if (! empty($validated['user_id'])) {
+                $selectedUser = User::query()->findOrFail($validated['user_id']);
+                $namaSiswa = $selectedUser->name;
+            } else {
+                $namaSiswa = $validated['name'];
+            }
+
+            $imageName = $this->storeSiswaImage($request, $namaSiswa);
+
+            if ($selectedUser) {
+                $user = $selectedUser;
+            } else {
+                $user = User::create([
+                    'name' => $validated['name'],
+                    'username' => $validated['username'],
+                    'email' => $validated['email'],
+                    'role' => 'student',
+                    'password' => Hash::make('sekolah'),
+                ]);
+            }
 
             Siswa::create([
                 'user_id' => $user->id,
                 'nisn' => $validated['nisn'],
-                'nama' => $validated['name'],
+                'nama' => $user->name,
                 'tgl_lhr' => $validated['tgl_lhr'],
                 'alamat' => $validated['alamat'],
                 'orang_tua' => $validated['orang_tua'],
@@ -94,19 +134,27 @@ class ControllerSiswa extends Controller
             ]);
         });
 
-        return redirect()->route('siswa.index')->with('success', 'Data siswa dan akun user ' . $validated['username'] . ' berhasil ditambahkan dengan password default sekolah.');
+        $message = $selectedUser
+            ? 'Data siswa untuk akun user ' . $selectedUser->username . ' berhasil ditambahkan.'
+            : 'Data siswa dan akun user ' . $validated['username'] . ' berhasil ditambahkan dengan password default sekolah.';
+
+        return redirect()->route('siswa.index')->with('success', $message);
     }
 
     public function edit(Siswa $siswa)
     {
-        $siswa->load('user');
+        $availableUsers = User::query()
+            ->where('role', 'student')
+            ->with('siswa')
+            ->orderBy('username')
+            ->get();
 
         $currentLink = route('siswa.index');
         $currentTitle = 'Siswa Sekolah';
         $editLink = route('siswa.edit', $siswa->id);
         $editTitle = 'Edit';
 
-        return view('admin.siswa.edit', compact('siswa', 'currentLink', 'currentTitle', 'editLink', 'editTitle'));
+        return view('admin.siswa.edit', compact('siswa', 'availableUsers', 'currentLink', 'currentTitle', 'editLink', 'editTitle'));
     }
 
     public function update(Request $request, Siswa $siswa)

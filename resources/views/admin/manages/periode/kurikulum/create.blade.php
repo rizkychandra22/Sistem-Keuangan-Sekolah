@@ -9,7 +9,7 @@
         <form action="{{ route('kurikulum.store') }}" method="POST">
             @csrf
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-xs-6 col-sm-6 col-md-6">
                     <div class="form-group">
                         <strong>Nama Kurikulum:</strong>
                         <input type="text" name="nama" value="{{ old('nama') }}" class="form-control" placeholder="Nama Kurikulum">
@@ -18,7 +18,7 @@
                         @enderror
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-xs-6 col-sm-6 col-md-6">
                     <div class="form-group">
                         <strong>Tahun Kurikulum:</strong>
                         <input type="text" name="tahun" value="{{ old('tahun') }}" class="form-control" placeholder="Contoh: 2013 / 2024">
@@ -27,16 +27,16 @@
                         @enderror
                     </div>
                 </div>
-                <div class="col-md-12">
+                <div class="col-xs-12 col-sm-12 col-md-12">
                     <div class="form-group">
                         <strong>Deskripsi Kurikulum:</strong>
-                        <textarea name="deskripsi" class="form-control" rows="4" placeholder="Deskripsi kurikulum">{{ old('deskripsi') }}</textarea>
+                        <textarea name="deskripsi" class="form-control" rows="3" placeholder="Deskripsi kurikulum">{{ old('deskripsi') }}</textarea>
                         @error('deskripsi')
                             <small style="color:red">{{ $message }}</small>
                         @enderror
                     </div>
                 </div>
-                <div class="col-md-12 text-center">
+                <div class="col-xs-12 col-sm-12 col-md-12 text-center">
                     <button type="submit" class="btn btn-primary btn-block">Simpan</button>
                 </div>
             </div>

@@ -13,7 +13,7 @@
         <form action="{{ route('dataUser.store') }}" method="POST">
             @csrf
             <div class="row">
-                <div class="col-xs-12 col-sm-12 col-md-12">
+                <div class="col-xs-6 col-sm-6 col-md-6">
                     <div class="form-group">
                         <strong>Nama:</strong>
                         <input type="text" name="name" value="{{ old('name') }}" class="form-control" placeholder="Nama Akun User">
@@ -22,7 +22,7 @@
                         @enderror
                     </div>
                 </div>
-                <div class="col-xs-12 col-sm-12 col-md-12">
+                <div class="col-xs-6 col-sm-6 col-md-6">
                     <div class="form-group">
                         <strong>Username:</strong>
                         <input type="text" name="username" value="{{ old('username') }}" class="form-control" placeholder="Username Login">
@@ -31,7 +31,7 @@
                         @enderror
                     </div>
                 </div>
-                <div class="col-xs-12 col-sm-12 col-md-12">
+                <div class="col-xs-6 col-sm-6 col-md-6">
                     <div class="form-group">
                         <strong>Email:</strong>
                         <input type="email" name="email" value="{{ old('email') }}" class="form-control" placeholder="Email Akun User">
@@ -40,7 +40,7 @@
                         @enderror
                     </div>
                 </div>
-                <div class="col-xs-12 col-sm-12 col-md-12">
+                <div class="col-xs-6 col-sm-6 col-md-6">
                     <div class="form-group">
                         <strong>Role:</strong>
                         <select name="role" class="form-control">

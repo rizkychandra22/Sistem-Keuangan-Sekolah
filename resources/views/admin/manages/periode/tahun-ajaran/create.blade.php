@@ -6,10 +6,10 @@
     <div class="container">
         @include('components.alert-messages')
 
-        <form action="{{ route('tahunAjaran.store') }}" method="POST">
+        <form action="{{ route('tahun-ajaran.store') }}" method="POST">
             @csrf
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-xs-6 col-sm-6 col-md-6">
                     <div class="form-group">
                         <strong>Tahun Ajaran:</strong>
                         <input type="text" name="tahun" value="{{ old('tahun') }}" class="form-control" placeholder="Contoh: 2025/2026">
@@ -18,7 +18,7 @@
                         @enderror
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-xs-6 col-sm-6 col-md-6">
                     <div class="form-group">
                         <strong>Semester:</strong>
                         <select name="semester" class="form-control">
@@ -31,7 +31,7 @@
                         @enderror
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-xs-6 col-sm-6 col-md-6">
                     <div class="form-group">
                         <strong>Status Aktif:</strong>
                         <select name="is_active" class="form-control">
@@ -44,7 +44,7 @@
                         @enderror
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-xs-6 col-sm-6 col-md-6">
                     <div class="form-group">
                         <strong>Status Kunci:</strong>
                         <select name="is_locked" class="form-control">
@@ -57,7 +57,7 @@
                         @enderror
                     </div>
                 </div>
-                <div class="col-md-12 text-center">
+                <div class="col-xs-12 col-sm-12 col-md-12 text-center">
                     <button type="submit" class="btn btn-primary btn-block">Simpan</button>
                 </div>
             </div>
