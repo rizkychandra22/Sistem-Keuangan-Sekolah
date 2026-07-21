@@ -15,7 +15,7 @@ class TahunAjaranController extends Controller
     public function index(): View|JsonResponse
     {
         $dataTahunAjaran = TahunAjaran::query()
-            ->orderBy('tahun', 'desc')
+            ->orderByDesc('tahun')
             // ->orderByRaw("CASE WHEN semester = 'ganjil' THEN 1 ELSE 2 END")
             ->get();
 

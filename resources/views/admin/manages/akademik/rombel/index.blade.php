@@ -1,23 +1,24 @@
 @extends('layouts.adminApp')
 
-@section('title', 'Data Siswa Sekolah')
+@section('title', 'Data Rombel Sekolah')
 
 @section('content')
     <div class="container">
         @include('components.alert-messages')
-        
+
         <div class="table-responsive">
-            <table id="tableSiswa" class="table table-bordered table-hover table-striped">
+            <table id="tableRombel" class="table table-bordered table-hover table-striped">
                 <thead>
                     <tr>
                         <th width="50">No</th>
+                        <th>Tahun Ajaran</th>
+                        <th>Kelas</th>
+                        <th>Paralel</th>
                         <th>Nama</th>
-                        <th>NISN</th>
-                        <th>Tanggal Lahir</th>
-                        <th>Orang Tua</th>
-                        <th>Kontak Orang Tua</th>
-                        <th>Status Akademik</th>
-                        <th>Status Aktif</th>
+                        <th>Kode</th>
+                        <th>Kapasitas</th>
+                        <th>Wali Kelas</th>
+                        <th>Status</th>
                         <th width="95">Aksi</th>
                     </tr>
                 </thead>
@@ -32,16 +33,12 @@
 
         <script>
             $(document).ready(function () {
-                dataSiswa();
-            });
-        
-            function dataSiswa() {
-                $('#tableSiswa').DataTable({
+                $('#tableRombel').DataTable({
                     serverSide: true,
                     responsive: true,
                     processing: true,
                     ajax: {
-                        url: "{{ route('siswa.index') }}",
+                        url: "{{ route('rombel.index') }}",
                         type: 'GET'
                     },
                     columns: [
@@ -53,48 +50,26 @@
                                 return meta.row + meta.settings._iDisplayStart + 1;
                             }
                         },
+                        {data: 'tahun_ajaran', name: 'tahun_ajaran'},
+                        {data: 'kelas', name: 'kelas'},
+                        {data: 'paralel', name: 'paralel'},
                         {data: 'nama', name: 'nama'},
-                        {data: 'nisn', name: 'nisn'},
-                        {
-                            data: 'tgl_lhr',
-                            name: 'tgl_lhr',
-                            render: function (data) {
-                                if (!data) return '-';
-                                const date = new Date(data);
-                                const day = date.getDate().toString().padStart(2, '0');
-                                const month = (date.getMonth() + 1).toString().padStart(2, '0');
-                                const year = date.getFullYear();
-                                return `${day}-${month}-${year}`;
-                            }
-                        },
-                        {data: 'orang_tua', name: 'orang_tua'},
-                        {
-                            data: 'kontak_orang_tua',
-                            name: 'kontak_orang_tua',
-                            render: function (data) {
-                                return data ?? '-';
-                            }
-                        },
-                        {data: 'status_akademik', name: 'status_akademik'},
-                        {
-                            data: 'is_active',
-                            name: 'is_active',
-                            render: function (data) {
-                                return data ? 'Aktif' : 'Nonaktif';
-                            }
-                        },
+                        {data: 'kode', name: 'kode'},
+                        {data: 'kapasitas', name: 'kapasitas'},
+                        {data: 'walikelas', name: 'walikelas'},
+                        {data: 'status', name: 'status'},
                         {
                             data: null,
                             render: function (data, type, row) {
-                                let editUrl = `{{ route('siswa.edit', ':id') }}`.replace(':id', row.id);
-                                let deleteUrl = `{{ route('siswa.destroy', ':id') }}`.replace(':id', row.id);
+                                let editUrl = `{{ route('rombel.edit', ':id') }}`.replace(':id', row.id);
+                                let deleteUrl = `{{ route('rombel.destroy', ':id') }}`.replace(':id', row.id);
 
                                 return `
                                     <a href="${editUrl}" class="btn btn-outline-warning btn-secoundary btn-sm mt-1 mr-1" title="Edit">
                                         <i class="fas fa-edit"></i>
                                     </a>
                                     <button type="button" class="btn btn-outline-danger btn-secoundary btn-sm mt-1"
-                                            onclick="confirmDelete('${row.nama}', '${deleteUrl}')">
+                                            onclick="confirmDelete('${row.kode}', '${deleteUrl}')">
                                         <i class="fas fa-trash"></i>
                                     </button>
                                 `;
@@ -102,14 +77,14 @@
                         }
                     ]
                 });
-            }
+            });
         </script>
 
         <script>
-            function confirmDelete(nama, deleteUrl) {
+            function confirmDelete(kode, deleteUrl) {
                 Swal.fire({
                     title: 'Apakah Anda yakin?',
-                    text: `Data siswa dengan nama ${nama} beserta akun user-nya akan dihapus.`,
+                    text: `Data rombel ${kode} akan dihapus.`,
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
@@ -125,21 +100,23 @@
                                 _method: 'DELETE',
                                 _token: '{{ csrf_token() }}'
                             },
-                            success: function() {
+                            success: function(response) {
                                 Swal.fire({
                                     title: 'Dihapus!',
-                                    text: `Data siswa ${nama} berhasil dihapus.`,
+                                    text: response.message,
                                     icon: 'success',
                                     confirmButtonColor: '#28a745',
                                     confirmButtonText: 'Oke'
                                 }).then(() => {
-                                    $('#tableSiswa').DataTable().ajax.reload();
+                                    $('#tableRombel').DataTable().ajax.reload();
                                 });
                             },
-                            error: function() {
+                            error: function(xhr) {
+                                const message = xhr.responseJSON?.message ?? `Terjadi kesalahan saat menghapus data rombel ${kode}.`;
+
                                 Swal.fire({
                                     title: 'Error!',
-                                    text: `Terjadi kesalahan saat menghapus data siswa ${nama}.`,
+                                    text: message,
                                     icon: 'error',
                                     confirmButtonColor: '#d33',
                                     confirmButtonText: 'Oke'
