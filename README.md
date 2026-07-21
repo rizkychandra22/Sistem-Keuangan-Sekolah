@@ -1,15 +1,44 @@
-# Sistem Informasi Sekolah
+<p align="center">
+  <h1 align="center">Sistem Informasi Sekolah</h1>
+  <p align="center">
+    Aplikasi web berbasis Laravel untuk manajemen akademik, website sekolah, dan keuangan dalam satu sistem.
+  </p>
+</p>
 
-Project ini adalah aplikasi web berbasis Laravel untuk kebutuhan operasional sekolah yang mencakup:
+<p align="center">
+  <img src="https://img.shields.io/badge/Laravel-11-red" alt="Laravel 11">
+  <img src="https://img.shields.io/badge/PHP-8.2%20%7C%208.3-blue" alt="PHP 8.2 or 8.3">
+  <img src="https://img.shields.io/badge/Frontend-Blade%20%2B%20Bootstrap%204-green" alt="Blade Bootstrap 4">
+  <img src="https://img.shields.io/badge/Build-Vite-646CFF" alt="Vite">
+  <img src="https://img.shields.io/badge/Status-Active-success" alt="Active">
+</p>
+
+## Ringkasan
+
+Project ini adalah sistem informasi sekolah yang menggabungkan beberapa kebutuhan operasional sekolah dalam satu aplikasi, meliputi:
 
 - manajemen akun pengguna
 - manajemen data guru dan siswa
-- manajemen akademik berbasis rombel
+- manajemen akademik berbasis kelas, rombel, dan penempatan siswa
 - dashboard multi role
 - manajemen konten website sekolah
 - pencatatan dan rekap keuangan sekolah
 
-Saat ini aplikasi tidak lagi hanya berfokus pada keuangan, tetapi sudah berkembang menjadi sistem sekolah yang menggabungkan modul administrasi, akademik, website profil sekolah, dan keuangan dalam satu project.
+Saat ini project sudah berkembang dari sistem pencatatan keuangan menjadi sistem sekolah yang lebih lengkap dan terintegrasi.
+
+## Daftar Isi
+
+- [Fitur Utama](#fitur-utama)
+- [Role dan Hak Akses](#role-dan-hak-akses)
+- [Struktur Akademik](#struktur-akademik)
+- [Seeder dan Data Dummy](#seeder-dan-data-dummy)
+- [Akun Default](#akun-default)
+- [Teknologi](#teknologi)
+- [Instalasi](#instalasi)
+- [Perintah Penting](#perintah-penting)
+- [Alur Login](#alur-login)
+- [Struktur Folder](#struktur-folder)
+- [Pengembang](#pengembang)
 
 ## Fitur Utama
 
@@ -18,7 +47,7 @@ Saat ini aplikasi tidak lagi hanya berfokus pada keuangan, tetapi sudah berkemba
 - CRUD akun user oleh admin
 - role akun: `admin`, `operator`, `finance`, `teacher`, `student`
 - password default akun yang dibuat admin: `sekolah`
-- akun `admin`, `operator`, dan `finance` diperlakukan sebagai akun inti sistem
+- pembatasan role inti sistem untuk akun tertentu
 
 ### 2. Manajemen Data Sekolah
 
@@ -60,75 +89,44 @@ Saat ini aplikasi tidak lagi hanya berfokus pada keuangan, tetapi sudah berkemba
 - export Excel
 - export PDF
 
-## Role dan Akses
+## Role dan Hak Akses
 
-### Admin
+| Role | Area Utama |
+| --- | --- |
+| `admin` | Mengelola akun user, guru, siswa, kurikulum, mapel, kelas, tahun ajaran, rombel, siswa rombel, dan guru mapel |
+| `operator` | Mengelola konten website sekolah, contact, dan pesan dari halaman publik |
+| `finance` | Mengelola pemasukan, pengeluaran, rekap transaksi, dan export laporan |
+| `teacher` | Mengakses dashboard guru, data profil, dan relasi akademik sesuai penugasan |
+| `student` | Mengakses dashboard siswa dan data profil siswa |
 
-Admin mengelola data inti sistem:
+## Struktur Akademik
 
-- akun user
-- guru
-- siswa
-- kurikulum
-- mapel
-- kelas
-- tahun ajaran
-- rombel
-- siswa rombel
-- guru mapel
+Project ini menggunakan struktur akademik yang lebih dinamis agar histori data tetap aman dan pengelolaan kelas lebih fleksibel.
 
-### Operator
+### Entitas utama
 
-Operator mengelola konten website sekolah:
+- `kelas`
+  Menyimpan master tingkat kelas, misalnya Kelas 1 sampai Kelas 6.
+- `tahun_ajarans`
+  Menyimpan periode akademik berdasarkan kombinasi tahun dan semester.
+- `rombels`
+  Menyimpan kelas operasional per periode, misalnya Kelas 3A pada semester tertentu.
+- `siswa_rombels`
+  Menyimpan penempatan dan riwayat siswa dalam rombel.
+- `guru_mapels`
+  Menyimpan penugasan guru mengajar mapel pada rombel tertentu.
 
-- sambutan
-- program kerja
-- berita
-- galeri
-- prestasi
-- contact sekolah
-- pesan masuk dari website
-
-### Finance
-
-Finance mengelola modul keuangan:
-
-- pemasukan
-- pengeluaran
-- rekap transaksi
-- export laporan
-
-### Teacher
-
-Teacher menggunakan dashboard guru. Secara struktur data, guru dapat memiliki:
-
-- relasi wali kelas melalui `rombels.guru_id`
-- relasi pengampu mata pelajaran melalui tabel `guru_mapels`
-
-### Student
-
-Student menggunakan dashboard siswa dan data profil siswa.
-
-## Konsep Data Akademik
-
-Struktur akademik project saat ini sudah menggunakan pendekatan yang lebih dinamis:
-
-- `kelas` menyimpan master tingkat kelas, misalnya Kelas 1 sampai Kelas 6
-- `tahun_ajarans` menyimpan periode akademik berdasarkan `tahun` dan `semester`
-- `rombels` menyimpan kelas operasional per periode, misalnya Kelas 3A pada semester tertentu
-- `siswa_rombels` menyimpan riwayat penempatan siswa ke rombel
-- `guru_mapels` menyimpan penugasan guru mengajar mapel pada rombel tertentu
-
-Keuntungan pendekatan ini:
+### Keuntungan struktur ini
 
 - histori siswa per semester tetap tersimpan
-- rombel bisa berubah setiap periode tanpa mengubah master kelas
-- guru bisa mengampu lebih dari satu mapel dan lebih dari satu rombel
+- rombel dapat berubah tiap periode tanpa mengubah master kelas
+- guru dapat mengampu lebih dari satu mapel dan lebih dari satu rombel
 - wali kelas terikat pada rombel, bukan pada master kelas
+- pengampu mata pelajaran tidak lagi dobel di tabel `mapels`
 
-## Seeder Data Dummy
+## Seeder dan Data Dummy
 
-Seeder bawaan project saat ini akan membuat data awal berikut:
+Seeder bawaan project akan membuat data awal berikut:
 
 - 1 akun `admin`
 - 1 akun `operator`
@@ -138,38 +136,30 @@ Seeder bawaan project saat ini akan membuat data awal berikut:
 - master kelas 1 sampai 6
 - tahun ajaran `2024/2025` dan `2025/2026`
 - semester `ganjil` dan `genap`
-- rombel sesuai struktur di `AcademicSeederData`
-- relasi siswa ke rombel aktif dan riwayat semester
+- rombel sesuai struktur pada `AcademicSeederData`
+- riwayat dan data aktif siswa pada `siswa_rombels`
 - data awal `contact sekolah` dan `sambutan`
 
-## Akun Default Seeder
+## Akun Default
 
 ### Akun inti sistem
 
-- Admin
-  - username: `admincore`
-  - email: `admin@sekolah.com`
+| Role | Username | Email | Password |
+| --- | --- | --- | --- |
+| Admin | `admincore` | `admin@sekolah.com` | `sekolah` |
+| Operator | `operatorcore` | `operator@sekolah.com` | `sekolah` |
+| Finance | `financecore` | `finance@sekolah.com` | `sekolah` |
+
+### Contoh akun dummy
+
+- Guru
+  - username: `guru01`
   - password: `sekolah`
-- Operator
-  - username: `operatorcore`
-  - email: `operator@sekolah.com`
-  - password: `sekolah`
-- Finance
-  - username: `financecore`
-  - email: `finance@sekolah.com`
+- Siswa
+  - username: `siswa001`
   - password: `sekolah`
 
-### Contoh akun guru
-
-- username: `guru01`
-- password: `sekolah`
-
-### Contoh akun siswa
-
-- username: `siswa001`
-- password: `sekolah`
-
-## Teknologi yang Digunakan
+## Teknologi
 
 | Komponen | Teknologi |
 | --- | --- |
@@ -178,12 +168,12 @@ Seeder bawaan project saat ini akan membuat data awal berikut:
 | Frontend | Blade, Bootstrap 4, AdminLTE |
 | Build Tool | Vite |
 | Database | MySQL atau SQLite |
-| Alert | realrashid/sweet-alert |
-| Table | yajra/laravel-datatables |
-| Export Excel | maatwebsite/excel |
-| Export PDF | barryvdh/laravel-dompdf |
+| Alert | `realrashid/sweet-alert` |
+| Data Table | `yajra/laravel-datatables` |
+| Export Excel | `maatwebsite/excel` |
+| Export PDF | `barryvdh/laravel-dompdf` |
 
-## Instalasi Project
+## Instalasi
 
 ### 1. Clone repository
 
@@ -205,7 +195,7 @@ npm install
 cp .env.example .env
 ```
 
-Jika Anda memakai Windows PowerShell:
+Untuk PowerShell:
 
 ```powershell
 Copy-Item .env.example .env
@@ -213,7 +203,7 @@ Copy-Item .env.example .env
 
 ### 4. Atur koneksi database
 
-Project bisa dijalankan dengan MySQL atau SQLite.
+Project dapat dijalankan dengan MySQL atau SQLite.
 
 Jika memakai SQLite:
 
@@ -221,28 +211,28 @@ Jika memakai SQLite:
 type nul > database/database.sqlite
 ```
 
-Lalu sesuaikan `.env`, misalnya:
+Contoh konfigurasi `.env`:
 
 ```env
 DB_CONNECTION=sqlite
 DB_DATABASE=database/database.sqlite
 ```
 
-Jika memakai MySQL, ubah kredensial database di `.env` sesuai server lokal Anda.
+Jika memakai MySQL, sesuaikan kredensial database di `.env`.
 
-### 5. Generate app key
+### 5. Generate application key
 
 ```bash
 php artisan key:generate
 ```
 
-### 6. Jalankan migrasi dan seeder
+### 6. Migrasi dan isi data awal
 
 ```bash
 php artisan migrate:fresh --seed
 ```
 
-### 7. Jalankan Vite dan server Laravel
+### 7. Jalankan aplikasi
 
 Terminal 1:
 
@@ -256,7 +246,7 @@ Terminal 2:
 php artisan serve
 ```
 
-## Perintah Yang Sering Dipakai
+## Perintah Penting
 
 ### Menjalankan seeder inti sistem saja
 
@@ -270,13 +260,13 @@ php artisan db:seed --class=CoreAccountSeeder
 php artisan db:seed
 ```
 
-### Reset database lalu isi ulang data dummy
+### Reset database dan isi ulang data dummy
 
 ```bash
 php artisan migrate:fresh --seed
 ```
 
-### Melihat daftar route
+### Menampilkan daftar route
 
 ```bash
 php artisan route:list
@@ -284,7 +274,7 @@ php artisan route:list
 
 ## Alur Login
 
-Setelah login, user akan diarahkan otomatis sesuai role:
+Setelah login, user diarahkan otomatis sesuai role:
 
 - `admin` -> `/dashboard/admin`
 - `operator` -> `/dashboard/operator`
@@ -295,20 +285,22 @@ Setelah login, user akan diarahkan otomatis sesuai role:
 ## Catatan Implementasi Saat Ini
 
 - modul akademik sudah memakai pendekatan `kelas -> rombel -> siswa_rombel`
-- pengampu mata pelajaran dikelola melalui tabel `guru_mapels`, bukan lagi langsung di tabel `mapels`
+- pengampu mata pelajaran dikelola melalui tabel `guru_mapels`
 - kolom wali kelas berada pada tabel `rombels`
-- histori perpindahan siswa antar rombel disimpan di `siswa_rombels`
+- histori perpindahan siswa disimpan di `siswa_rombels`
 - halaman register publik saat ini membuat akun baru dengan role `student`
 
-## Struktur Folder Penting
+## Struktur Folder
 
-- `app/Http/Controllers` : controller aplikasi
-- `app/Models` : model Eloquent
-- `database/migrations` : struktur database
-- `database/seeders` : data awal project
-- `resources/views` : Blade views
-- `resources/css` : stylesheet utama
-- `routes/web.php` : route aplikasi web
+| Folder | Keterangan |
+| --- | --- |
+| `app/Http/Controllers` | Controller aplikasi |
+| `app/Models` | Model Eloquent |
+| `database/migrations` | Struktur database |
+| `database/seeders` | Data awal project |
+| `resources/views` | Blade views |
+| `resources/css` | Stylesheet utama |
+| `routes/web.php` | Route aplikasi web |
 
 ## Pengembang
 
@@ -316,9 +308,9 @@ Project ini dikembangkan oleh:
 
 - Rizky Chandra Khusuma
 
-Jika README ini akan dipakai untuk presentasi, portfolio, atau repository publik, Anda masih bisa menambahkan:
+Jika README ini ingin dibuat lebih lengkap lagi untuk repository publik, Anda masih bisa menambahkan:
 
 - screenshot dashboard
 - ERD atau diagram relasi database
-- daftar fitur yang sedang dikembangkan
-- panduan deployment ke shared hosting atau VPS
+- flow bisnis sistem akademik
+- panduan deployment ke hosting atau VPS
