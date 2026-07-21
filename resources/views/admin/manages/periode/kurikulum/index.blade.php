@@ -14,8 +14,6 @@
                         <th>Nama</th>
                         <th>Tahun</th>
                         <th>Deskripsi</th>
-                        <th width="115">Create</th>
-                        <th width="115">Update</th>
                         <th width="95">Aksi</th>
                     </tr>
                 </thead>
@@ -55,34 +53,6 @@
                             render: function (data) {
                                 return data ?? '-';
                             }
-                        },
-                        {
-                            data: 'created_at',
-                            render: function (data) {
-                                const date = new Date(data);
-                                const day = date.getDate().toString().padStart(2, '0');
-                                const month = (date.getMonth() + 1).toString().padStart(2, '0');
-                                const year = date.getFullYear();
-                                const hours = date.getHours().toString().padStart(2, '0');
-                                const minutes = date.getMinutes().toString().padStart(2, '0');
-                                const seconds = date.getSeconds().toString().padStart(2, '0');
-                                return `${day}-${month}-${year} ${hours}:${minutes}:${seconds}`;
-                            },
-                            name: 'created_at'
-                        },
-                        {
-                            data: 'updated_at',
-                            render: function (data) {
-                                const date = new Date(data);
-                                const day = date.getDate().toString().padStart(2, '0');
-                                const month = (date.getMonth() + 1).toString().padStart(2, '0');
-                                const year = date.getFullYear();
-                                const hours = date.getHours().toString().padStart(2, '0');
-                                const minutes = date.getMinutes().toString().padStart(2, '0');
-                                const seconds = date.getSeconds().toString().padStart(2, '0');
-                                return `${day}-${month}-${year} ${hours}:${minutes}:${seconds}`;
-                            },
-                            name: 'updated_at'
                         },
                         {
                             data: null,
