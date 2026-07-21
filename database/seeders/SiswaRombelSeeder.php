@@ -68,7 +68,7 @@ class SiswaRombelSeeder extends Seeder
                 ],
                 [
                     'status' => 'aktif',
-                    'hasil_akhir' => 'belum_dievaluasi',
+                    'hasil_akhir' => 'proses_pembelajaran',
                     'is_active' => false,
                     'tanggal_masuk' => Carbon::create(2025, 7, 14)->toDateString(),
                     'tanggal_selesai' => Carbon::create(2025, 12, 20)->toDateString(),
@@ -83,7 +83,7 @@ class SiswaRombelSeeder extends Seeder
                 ],
                 [
                     'status' => 'aktif',
-                    'hasil_akhir' => 'belum_dievaluasi',
+                    'hasil_akhir' => 'proses_pembelajaran',
                     'is_active' => true,
                     'asal_siswa_rombel_id' => $riwayatGanjil->id,
                     'tanggal_masuk' => Carbon::create(2026, 1, 5)->toDateString(),

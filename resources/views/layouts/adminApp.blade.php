@@ -24,7 +24,7 @@
     $isKelasMenu = Route::is('kelas.*');
     $isTahunAjaranMenu = Route::is('tahun-ajaran.*');
     $isRombelMenu = Route::is('rombel.*');
-    $isSiswaRombelMenu = Route::is('siswaRombel.*');
+    $isSiswaRombelMenu = Route::is('siswa-rombel.*');
     $isGuruMapelMenu = Route::is('guruMapel.*');
 
     $isPenggunaOpen = $isDataUser || $isGuruMenu || $isSiswaMenu;
@@ -40,7 +40,7 @@
         'kelas' => Route::has('kelas.index') ? route('kelas.index') : '#',
         'tahunAjaran' => Route::has('tahun-ajaran.index') ? route('tahun-ajaran.index') : '#',
         'rombel' => Route::has('rombel.index') ? route('rombel.index') : '#',
-        'siswaRombel' => Route::has('siswaRombel.index') ? route('siswaRombel.index') : '#',
+        'siswaRombel' => Route::has('siswa-rombel.index') ? route('siswa-rombel.index') : '#',
         'guruMapel' => Route::has('guruMapel.index') ? route('guruMapel.index') : '#',
     ];
   @endphp
@@ -211,7 +211,7 @@
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="{{ $menuLinks['siswaRombel'] }}" class="nav-link {{ $isSiswaRombelMenu ? 'active' : '' }} {{ Route::has('siswaRombel.index') ? '' : 'is-disabled' }}">
+                  <a href="{{ $menuLinks['siswaRombel'] }}" class="nav-link {{ $isSiswaRombelMenu ? 'active' : '' }} {{ Route::has('siswa-rombel.index') ? '' : 'is-disabled' }}">
                     <i class="fas fa-people-arrows nav-icon"></i>
                     <p>Siswa Rombel</p>
                   </a>
