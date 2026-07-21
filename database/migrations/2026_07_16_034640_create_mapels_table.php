@@ -16,7 +16,6 @@ return new class extends Migration
             $table->string('nama');
             $table->string('kode')->unique();
             $table->foreignId('kurikulum_id')->constrained('kurikulums');
-            $table->foreignId('guru_id')->constrained('gurus')->onDelete('cascade');
             $table->timestamps();
         });
     }

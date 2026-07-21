@@ -58,9 +58,7 @@
                         @enderror
                     </div>
                 </div>
-                <div class="col-xs-12 col-sm-12 col-md-12 text-center">
-                    <button type="submit" class="btn btn-primary btn-block">Simpan</button>
-                </div>
+                @include('components.admin-form-actions', ['cancelRoute' => route('tahun-ajaran.index')])
             </div>
         </form>
     </div>

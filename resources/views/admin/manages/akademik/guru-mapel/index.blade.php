@@ -1,26 +1,26 @@
 @extends('layouts.adminApp')
 
-@section('title', 'Data Mata Pelajaran Sekolah')
+@section('title', 'Data Guru Mata Pelajaran Sekolah')
 
 @section('content')
     <div class="container">
         @include('components.alert-messages')
-        
+
         <div class="table-responsive">
-            <table id="tableMapel" class="table table-bordered table-hover table-striped">
+            <table id="tableGuruMapel" class="table table-bordered table-hover table-striped">
                 <thead>
                     <tr>
                         <th width="50">No</th>
-                        <th>Nama Pelajaran</th>
-                        <th>Kode</th>
-                        <th>Kurikulum</th>
-                        <th>Total Pengampu</th>
+                        <th>Guru</th>
+                        <th>Tahun Ajaran</th>
+                        <th>Rombel</th>
+                        <th>Mata Pelajaran</th>
                         <th width="95">Aksi</th>
                     </tr>
                 </thead>
             </table>
         </div>
-    </div>    
+    </div>
 
     @push('js')
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -29,43 +29,39 @@
 
         <script>
             $(document).ready(function () {
-                dataMapel();
-            });
-        
-            function dataMapel() {
-                $('#tableMapel').DataTable({
+                $('#tableGuruMapel').DataTable({
                     serverSide: true,
                     responsive: true,
                     processing: true,
                     ajax: {
-                        url: "{{ route('mapel.index') }}",
+                        url: "{{ route('guru-mapel.index') }}",
                         type: 'GET'
                     },
                     columns: [
                         {
-                            "data": null,
-                            "sortable": false,
-                            "searchable": false, 
+                            data: null,
+                            sortable: false,
+                            searchable: false,
                             render: function (data, type, row, meta) {
                                 return meta.row + meta.settings._iDisplayStart + 1;
                             }
                         },
-                        {data: 'nama', name: 'nama'},
-                        {data: 'kode', name: 'kode'},
-                        {data: 'kurikulum_nama', name: 'kurikulum_nama'},
-                        {data: 'total_pengampu', name: 'total_pengampu'},
+                        {data: 'guru', name: 'guru'},
+                        {data: 'tahun_ajaran', name: 'tahun_ajaran'},
+                        {data: 'rombel', name: 'rombel'},
+                        {data: 'mapel', name: 'mapel'},
                         {
                             data: null,
                             render: function (data, type, row) {
-                                let editUrl = `{{ route('mapel.edit', ':id') }}`.replace(':id', row.id);
-                                let deleteUrl = `{{ route('mapel.destroy', ':id') }}`.replace(':id', row.id);
+                                let editUrl = `{{ route('guru-mapel.edit', ':id') }}`.replace(':id', row.id);
+                                let deleteUrl = `{{ route('guru-mapel.destroy', ':id') }}`.replace(':id', row.id);
 
                                 return `
                                     <a href="${editUrl}" class="btn btn-outline-warning btn-secoundary btn-sm mt-1 mr-1" title="Edit">
                                         <i class="fas fa-edit"></i>
                                     </a>
                                     <button type="button" class="btn btn-outline-danger btn-secoundary btn-sm mt-1"
-                                            onclick="confirmDelete('${row.nama}', '${deleteUrl}')">
+                                            onclick="confirmDelete('${row.mapel}', '${row.guru}', '${deleteUrl}')">
                                         <i class="fas fa-trash"></i>
                                     </button>
                                 `;
@@ -73,14 +69,14 @@
                         }
                     ]
                 });
-            }
+            });
         </script>
 
         <script>
-            function confirmDelete(nama, deleteUrl) {
+            function confirmDelete(mapel, guru, deleteUrl) {
                 Swal.fire({
                     title: 'Apakah Anda yakin?',
-                    text: `Data mata pelajaran ${nama} akan dihapus.`,
+                    text: `Data guru mata pelajaran ${mapel} oleh ${guru} akan dihapus.`,
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
@@ -104,11 +100,11 @@
                                     confirmButtonColor: '#28a745',
                                     confirmButtonText: 'Oke'
                                 }).then(() => {
-                                    $('#tableMapel').DataTable().ajax.reload();
+                                    $('#tableGuruMapel').DataTable().ajax.reload();
                                 });
                             },
                             error: function(xhr) {
-                                const message = xhr.responseJSON?.message ?? `Terjadi kesalahan saat menghapus data mata pelajaran ${nama}.`;
+                                const message = xhr.responseJSON?.message ?? `Terjadi kesalahan saat menghapus data guru mata pelajaran ${mapel} oleh ${guru}.`;
 
                                 Swal.fire({
                                     title: 'Error!',

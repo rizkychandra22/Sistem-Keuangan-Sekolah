@@ -25,7 +25,7 @@
     $isTahunAjaranMenu = Route::is('tahun-ajaran.*');
     $isRombelMenu = Route::is('rombel.*');
     $isSiswaRombelMenu = Route::is('siswa-rombel.*');
-    $isGuruMapelMenu = Route::is('guruMapel.*');
+    $isGuruMapelMenu = Route::is('guru-mapel.*');
 
     $isPenggunaOpen = $isDataUser || $isGuruMenu || $isSiswaMenu;
     $isPeriodeAkademikOpen = $isKurikulumMenu || $isTahunAjaranMenu;
@@ -41,7 +41,7 @@
         'tahunAjaran' => Route::has('tahun-ajaran.index') ? route('tahun-ajaran.index') : '#',
         'rombel' => Route::has('rombel.index') ? route('rombel.index') : '#',
         'siswaRombel' => Route::has('siswa-rombel.index') ? route('siswa-rombel.index') : '#',
-        'guruMapel' => Route::has('guruMapel.index') ? route('guruMapel.index') : '#',
+        'guruMapel' => Route::has('guru-mapel.index') ? route('guru-mapel.index') : '#',
     ];
   @endphp
 
@@ -217,7 +217,7 @@
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="{{ $menuLinks['guruMapel'] }}" class="nav-link {{ $isGuruMapelMenu ? 'active' : '' }} {{ Route::has('guruMapel.index') ? '' : 'is-disabled' }}">
+                  <a href="{{ $menuLinks['guruMapel'] }}" class="nav-link {{ $isGuruMapelMenu ? 'active' : '' }} {{ Route::has('guru-mapel.index') ? '' : 'is-disabled' }}">
                     <i class="fas fa-chalkboard-teacher nav-icon"></i>
                     <p>Guru Mapel</p>
                   </a>

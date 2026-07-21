@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\Manages\Akademik\KelasController;
 use App\Http\Controllers\Admin\Manages\Akademik\MapelController;
 use App\Http\Controllers\Admin\Manages\Akademik\RombelController;
 use App\Http\Controllers\Admin\Manages\Akademik\StudentRombelController;
+use App\Http\Controllers\Admin\Manages\Akademik\TeacherSubjectController;
 use App\Http\Controllers\Admin\Manages\Periode\KurikulumController;
 use App\Http\Controllers\Admin\Manages\Periode\TahunAjaranController;
 
@@ -100,6 +101,7 @@ Route::middleware(['userAkses:admin'])->prefix('/dashboard')->group(function() {
     Route::resource('/admin/kelas', KelasController::class);
     Route::resource('/admin/rombel', RombelController::class);
     Route::resource('/admin/siswa-rombel', StudentRombelController::class);
+    Route::resource('/admin/guru-mapel', TeacherSubjectController::class);
 });
 
 // Route Role User Keuangan
