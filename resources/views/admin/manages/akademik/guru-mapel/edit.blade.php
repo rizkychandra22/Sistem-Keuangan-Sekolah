@@ -58,10 +58,7 @@
                         @enderror
                     </div>
                 </div>
-                <div class="col-xs-12 col-sm-12 col-md-12 text-center">
-                    <button type="submit" class="btn btn-primary btn-block">Simpan</button>
-                    <button type="button" class="btn btn-secondary btn-block" onclick="window.location.href='{{ route('guru-mapel.index') }}'">Batal</button>
-                </div>
+                @include('components.admin-form-actions', ['cancelRoute' => route('guru-mapel.index')])
             </div>
         </form>
     </div>

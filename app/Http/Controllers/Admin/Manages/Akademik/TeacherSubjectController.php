@@ -28,7 +28,13 @@ class TeacherSubjectController extends Controller
             return datatables()->of($dataGuruMapel)
                 ->addColumn('guru', fn (GuruMapel $guruMapel) => $guruMapel->guru?->nama ?? '-')
                 ->addColumn('rombel', fn (GuruMapel $guruMapel) => $guruMapel->rombel?->nama ?? '-')
-                ->addColumn('mapel', fn (GuruMapel $guruMapel) => $guruMapel->mapel?->nama ?? '-')
+                ->addColumn('mapel', function (GuruMapel $guruMapel) {
+                    if (! $guruMapel->mapel) {
+                        return '-';
+                    }
+
+                    return $guruMapel->mapel->nama . ' - ' . $guruMapel->mapel->kode;
+                })
                 ->addColumn('tahun_ajaran', fn (GuruMapel $guruMapel) => $this->formatTahunAjaran($guruMapel->rombel?->tahunAjaran))
                 ->make(true);
         }

@@ -58,7 +58,7 @@
                 </div>
                 <div class="col-xs-6 col-sm-6 col-md-6">
                     <div class="form-group">
-                        <strong>Hasil Akhir:</strong>
+                        <strong>Status Pembelajaran:</strong>
                         <select name="hasil_akhir" class="form-control">
                             <option value="proses_pembelajaran" {{ old('hasil_akhir', 'proses_pembelajaran') === 'proses_pembelajaran' ? 'selected' : '' }}>Proses Pembelajaran</option>
                             <option value="naik_kelas" {{ old('hasil_akhir') === 'naik_kelas' ? 'selected' : '' }}>Naik Kelas</option>
@@ -126,9 +126,7 @@
                         @enderror
                     </div>
                 </div>
-                <div class="col-xs-12 col-sm-12 col-md-12 text-center">
-                    <button type="submit" class="btn btn-primary btn-block">Simpan</button>
-                </div>
+                @include('components.admin-form-actions', ['cancelRoute' => route('siswa-rombel.index')])
             </div>
         </form>
     </div>
