@@ -67,7 +67,7 @@ class StudentRombelController extends Controller
     {
         $siswas = Siswa::query()->orderBy('nama')->get();
         $rombels = Rombel::query()
-            ->with(['kelas', 'tahunAjaran'])
+            ->with(['kelas', 'tahunAjaran', 'waliKelas'])
             ->orderByDesc('is_active')
             ->orderByDesc('created_at')
             ->get();
@@ -118,7 +118,7 @@ class StudentRombelController extends Controller
     {
         $siswas = Siswa::query()->orderBy('nama')->get();
         $rombels = Rombel::query()
-            ->with(['kelas', 'tahunAjaran'])
+            ->with(['kelas', 'tahunAjaran', 'waliKelas'])
             ->orderByDesc('is_active')
             ->orderByDesc('created_at')
             ->get();
@@ -206,7 +206,7 @@ class StudentRombelController extends Controller
                     ->where(fn ($query) => $query->where('siswa_id', $request->siswa_id)),
             ],
             'status' => ['required', Rule::in(['aktif', 'lulus', 'mengulang', 'pindah', 'keluar'])],
-            'hasil_akhir' => ['required', Rule::in(['proses_pembelajaran', 'naik', 'tinggal_kelas', 'lulus', 'tidak_lulus'])],
+            'hasil_akhir' => ['required', Rule::in(['proses_pembelajaran', 'naik_kelas', 'tinggal_kelas', 'lulus', 'tidak_lulus'])],
             'is_active' => 'required|boolean',
             'asal_siswa_rombel_id' => [
                 'nullable',

@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('siswa_id')->constrained('siswas')->onDelete('cascade');
             $table->foreignId('rombel_id')->constrained('rombels')->onDelete('cascade');
             $table->enum('status', ['aktif', 'lulus', 'mengulang', 'pindah', 'keluar'])->default('aktif');
-            $table->enum('hasil_akhir', ['proses_pembelajaran', 'naik', 'tinggal_kelas', 'lulus', 'tidak_lulus'])->default('proses_pembelajaran');
+            $table->enum('hasil_akhir', ['proses_pembelajaran', 'naik_kelas', 'tinggal_kelas', 'lulus', 'tidak_lulus'])->default('proses_pembelajaran');
             $table->boolean('is_active')->default(true);
             $table->foreignId('asal_siswa_rombel_id')->nullable()->constrained('siswa_rombels')->nullOnDelete();
             $table->date('tanggal_masuk')->nullable();

@@ -9,7 +9,7 @@
         <form action="{{ route('siswa-rombel.store') }}" method="POST">
             @csrf
             <div class="row">
-                <div class="col-xs-12 col-sm-12 col-md-12">
+                <div class="col-xs-6 col-sm-6 col-md-6">
                     <div class="form-group">
                         <strong>Siswa:</strong>
                         <select name="siswa_id" class="form-control">
@@ -25,7 +25,7 @@
                         @enderror
                     </div>
                 </div>
-                <div class="col-xs-12 col-sm-12 col-md-12">
+                <div class="col-xs-6 col-sm-6 col-md-6">
                     <div class="form-group">
                         <strong>Rombel:</strong>
                         <select name="rombel_id" class="form-control">
@@ -41,7 +41,7 @@
                         @enderror
                     </div>
                 </div>
-                <div class="col-xs-12 col-sm-12 col-md-12">
+                <div class="col-xs-6 col-sm-6 col-md-6">
                     <div class="form-group">
                         <strong>Status Akademik:</strong>
                         <select name="status" class="form-control">
@@ -56,12 +56,12 @@
                         @enderror
                     </div>
                 </div>
-                <div class="col-xs-12 col-sm-12 col-md-12">
+                <div class="col-xs-6 col-sm-6 col-md-6">
                     <div class="form-group">
                         <strong>Hasil Akhir:</strong>
                         <select name="hasil_akhir" class="form-control">
                             <option value="proses_pembelajaran" {{ old('hasil_akhir', 'proses_pembelajaran') === 'proses_pembelajaran' ? 'selected' : '' }}>Proses Pembelajaran</option>
-                            <option value="naik" {{ old('hasil_akhir') === 'naik' ? 'selected' : '' }}>Naik</option>
+                            <option value="naik_kelas" {{ old('hasil_akhir') === 'naik_kelas' ? 'selected' : '' }}>Naik Kelas</option>
                             <option value="tinggal_kelas" {{ old('hasil_akhir') === 'tinggal_kelas' ? 'selected' : '' }}>Tinggal Kelas</option>
                             <option value="lulus" {{ old('hasil_akhir') === 'lulus' ? 'selected' : '' }}>Lulus</option>
                             <option value="tidak_lulus" {{ old('hasil_akhir') === 'tidak_lulus' ? 'selected' : '' }}>Tidak Lulus</option>
@@ -71,7 +71,7 @@
                         @enderror
                     </div>
                 </div>
-                <div class="col-xs-12 col-sm-12 col-md-12">
+                <div class="col-xs-6 col-sm-6 col-md-6">
                     <div class="form-group">
                         <strong>Status Siswa:</strong>
                         <select name="is_active" class="form-control">
@@ -83,14 +83,14 @@
                         @enderror
                     </div>
                 </div>
-                <div class="col-xs-12 col-sm-12 col-md-12">
+                <div class="col-xs-6 col-sm-6 col-md-6">
                     <div class="form-group">
                         <strong>Asal Siswa Rombel:</strong>
                         <select name="asal_siswa_rombel_id" class="form-control">
                             <option value="">-- Pilih Asal Siswa Rombel --</option>
                             @foreach ($asalSiswaRombels as $asalSiswaRombel)
                                 <option value="{{ $asalSiswaRombel->id }}" {{ old('asal_siswa_rombel_id') == $asalSiswaRombel->id ? 'selected' : '' }}>
-                                    {{ $asalSiswaRombel->siswa?->nama }} - {{ $asalSiswaRombel->rombel?->nama }} - {{ ucfirst(str_replace('_', ' ', $asalSiswaRombel->hasil_akhir)) }}
+                                    {{ $asalSiswaRombel->rombel?->nama ?? '-' }}
                                 </option>
                             @endforeach
                         </select>
@@ -99,7 +99,7 @@
                         @enderror
                     </div>
                 </div>
-                <div class="col-xs-12 col-sm-12 col-md-12">
+                <div class="col-xs-6 col-sm-6 col-md-6">
                     <div class="form-group">
                         <strong>Tanggal Masuk:</strong>
                         <input type="date" name="tanggal_masuk" value="{{ old('tanggal_masuk') }}" class="form-control">
@@ -108,7 +108,7 @@
                         @enderror
                     </div>
                 </div>
-                <div class="col-xs-12 col-sm-12 col-md-12">
+                <div class="col-xs-6 col-sm-6 col-md-6">
                     <div class="form-group">
                         <strong>Tanggal Selesai:</strong>
                         <input type="date" name="tanggal_selesai" value="{{ old('tanggal_selesai') }}" class="form-control">
@@ -127,7 +127,7 @@
                     </div>
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-12 text-center">
-                    <button type="submit" class="btn btn-secondary btn-block">Simpan</button>
+                    <button type="submit" class="btn btn-primary btn-block">Simpan</button>
                 </div>
             </div>
         </form>
