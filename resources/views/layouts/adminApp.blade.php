@@ -6,7 +6,6 @@
   <title>@yield("title")</title>
   <link rel="icon" href="https://i2.wp.com/www.freepnglogos.com/uploads/tut-wuri-handayani-png-logo/vector-wuri-handayani-warna-0.png">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-k6RqeWeci5ZR/Lv4MR0sA0FfDOMR8wKMO0M2fLlPjqG7m1F5By4HR7FJztnD6B" crossorigin="anonymous">
   <link rel="stylesheet" href="/!template-admin/plugins/fontawesome-free/css/all.min.css">
   <link rel="stylesheet" href="/!template-admin/dist/css/adminlte.min.css">
   <meta name="csrf-token" content="{{ csrf_token() }}">

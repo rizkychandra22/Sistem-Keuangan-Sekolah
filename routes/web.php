@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\ControllerSiswa;
 use App\Http\Controllers\Admin\ControllerUser;
 use App\Http\Controllers\Admin\Manages\Akademik\KelasController;
 use App\Http\Controllers\Admin\Manages\Akademik\MapelController;
+use App\Http\Controllers\Admin\Manages\Akademik\RombelController;
 use App\Http\Controllers\Admin\Manages\Periode\KurikulumController;
 use App\Http\Controllers\Admin\Manages\Periode\TahunAjaranController;
 
@@ -73,30 +74,30 @@ Route::get('/home', function() {
 });
 
 // Route Role User Admin
-Route::middleware(['userAkses:admin'])->group(function() {
-    Route::get('/dashboard/admin', [DashboardController::class, 'admin'])->name('dashboard.admin');
+Route::middleware(['userAkses:admin'])->prefix('/dashboard')->group(function() {
+    Route::get('/admin', [DashboardController::class, 'admin'])->name('dashboard.admin');
 
     // Profile User Admin
-    Route::get('/dashboard/admin/profile', [ProfileController::class, 'profileAdmin'])->name('profile.admin');
-    Route::get('/dashboard/admin/profile/{user}/edit', [ProfileController::class, 'editProfileAdmin'])->name('profile.edit.admin');
-    Route::put('/dashboard/admin/profile/{user}', [ProfileController::class, 'updateProfileAdmin'])->name('profile.update.admin');
+    Route::get('/admin/profile', [ProfileController::class, 'profileAdmin'])->name('profile.admin');
+    Route::get('/admin/profile/{user}/edit', [ProfileController::class, 'editProfileAdmin'])->name('profile.edit.admin');
+    Route::put('/admin/profile/{user}', [ProfileController::class, 'updateProfileAdmin'])->name('profile.update.admin');
 
     // Route CRUD Data User
-    Route::get('/dashboard/admin/data/users', [ControllerUser::class, 'index'])->name('dataUser.index');
-    Route::get('/dashboard/admin/data/users/create', [ControllerUser::class, 'create'])->name('dataUser.create');
-    Route::post('/dashboard/admin/data/users', [ControllerUser::class, 'store'])->name('dataUser.store');
-    Route::get('/dashboard/admin/data/users/{user}/edit', [ControllerUser::class, 'edit'])->name('dataUser.edit');
-    Route::put('/dashboard/admin/data/users/{user}', [ControllerUser::class, 'update'])->name('dataUser.update');
-    Route::delete('/dashboard/admin/data/users/{user}', [ControllerUser::class, 'destroy'])->name('dataUser.destroy');
+    Route::get('/admin/data/users', [ControllerUser::class, 'index'])->name('dataUser.index');
+    Route::get('/admin/data/users/create', [ControllerUser::class, 'create'])->name('dataUser.create');
+    Route::post('/admin/data/users', [ControllerUser::class, 'store'])->name('dataUser.store');
+    Route::get('/admin/data/users/{user}/edit', [ControllerUser::class, 'edit'])->name('dataUser.edit');
+    Route::put('/admin/data/users/{user}', [ControllerUser::class, 'update'])->name('dataUser.update');
+    Route::delete('/admin/data/users/{user}', [ControllerUser::class, 'destroy'])->name('dataUser.destroy');
     
     // Admin Resource CRUD Master Data
-    Route::resource('/dashboard/admin/siswa', ControllerSiswa::class);
-    Route::resource('/dashboard/admin/guru', ControllerGuru::class);
-    Route::resource('/dashboard/admin/kurikulum', KurikulumController::class);
-    Route::resource('/dashboard/admin/mapel', MapelController::class);
-    Route::resource('/dashboard/admin/tahun-ajaran', TahunAjaranController::class);
-    Route::resource('/dashboard/admin/kelas', KelasController::class)
-        ->parameters(['kelas' => 'kelas']);
+    Route::resource('/admin/siswa', ControllerSiswa::class);
+    Route::resource('/admin/guru', ControllerGuru::class);
+    Route::resource('/admin/kurikulum', KurikulumController::class);
+    Route::resource('/admin/mapel', MapelController::class);
+    Route::resource('/admin/tahun-ajaran', TahunAjaranController::class);
+    Route::resource('/admin/kelas', KelasController::class);
+    Route::resource('/admin/rombel', RombelController::class);
 });
 
 // Route Role User Keuangan
