@@ -56,10 +56,7 @@ class RombelController extends Controller
      */
     public function create(): View
     {
-        $dataTahunAjaran = TahunAjaran::query()
-            ->orderByDesc('tahun')
-            // ->orderByRaw("CASE WHEN semester = 'ganjil' THEN 1 ELSE 2 END")
-            ->get();
+        $dataTahunAjaran = $this->getSelectableTahunAjarans();
         $dataKelas = Kelas::query()->orderBy('tingkat')->get();
         $dataWalikelas = Guru::query()->orderBy('nama')->get();
         $currentLink = route('rombel.index');
@@ -100,10 +97,7 @@ class RombelController extends Controller
      */
     public function edit(Rombel $rombel): View
     {
-        $dataTahunAjaran = TahunAjaran::query()
-            ->orderByDesc('tahun')
-            // ->orderByRaw("CASE WHEN semester = 'ganjil' THEN 1 ELSE 2 END")
-            ->get();
+        $dataTahunAjaran = $this->getSelectableTahunAjarans($rombel->tahun_ajaran_id);
         $dataKelas = Kelas::query()->orderBy('tingkat')->get();
         $dataWalikelas = Guru::query()->orderBy('nama')->get();
         $currentLink = route('rombel.index');
@@ -174,7 +168,11 @@ class RombelController extends Controller
         ]);
 
         $validated = $request->validate([
-            'tahun_ajaran_id' => 'required|exists:tahun_ajarans,id',
+            'tahun_ajaran_id' => [
+                'required',
+                'exists:tahun_ajarans,id',
+                fn ($attribute, $value, $fail) => $this->validateSelectableTahunAjaran($value, $fail, $rombel),
+            ],
             'kelas_id' => 'required|exists:kelas,id',
             'paralel' => [
                 'required',
@@ -211,6 +209,38 @@ class RombelController extends Controller
         ]);
 
         return $validated;
+    }
+
+    private function getSelectableTahunAjarans(?int $includeId = null)
+    {
+        return TahunAjaran::query()
+            ->where(function ($query) use ($includeId) {
+                $query->open();
+
+                if ($includeId) {
+                    $query->orWhere('id', $includeId);
+                }
+            })
+            ->orderByDesc('is_active')
+            ->orderByDesc('tahun')
+            ->get();
+    }
+
+    private function validateSelectableTahunAjaran(mixed $value, callable $fail, ?Rombel $rombel = null): void
+    {
+        $tahunAjaran = TahunAjaran::query()->find($value);
+
+        if (! $tahunAjaran) {
+            return;
+        }
+
+        if ($rombel && (int) $rombel->tahun_ajaran_id === (int) $tahunAjaran->id) {
+            return;
+        }
+
+        if ($tahunAjaran->is_locked) {
+            $fail('Tahun ajaran yang dipilih harus berstatus terbuka.');
+        }
     }
 
     private function formatTahunAjaran(?TahunAjaran $tahunAjaran): string

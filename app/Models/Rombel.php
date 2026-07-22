@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -62,5 +63,18 @@ class Rombel extends Model
     public function getNamaKelasAttribute(): string
     {
         return $this->nama;
+    }
+
+    public function scopeSelectable(Builder $query): Builder
+    {
+        return $query
+            ->where('is_active', true)
+            ->whereHas('tahunAjaran', fn (Builder $tahunAjaranQuery) => $tahunAjaranQuery->selectable());
+    }
+
+    public function scopeOpenPeriod(Builder $query): Builder
+    {
+        return $query
+            ->whereHas('tahunAjaran', fn (Builder $tahunAjaranQuery) => $tahunAjaranQuery->open());
     }
 }

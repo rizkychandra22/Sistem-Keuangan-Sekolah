@@ -66,15 +66,17 @@ class StudentRombelController extends Controller
     public function create(): View
     {
         $siswas = Siswa::query()->orderBy('nama')->get();
-        $rombels = Rombel::query()
+        $rombels = $this->selectableRombelQuery()
             ->with(['kelas', 'tahunAjaran', 'waliKelas'])
             ->orderByDesc('is_active')
             ->orderByDesc('created_at')
+            ->orderByDesc('id')
             ->get();
-        $asalRombels = Rombel::query()
+        $asalRombels = $this->selectableRombelQuery()
             ->with(['tahunAjaran', 'waliKelas'])
             ->orderByDesc('is_active')
             ->orderByDesc('created_at')
+            ->orderByDesc('id')
             ->get();
 
         $currentLink = route('siswa-rombel.index');
@@ -118,16 +120,18 @@ class StudentRombelController extends Controller
     public function edit(SiswaRombel $siswa_rombel): View
     {
         $siswas = Siswa::query()->orderBy('nama')->get();
-        $rombels = Rombel::query()
+        $rombels = $this->selectableRombelQuery([$siswa_rombel->rombel_id])
             ->with(['kelas', 'tahunAjaran', 'waliKelas'])
             ->orderByDesc('is_active')
             ->orderByDesc('created_at')
+            ->orderByDesc('id')
             ->get();
-        $asalRombels = Rombel::query()
+        $asalRombels = $this->selectableRombelQuery([$siswa_rombel->asal_rombel_id])
             ->with(['tahunAjaran', 'waliKelas'])
             ->whereKeyNot($siswa_rombel->rombel_id)
             ->orderByDesc('is_active')
             ->orderByDesc('created_at')
+            ->orderByDesc('id')
             ->get();
 
         $currentLink = route('siswa-rombel.index');
@@ -197,6 +201,7 @@ class StudentRombelController extends Controller
             'rombel_id' => [
                 'required',
                 'exists:rombels,id',
+                fn ($attribute, $value, $fail) => $this->validateSelectableRombel($value, $fail, $siswaRombel, 'rombel'),
                 Rule::unique('siswa_rombels')
                     ->ignore($siswaRombelId)
                     ->where(fn ($query) => $query->where('siswa_id', $request->siswa_id)),
@@ -207,6 +212,7 @@ class StudentRombelController extends Controller
             'asal_rombel_id' => [
                 'nullable',
                 'exists:rombels,id',
+                fn ($attribute, $value, $fail) => $this->validateSelectableRombel($value, $fail, $siswaRombel, 'asal_rombel'),
                 Rule::notIn(array_filter([$request->rombel_id, $siswaRombel?->rombel_id])),
             ],
             'tanggal_masuk' => 'nullable|date',
@@ -227,6 +233,51 @@ class StudentRombelController extends Controller
         ]);
 
         return $validated;
+    }
+
+    private function selectableRombelQuery(array $includeIds = [])
+    {
+        $includeIds = array_values(array_filter(array_map('intval', $includeIds)));
+
+        return Rombel::query()
+            ->where(function ($query) use ($includeIds) {
+                $query->openPeriod();
+
+                if ($includeIds !== []) {
+                    $query->orWhereIn('id', $includeIds);
+                }
+            });
+    }
+
+    private function validateSelectableRombel(
+        mixed $value,
+        callable $fail,
+        ?SiswaRombel $siswaRombel = null,
+        string $field = 'rombel'
+    ): void {
+        if (! $value) {
+            return;
+        }
+
+        $rombel = Rombel::query()->with('tahunAjaran')->find($value);
+
+        if (! $rombel) {
+            return;
+        }
+
+        $currentId = match ($field) {
+            'asal_rombel' => $siswaRombel?->asal_rombel_id,
+            default => $siswaRombel?->rombel_id,
+        };
+
+        if ($currentId && (int) $currentId === (int) $rombel->id) {
+            return;
+        }
+
+        if ($rombel->tahunAjaran?->is_locked) {
+            $label = $field === 'asal_rombel' ? 'Asal siswa rombel' : 'Rombel';
+            $fail($label . ' yang dipilih harus berasal dari tahun ajaran yang terbuka.');
+        }
     }
 
     private function formatTahunAjaran(?TahunAjaran $tahunAjaran): string

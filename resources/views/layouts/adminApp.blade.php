@@ -193,15 +193,15 @@
                   </ul>
                 </li>
                 <li class="nav-item">
-                  <a href="{{ $menuLinks['mapel'] }}" class="nav-link {{ $isMapelMenu ? 'active' : '' }} {{ Route::has('mapel.index') ? '' : 'is-disabled' }}">
-                    <i class="fas fa-book nav-icon"></i>
-                    <p>Mapel</p>
-                  </a>
-                </li>
-                <li class="nav-item">
                   <a href="{{ $menuLinks['kelas'] }}" class="nav-link {{ $isKelasMenu ? 'active' : '' }} {{ Route::has('kelas.index') ? '' : 'is-disabled' }}">
                     <i class="fas fa-layer-group nav-icon"></i>
                     <p>Kelas</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="{{ $menuLinks['mapel'] }}" class="nav-link {{ $isMapelMenu ? 'active' : '' }} {{ Route::has('mapel.index') ? '' : 'is-disabled' }}">
+                    <i class="fas fa-book nav-icon"></i>
+                    <p>Mapel</p>
                   </a>
                 </li>
                 <li class="nav-item">

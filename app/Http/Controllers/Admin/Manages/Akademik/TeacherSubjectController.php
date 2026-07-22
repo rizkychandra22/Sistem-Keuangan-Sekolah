@@ -50,10 +50,11 @@ class TeacherSubjectController extends Controller
     public function create(): View
     {
         $gurus = Guru::query()->orderBy('nama')->get();
-        $rombels = Rombel::query()
+        $rombels = $this->selectableRombelQuery()
             ->with(['tahunAjaran', 'waliKelas'])
             ->orderByDesc('is_active')
             ->orderByDesc('created_at')
+            ->orderByDesc('id')
             ->get();
         $mapels = Mapel::query()->orderBy('nama')->get();
 
@@ -90,10 +91,11 @@ class TeacherSubjectController extends Controller
     public function edit(GuruMapel $guru_mapel): View
     {
         $gurus = Guru::query()->orderBy('nama')->get();
-        $rombels = Rombel::query()
+        $rombels = $this->selectableRombelQuery([$guru_mapel->rombel_id])
             ->with(['tahunAjaran', 'waliKelas'])
             ->orderByDesc('is_active')
             ->orderByDesc('created_at')
+            ->orderByDesc('id')
             ->get();
         $mapels = Mapel::query()->orderBy('nama')->get();
 
@@ -146,7 +148,11 @@ class TeacherSubjectController extends Controller
 
         return $request->validate([
             'guru_id' => 'required|exists:gurus,id',
-            'rombel_id' => 'required|exists:rombels,id',
+            'rombel_id' => [
+                'required',
+                'exists:rombels,id',
+                fn ($attribute, $value, $fail) => $this->validateSelectableRombel($value, $fail, $guruMapel),
+            ],
             'mapel_id' => [
                 'required',
                 'exists:mapels,id',
@@ -165,6 +171,37 @@ class TeacherSubjectController extends Controller
             'mapel_id.exists' => 'Mata pelajaran yang dipilih tidak valid',
             'mapel_id.unique' => 'Data guru, rombel, dan mata pelajaran tersebut sudah terdaftar',
         ]);
+    }
+
+    private function selectableRombelQuery(array $includeIds = [])
+    {
+        $includeIds = array_values(array_filter(array_map('intval', $includeIds)));
+
+        return Rombel::query()
+            ->where(function ($query) use ($includeIds) {
+                $query->openPeriod();
+
+                if ($includeIds !== []) {
+                    $query->orWhereIn('id', $includeIds);
+                }
+            });
+    }
+
+    private function validateSelectableRombel(mixed $value, callable $fail, ?GuruMapel $guruMapel = null): void
+    {
+        $rombel = Rombel::query()->with('tahunAjaran')->find($value);
+
+        if (! $rombel) {
+            return;
+        }
+
+        if ($guruMapel && (int) $guruMapel->rombel_id === (int) $rombel->id) {
+            return;
+        }
+
+        if ($rombel->tahunAjaran?->is_locked) {
+            $fail('Rombel yang dipilih harus berasal dari tahun ajaran yang terbuka.');
+        }
     }
 
     private function formatTahunAjaran(?TahunAjaran $tahunAjaran): string

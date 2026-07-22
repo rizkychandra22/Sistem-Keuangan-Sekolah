@@ -4,22 +4,12 @@ namespace Database\Seeders;
 
 use App\Models\Kurikulum;
 use App\Models\Mapel;
-use App\Models\Rombel;
-use App\Models\TahunAjaran;
 use Illuminate\Database\Seeder;
 
 class MapelSeeder extends Seeder
 {
     public function run(): void
     {
-        $tahunAjaranAktif = TahunAjaran::query()
-            ->where('is_active', true)
-            ->first();
-
-        if (! $tahunAjaranAktif) {
-            return;
-        }
-
         $kurikulumMerdeka = Kurikulum::query()
             ->where('nama', 'Kurikulum Merdeka')
             ->where('tahun', '2022')
@@ -46,22 +36,13 @@ class MapelSeeder extends Seeder
             ['nama' => 'Seni Budaya', 'kode' => 'SBD', 'kurikulum_id' => $kurikulumKtsp->id],
         ];
 
-        $rombelsAktif = Rombel::query()
-            ->with('kelas')
-            ->where('tahun_ajaran_id', $tahunAjaranAktif->id)
-            ->orderByDesc('kelas_id')
-            ->orderBy('paralel')
-            ->get();
-
-        foreach ($rombelsAktif as $rombel) {
-            $suffix = $rombel->kelas?->tingkat . $rombel->paralel;
-
+        foreach (range(1, 6) as $tingkat) {
             foreach ($daftarMapel as $mapel) {
                 Mapel::updateOrCreate(
-                    ['kode' => $mapel['kode'] . $suffix],
+                    ['kode' => $mapel['kode'] . $tingkat],
                     [
-                        'nama' => $mapel['nama'] . ' ' . $suffix,
-                        'kode' => $mapel['kode'] . $suffix,
+                        'nama' => $mapel['nama'] . ' ' . $tingkat,
+                        'kode' => $mapel['kode'] . $tingkat,
                         'kurikulum_id' => $mapel['kurikulum_id'],
                     ]
                 );
