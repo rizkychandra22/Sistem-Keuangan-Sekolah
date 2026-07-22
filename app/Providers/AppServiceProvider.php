@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use App\Models\Message;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\Route;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -21,6 +22,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        Route::singularResourceParameters(false);
+
         Paginator::useBootstrapFive();
         
         view()->composer('*', function ($view) {

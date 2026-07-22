@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Manages;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Guru;
@@ -10,6 +10,8 @@ use Illuminate\Validation\Rule;
 
 class ControllerGuru extends Controller
 {
+    private const DEFAULT_GURU_IMAGE = 'default-guru.png';
+
     public function index()
     {
         $dataGuru = Guru::with('user')->orderBy('created_at', 'desc')->get();
@@ -21,7 +23,7 @@ class ControllerGuru extends Controller
         $currentLink = route('guru.index');
         $currentTitle = 'Guru Sekolah';
         $createLink = route('guru.create');
-        $createTitle = 'Create';
+        $createTitle = 'Tambah';
 
         return view('admin/guru.index', compact('currentLink', 'currentTitle', 'createLink', 'createTitle'));
     }
@@ -29,7 +31,7 @@ class ControllerGuru extends Controller
     public function create()
     {
         $availableUsers = User::query()
-            ->where('role', 'guru')
+            ->where('role', 'teacher')
             ->with('guru')
             ->orderBy('username')
             ->get();
@@ -38,7 +40,7 @@ class ControllerGuru extends Controller
         $currentLink = route('guru.index');
         $currentTitle = 'Guru Sekolah';
         $createLink = route('guru.create');
-        $createTitle = 'Create';
+        $createTitle = 'Tambah';
 
         return view('admin/guru.create', compact('availableUsers', 'currentLink', 'currentTitle', 'createLink', 'createTitle'));
     }
@@ -48,14 +50,14 @@ class ControllerGuru extends Controller
         $validated = $request->validate([
             'user_id' => [
                 'required',
-                Rule::exists('users', 'id')->where(fn ($query) => $query->where('role', 'guru')),
+                Rule::exists('users', 'id')->where(fn ($query) => $query->where('role', 'teacher')),
                 'unique:gurus,user_id',
             ],
             'nip' => 'required|string|max:255|unique:gurus,nip',
             'jabatan' => 'required|string|max:255',
             'kontak' => 'nullable|string',
             'motivasi' => 'required|string|max:255',
-            'gambar' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
+            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg',
         ],[
             'user_id.required' => 'Akun user guru harus dipilih',
             'user_id.unique' => 'Akun user guru ini sudah terhubung dengan data guru lain',
@@ -63,18 +65,14 @@ class ControllerGuru extends Controller
             'nip.unique' => 'NIP guru sudah digunakan',
             'jabatan.required' => 'Jabatan guru harus diisi',
             'motivasi.required' => 'Motivasi guru harus diisi',
-            'gambar.required' => 'Foto guru harus diisi'
         ]);
 
         $selectedUser = User::query()
-            ->where('role', 'guru')
+            ->where('role', 'teacher')
             ->findOrFail($validated['user_id']);
 
         $nama = $selectedUser->name;
-        $tanggal = now()->format('Ymd_His');
-        $extension = $request->file('gambar')->extension();
-        $imageName = $nama . '_' . $tanggal . '.' . $extension;
-        $request->file('gambar')->move(public_path('images/guru'), $imageName);
+        $imageName = $this->storeGuruImage($request, $nama);
 
         Guru::create([
             'nama' => $nama,
@@ -97,7 +95,7 @@ class ControllerGuru extends Controller
     public function edit(Guru $guru)
     {
         $availableUsers = User::query()
-            ->where('role', 'guru')
+            ->where('role', 'teacher')
             ->with('guru')
             ->orderBy('username')
             ->get();
@@ -116,7 +114,7 @@ class ControllerGuru extends Controller
         $validated = $request->validate([
             'user_id' => [
                 'required',
-                Rule::exists('users', 'id')->where(fn ($query) => $query->where('role', 'guru')),
+                Rule::exists('users', 'id')->where(fn ($query) => $query->where('role', 'teacher')),
                 Rule::unique('gurus', 'user_id')->ignore($guru->id),
             ],
             'nip' => [
@@ -128,7 +126,7 @@ class ControllerGuru extends Controller
             'jabatan' => 'required|string|max:255',
             'kontak' => 'nullable|string',
             'motivasi' => 'required|string|max:255',
-            'gambar' => 'image|mimes:jpeg,png,jpg,gif,svg',
+            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg',
         ],[
             'user_id.required' => 'Akun user guru harus dipilih',
             'user_id.unique' => 'Akun user guru ini sudah terhubung dengan data guru lain',
@@ -139,25 +137,14 @@ class ControllerGuru extends Controller
         ]);
 
         $selectedUser = User::query()
-            ->where('role', 'guru')
+            ->where('role', 'teacher')
             ->findOrFail($validated['user_id']);
 
         $nama = $selectedUser->name;
 
-        if ($request->hasFile('gambar')) {
-            $tanggal = now()->format('Ymd_His');
-            $extension = $request->file('gambar')->extension();
-            $imageName = $nama . '_' . $tanggal . '.' . $extension;
-            
-            // Pindahkan file ke direktori public_path dengan nama file baru
-            $request->file('gambar')->move(public_path('images/guru'), $imageName);
-
-            // Hapus gambar lama jika ada gambar baru
-            if ($guru->gambar && file_exists(public_path('images/guru/' . $guru->gambar))) {
-                unlink(public_path('images/guru/' . $guru->gambar));
-            }
-
-            // Simpan nama file gambar baru di database
+        $imageName = $this->storeGuruImage($request, $nama);
+        if ($imageName) {
+            $this->deleteGuruImageIfNeeded($guru->gambar);
             $guru->gambar = $imageName;
         }
 
@@ -175,10 +162,34 @@ class ControllerGuru extends Controller
 
     public function destroy(Guru $guru)
     {
-        if ($guru->gambar && file_exists(public_path('images/guru/' . $guru->gambar))) {
-            unlink(public_path('images/guru/' . $guru->gambar));
-        }
+        $this->deleteGuruImageIfNeeded($guru->gambar);
         $guru->delete();
         return redirect()->route('guru.index')->with('danger','Data guru dengan nama ' . $guru->nama . ' berhasil dihapus.');          
+    }
+
+    private function storeGuruImage(Request $request, string $nama): ?string
+    {
+        if (! $request->hasFile('gambar')) {
+            return null;
+        }
+
+        $tanggal = now()->format('Ymd_His');
+        $extension = $request->file('gambar')->extension();
+        $imageName = $nama . '_' . $tanggal . '.' . $extension;
+        $request->file('gambar')->move(public_path('images/guru'), $imageName);
+
+        return $imageName;
+    }
+
+    private function deleteGuruImageIfNeeded(?string $gambar): void
+    {
+        if (! $gambar || $gambar === self::DEFAULT_GURU_IMAGE) {
+            return;
+        }
+
+        $imagePath = public_path('images/guru/' . $gambar);
+        if (file_exists($imagePath)) {
+            unlink($imagePath);
+        }
     }
 }

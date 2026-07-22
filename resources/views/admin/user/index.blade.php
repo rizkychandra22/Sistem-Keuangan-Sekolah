@@ -1,6 +1,6 @@
 @extends('layouts.adminApp')
 
-@section('title', 'Data Akun User SDN Caringin Ngumbang')
+@section('title', 'Data Akun User Sekolah')
 
 @section('content')
     <div class="container">
@@ -10,13 +10,11 @@
             <table id="tableUser" class="table table-bordered table-hover table-striped">
                 <thead>
                     <tr>
-                        <th>No</th>
+                        <th width="50">No</th>
                         <th>Nama</th>
                         <th>Username</th>
                         <th>Email</th>
                         <th>Role</th>
-                        <th width="115">Post</th>
-                        <th width="115">Update</th>
                         <th width="95">Aksi</th>
                     </tr>
                 </thead>
@@ -31,7 +29,7 @@
 
         <script>
             const currentUserId = {{ auth()->id() }};
-            const protectedRoles = ['admin', 'operator', 'keuangan'];
+            const protectedRoles = ['admin', 'operator', 'finance'];
 
             $(document).ready(function () {
                 $('#tableUser').DataTable({
@@ -60,34 +58,6 @@
                             render: function (data) {
                                 return `<span class="badge badge-info text-uppercase">${data}</span>`;
                             }
-                        },
-                        {
-                            data: 'created_at',
-                            render: function (data) {
-                                const date = new Date(data);
-                                const day = date.getDate().toString().padStart(2, '0');
-                                const month = (date.getMonth() + 1).toString().padStart(2, '0');
-                                const year = date.getFullYear();
-                                const hours = date.getHours().toString().padStart(2, '0');
-                                const minutes = date.getMinutes().toString().padStart(2, '0');
-                                const seconds = date.getSeconds().toString().padStart(2, '0');
-                                return `${day}-${month}-${year} ${hours}:${minutes}:${seconds}`;
-                            },
-                            name: 'created_at'
-                        },
-                        {
-                            data: 'updated_at',
-                            render: function (data) {
-                                const date = new Date(data);
-                                const day = date.getDate().toString().padStart(2, '0');
-                                const month = (date.getMonth() + 1).toString().padStart(2, '0');
-                                const year = date.getFullYear();
-                                const hours = date.getHours().toString().padStart(2, '0');
-                                const minutes = date.getMinutes().toString().padStart(2, '0');
-                                const seconds = date.getSeconds().toString().padStart(2, '0');
-                                return `${day}-${month}-${year} ${hours}:${minutes}:${seconds}`;
-                            },
-                            name: 'updated_at'
                         },
                         {
                             data: null,

@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 
 class Siswa extends Model
 {
@@ -15,17 +18,20 @@ class Siswa extends Model
         'user_id',
         'nisn',
         'nama',
-        'kelas_id',
         'tgl_lhr',
         'alamat',
         'orang_tua',
-        'kontak_orang_tua'
+        'kontak_orang_tua',
+        'status_akademik',
+        'is_active',
+        'gambar'
     ];
 
     protected function casts(): array
     {
         return [
             'tgl_lhr' => 'date',
+            'is_active' => 'boolean',
         ];
     }
 
@@ -34,18 +40,45 @@ class Siswa extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function kelas(): BelongsTo
+    public function siswaRombels(): HasMany
     {
-        return $this->belongsTo(Kelas::class);
+        return $this->hasMany(SiswaRombel::class);
     }
 
-    public function nilais(): HasMany
+    public function currentSiswaRombel(): HasOne
     {
-        return $this->hasMany(Nilai::class);
+        return $this->hasOne(SiswaRombel::class)->where('is_active', true);
     }
 
-    public function absensis(): HasMany
+    public function kelas(): HasOneThrough
     {
-        return $this->hasMany(Absensi::class);
+        return $this->hasOneThrough(
+            Rombel::class,
+            SiswaRombel::class,
+            'siswa_id',
+            'id',
+            'id',
+            'rombel_id'
+        )->where('siswa_rombels.is_active', true);
+    }
+
+    public function nilais(): HasManyThrough
+    {
+        return $this->hasManyThrough(
+            Nilai::class,
+            SiswaRombel::class,
+            'siswa_id',
+            'siswa_rombel_id'
+        );
+    }
+
+    public function absensis(): HasManyThrough
+    {
+        return $this->hasManyThrough(
+            Absensi::class,
+            SiswaRombel::class,
+            'siswa_id',
+            'siswa_rombel_id'
+        );
     }
 }

@@ -16,7 +16,10 @@ return new class extends Migration
             $table->string('tahun');
             $table->enum('semester', ['ganjil', 'genap']);
             $table->boolean('is_active')->default(false);
+            $table->boolean('is_locked')->default(false);
             $table->timestamps();
+
+            $table->unique(['tahun', 'semester']);
         });
     }
 

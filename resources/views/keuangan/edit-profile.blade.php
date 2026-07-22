@@ -13,7 +13,7 @@
                 <div class="col-xs-12 col-sm-12 col-md-12">
                     <div class="form-group">
                         <strong>Nama User:</strong>
-                        <input type="text" name="name" value="{{ $user->name }}" class="form-control" placeholder="Nama User">
+                        <input type="text" name="name" value="{{ old('name', $user->name) }}" class="form-control" placeholder="Nama User">
                         @error('name')
                             <small style="color:red">{{ $message }}</small>
                         @enderror
@@ -22,7 +22,7 @@
                 <div class="col-xs-12 col-sm-12 col-md-12">
                     <div class="form-group">
                         <strong>Username:</strong>
-                        <input type="text" name="username" value="{{ $user->username }}" class="form-control" placeholder="Username">
+                        <input type="text" name="username" value="{{ old('username', $user->username) }}" class="form-control" placeholder="Username">
                         @error('username')
                             <small style="color:red">{{ $message }}</small>
                         @enderror
@@ -40,14 +40,14 @@
                 <div class="col-xs-12 col-sm-12 col-md-12">
                     <div class="form-group">
                         <strong>Password User:</strong>
-                        <input type="password" name="password" class="form-control" placeholder="Password">
+                        <input type="password" name="password" class="form-control" placeholder="Isi jika ingin mengubah password">
                         @error('password')
                             <small style="color:red">{{ $message }}</small>
                         @enderror
                     </div>
                     <div class="form-group">
                         <strong>Konfirmasi Password:</strong>
-                        <input type="password" name="password_confirmation" class="form-control" placeholder="Konfirmasi Password">
+                        <input type="password" name="password_confirmation" class="form-control" placeholder="Konfirmasi Password Baru">
                         @error('password_confirmation')
                             <small style="color:red">{{ $message }}</small>
                         @enderror
@@ -55,7 +55,7 @@
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-12">
                     <div class="form-group">
-                        <strong>Gambar:</strong>
+                        <strong>Foto Profile:</strong>
                         <input type="file" name="gambar" class="form-control" placeholder="Foto profile user keuangan">
                         <div class="d-flex justify-content-center mt-3">
                             <img src="{{ asset('images/user/'.$user->gambar) }}" alt="{{ $user->name }}" width="50%">
@@ -72,6 +72,5 @@
         </form>
     </div>
 
-    {{-- Sweat Alert --}}
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 @endsection

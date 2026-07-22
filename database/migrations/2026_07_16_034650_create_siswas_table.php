@@ -13,14 +13,16 @@ return new class extends Migration
     {
         Schema::create('siswas', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('user_id')->unique()->constrained()->onDelete('cascade');
             $table->string('nisn')->unique();
             $table->string('nama');
-            $table->foreignId('kelas_id')->constrained('kelas')->onDelete('cascade');
             $table->date('tgl_lhr');
             $table->text('alamat')->nullable();
             $table->string('orang_tua');
             $table->string('kontak_orang_tua')->nullable();
+            $table->enum('status_akademik', ['aktif', 'lulus', 'keluar', 'pindah'])->default('aktif');
+            $table->boolean('is_active')->default(true);
+            $table->string('gambar')->nullable();
             $table->timestamps();
         });
     }

@@ -20,7 +20,7 @@ class ControllerGalleryPerpisahan extends Controller
         $currentLink = route('gallery-perpisahan.index');
         $currentTitle = 'Gallery Perpisahan';
         $createLink = route('gallery-perpisahan.create');
-        $createTitle = 'Create';
+        $createTitle = 'Tambah';
 
         return view('operator/gallery/perpisahan.index', compact('currentLink', 'currentTitle', 'createLink', 'createTitle'));
     }
@@ -31,7 +31,7 @@ class ControllerGalleryPerpisahan extends Controller
         $currentLink = route('gallery-perpisahan.index');
         $currentTitle = 'Gallery Perpisahan';
         $createLink = route('gallery-perpisahan.create');
-        $createTitle = 'Create';
+        $createTitle = 'Tambah';
 
         return view('operator/gallery/perpisahan.create', compact('currentLink', 'currentTitle', 'createLink', 'createTitle'));
     }

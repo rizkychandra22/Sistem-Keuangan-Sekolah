@@ -1,127 +1,316 @@
-## 💰 Sistem Pencatatan Keuangan Sekolah
+<p align="center">
+  <h1 align="center">Sistem Informasi Sekolah</h1>
+  <p align="center">
+    Aplikasi web berbasis Laravel untuk manajemen akademik, website sekolah, dan keuangan dalam satu sistem.
+  </p>
+</p>
 
-Project **Kerja Praktik** ini bertujuan untuk membangun **sistem pencatatan dan manajemen keuangan sekolah**,  
-yang memudahkan administrasi sekolah dalam mengelola transaksi keuangan, laporan, dan profil sekolah.
+<p align="center">
+  <img src="https://img.shields.io/badge/Laravel-11-red" alt="Laravel 11">
+  <img src="https://img.shields.io/badge/PHP-8.2%20%7C%208.3-blue" alt="PHP 8.2 or 8.3">
+  <img src="https://img.shields.io/badge/Frontend-Blade%20%2B%20Bootstrap%204-green" alt="Blade Bootstrap 4">
+  <img src="https://img.shields.io/badge/Build-Vite-646CFF" alt="Vite">
+  <img src="https://img.shields.io/badge/Status-Active-success" alt="Active">
+</p>
 
-Website ini dibuat menggunakan framework **Laravel** dengan struktur yang modern dan fitur yang mudah digunakan.
+## Ringkasan
 
-### ✨ **Dikembangkan oleh:** <a href="https://www.instagram.com/_chndr_22/" target="_blank"> *Rizky Chandra Khusuma* </a>
+Project ini adalah sistem informasi sekolah yang menggabungkan beberapa kebutuhan operasional sekolah dalam satu aplikasi, meliputi:
 
----
+- manajemen akun pengguna
+- manajemen data guru dan siswa
+- manajemen akademik berbasis kelas, rombel, dan penempatan siswa
+- dashboard multi role
+- manajemen konten website sekolah
+- pencatatan dan rekap keuangan sekolah
 
-## 📘 Deskripsi Singkat
-Sistem ini dirancang agar pihak sekolah dapat:
-- Mencatat pemasukan dan pengeluaran keuangan
-- Mengelola data profil sekolah
-- Membuat laporan transaksi berdasarkan periode waktu
-- Ekspor dan cetak (print) data transaksi dalam format Excel atau PDF
+Saat ini project sudah berkembang dari sistem pencatatan keuangan menjadi sistem sekolah yang lebih lengkap dan terintegrasi.
 
----
+## Daftar Isi
 
-## 🧠 Teknologi yang Digunakan
+- [Fitur Utama](#fitur-utama)
+- [Role dan Hak Akses](#role-dan-hak-akses)
+- [Struktur Akademik](#struktur-akademik)
+- [Seeder dan Data Dummy](#seeder-dan-data-dummy)
+- [Akun Default](#akun-default)
+- [Teknologi](#teknologi)
+- [Instalasi](#instalasi)
+- [Perintah Penting](#perintah-penting)
+- [Alur Login](#alur-login)
+- [Struktur Folder](#struktur-folder)
+- [Pengembang](#pengembang)
+
+## Fitur Utama
+
+### 1. Manajemen Pengguna
+
+- CRUD akun user oleh admin
+- role akun: `admin`, `operator`, `finance`, `teacher`, `student`
+- password default akun yang dibuat admin: `sekolah`
+- pembatasan role inti sistem untuk akun tertentu
+
+### 2. Manajemen Data Sekolah
+
+- CRUD data guru
+- CRUD data siswa
+- sinkronisasi data profil dengan akun user
+- upload gambar profil guru dan siswa
+
+### 3. Manajemen Akademik
+
+- CRUD kurikulum
+- CRUD mata pelajaran
+- CRUD kelas master
+- CRUD tahun ajaran per semester
+- CRUD rombel
+- CRUD siswa rombel
+- CRUD guru mapel
+
+### 4. Website Profil Sekolah
+
+- sambutan
+- program kerja
+- berita sekolah
+- prestasi
+- galeri lomba
+- galeri event
+- galeri pariwisata
+- galeri perpisahan
+- contact sekolah
+- pesan dari halaman publik
+
+### 5. Manajemen Keuangan
+
+- CRUD pemasukan
+- CRUD pengeluaran
+- rekap pemasukan
+- rekap pengeluaran
+- rekap transaksi
+- export Excel
+- export PDF
+
+## Role dan Hak Akses
+
+| Role | Area Utama |
+| --- | --- |
+| `admin` | Mengelola akun user, guru, siswa, kurikulum, mapel, kelas, tahun ajaran, rombel, siswa rombel, dan guru mapel |
+| `operator` | Mengelola konten website sekolah, contact, dan pesan dari halaman publik |
+| `finance` | Mengelola pemasukan, pengeluaran, rekap transaksi, dan export laporan |
+| `teacher` | Mengakses dashboard guru, data profil, dan relasi akademik sesuai penugasan |
+| `student` | Mengakses dashboard siswa dan data profil siswa |
+
+## Struktur Akademik
+
+Project ini menggunakan struktur akademik yang lebih dinamis agar histori data tetap aman dan pengelolaan kelas lebih fleksibel.
+
+### Entitas utama
+
+- `kelas`
+  Menyimpan master tingkat kelas, misalnya Kelas 1 sampai Kelas 6.
+- `tahun_ajarans`
+  Menyimpan periode akademik berdasarkan kombinasi tahun dan semester.
+- `rombels`
+  Menyimpan kelas operasional per periode, misalnya Kelas 3A pada semester tertentu.
+- `siswa_rombels`
+  Menyimpan penempatan dan riwayat siswa dalam rombel.
+- `guru_mapels`
+  Menyimpan penugasan guru mengajar mapel pada rombel tertentu.
+
+### Keuntungan struktur ini
+
+- histori siswa per semester tetap tersimpan
+- rombel dapat berubah tiap periode tanpa mengubah master kelas
+- guru dapat mengampu lebih dari satu mapel dan lebih dari satu rombel
+- wali kelas terikat pada rombel, bukan pada master kelas
+- pengampu mata pelajaran tidak lagi dobel di tabel `mapels`
+
+## Seeder dan Data Dummy
+
+Seeder bawaan project akan membuat data awal berikut:
+
+- 1 akun `admin`
+- 1 akun `operator`
+- 1 akun `finance`
+- 30 akun `teacher` beserta data guru
+- 180 akun `student` beserta data siswa
+- master kelas 1 sampai 6
+- tahun ajaran `2024/2025` dan `2025/2026`
+- semester `ganjil` dan `genap`
+- rombel sesuai struktur pada `AcademicSeederData`
+- riwayat dan data aktif siswa pada `siswa_rombels`
+- data awal `contact sekolah` dan `sambutan`
+
+## Akun Default
+
+### Akun inti sistem
+
+| Role | Username | Email | Password |
+| --- | --- | --- | --- |
+| Admin | `admincore` | `admin@sekolah.com` | `sekolah` |
+| Operator | `operatorcore` | `operator@sekolah.com` | `sekolah` |
+| Finance | `financecore` | `finance@sekolah.com` | `sekolah` |
+
+### Contoh akun dummy
+
+- Guru
+  - username: `guru01`
+  - password: `sekolah`
+- Siswa
+  - username: `siswa001`
+  - password: `sekolah`
+
+## Teknologi
+
 | Komponen | Teknologi |
-|-----------|------------|
-| Framework | Laravel 11+ |
-| Database | MySQL |
-| Frontend | Blade Template + Bootstrap 4 |
-| Package | maatwebsite/excel + barryvdh/laravel-dompdf (Excel & PDF) |
-| Server | PHP 8.2+, Composer |
+| --- | --- |
+| Backend | Laravel 11 |
+| PHP | 8.2 atau 8.3 |
+| Frontend | Blade, Bootstrap 4, AdminLTE |
+| Build Tool | Vite |
+| Database | MySQL atau SQLite |
+| Alert | `realrashid/sweet-alert` |
+| Data Table | `yajra/laravel-datatables` |
+| Export Excel | `maatwebsite/excel` |
+| Export PDF | `barryvdh/laravel-dompdf` |
 
----
+## Instalasi
 
-## ⚙️ Langkah-Langkah Instalasi & Menjalankan Project
+### 1. Clone repository
 
-Pastikan sudah menginstal **Composer** dan **Git**, lalu jalankan:
-### 1️⃣ Clone Repository
 ```bash
 git clone https://github.com/rizkychandra22/Sistem-Keuangan-Sekolah.git
 cd Sistem-Keuangan-Sekolah
 ```
-### 2️⃣ Install Dependensi Laravel
+
+### 2. Install dependency
+
 ```bash
 composer install
-npm install && npm run dev
+npm install
 ```
-### 3️⃣ Buat File .env
+
+### 3. Siapkan file environment
+
 ```bash
 cp .env.example .env
 ```
-### 4️⃣ Generate Key dan Migrasi Database
+
+Untuk PowerShell:
+
+```powershell
+Copy-Item .env.example .env
+```
+
+### 4. Atur koneksi database
+
+Project dapat dijalankan dengan MySQL atau SQLite.
+
+Jika memakai SQLite:
+
+```bash
+type nul > database/database.sqlite
+```
+
+Contoh konfigurasi `.env`:
+
+```env
+DB_CONNECTION=sqlite
+DB_DATABASE=database/database.sqlite
+```
+
+Jika memakai MySQL, sesuaikan kredensial database di `.env`.
+
+### 5. Generate application key
+
 ```bash
 php artisan key:generate
-php artisan migrate --seed
 ```
-### 5️⃣ Jalankan Server Lokal
+
+### 6. Migrasi dan isi data awal
+
+```bash
+php artisan migrate:fresh --seed
+```
+
+### 7. Jalankan aplikasi
+
+Terminal 1:
+
+```bash
+npm run dev
+```
+
+Terminal 2:
+
 ```bash
 php artisan serve
 ```
 
----
+## Perintah Penting
 
+### Menjalankan seeder inti sistem saja
 
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+```bash
+php artisan db:seed --class=CoreAccountSeeder
+```
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+### Menjalankan seluruh seeder
 
-## About Laravel
+```bash
+php artisan db:seed
+```
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+### Reset database dan isi ulang data dummy
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+```bash
+php artisan migrate:fresh --seed
+```
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### Menampilkan daftar route
 
-## Learning Laravel
+```bash
+php artisan route:list
+```
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Alur Login
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+Setelah login, user diarahkan otomatis sesuai role:
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+- `admin` -> `/dashboard/admin`
+- `operator` -> `/dashboard/operator`
+- `finance` -> `/dashboard/keuangan`
+- `teacher` -> `/teacher/home`
+- `student` -> `/student/home`
 
-## Laravel Sponsors
+## Catatan Implementasi Saat Ini
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+- modul akademik sudah memakai pendekatan `kelas -> rombel -> siswa_rombel`
+- pengampu mata pelajaran dikelola melalui tabel `guru_mapels`
+- kolom wali kelas berada pada tabel `rombels`
+- histori perpindahan siswa disimpan di `siswa_rombels`
+- halaman register publik saat ini membuat akun baru dengan role `student`
 
-### Premium Partners
+## Struktur Folder
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+| Folder | Keterangan |
+| --- | --- |
+| `app/Http/Controllers` | Controller aplikasi |
+| `app/Models` | Model Eloquent |
+| `database/migrations` | Struktur database |
+| `database/seeders` | Data awal project |
+| `resources/views` | Blade views |
+| `resources/css` | Stylesheet utama |
+| `routes/web.php` | Route aplikasi web |
 
-## Contributing
+## Pengembang
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Project ini dikembangkan oleh:
 
-## Code of Conduct
+- Rizky Chandra Khusuma
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Jika README ini ingin dibuat lebih lengkap lagi untuk repository publik, Anda masih bisa menambahkan:
 
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+- screenshot dashboard
+- ERD atau diagram relasi database
+- flow bisnis sistem akademik
+- panduan deployment ke hosting atau VPS

@@ -1,6 +1,6 @@
 @extends('layouts.adminApp')
 
-@section('title', 'Edit Data Guru SDN Caringin Ngumbang')
+@section('title', 'Edit Data Guru Sekolah')
 
 @section('content')
     <div class="container">
@@ -31,7 +31,7 @@
                         @enderror
                     </div>
                 </div>
-                <div class="col-xs-12 col-sm-12 col-md-12">
+                <div class="col-xs-6 col-sm-6 col-md-6">
                     <div class="form-group">
                         <strong>Nama:</strong>
                         <input type="text" name="nama" id="nama" value="{{ old('nama', $guru->nama) }}" class="form-control" placeholder="Nama Guru" readonly>
@@ -40,7 +40,7 @@
                         @enderror
                     </div>
                 </div>
-                <div class="col-xs-12 col-sm-12 col-md-12">
+                <div class="col-xs-6 col-sm-6 col-md-6">
                     <div class="form-group">
                         <strong>NIP:</strong>
                         <input type="text" name="nip" value="{{ old('nip', $guru->nip) }}" class="form-control" placeholder="NIP Guru">
@@ -49,7 +49,7 @@
                         @enderror
                     </div>
                 </div>
-                <div class="col-xs-12 col-sm-12 col-md-12">
+                <div class="col-xs-6 col-sm-6 col-md-6">
                     <div class="form-group">
                         <strong>Jabatan:</strong>
                         <input type="text" name="jabatan" value="{{ old('jabatan', $guru->jabatan) }}" class="form-control" placeholder="Jabatan Guru">
@@ -58,10 +58,10 @@
                         @enderror
                     </div>
                 </div>
-                <div class="col-xs-12 col-sm-12 col-md-12">
+                <div class="col-xs-6 col-sm-6 col-md-6">
                     <div class="form-group">
                         <strong>Kontak:</strong>
-                        <textarea name="kontak" class="form-control" rows="3" placeholder="Nomor telepon, email, atau kontak lain">{{ old('kontak', $guru->kontak) }}</textarea>
+                        <input type="text" name="kontak" value="{{ old('kontak', $guru->kontak) }}" class="form-control" placeholder="Nomor telepon atau whatsapp">
                         @error('kontak')
                             <small style="color:red">{{$message}}</small>
                         @enderror
@@ -70,7 +70,7 @@
                 <div class="col-xs-12 col-sm-12 col-md-12">
                     <div class="form-group">
                         <strong>Motivasi:</strong>
-                        <input type="text" name="motivasi" value="{{ old('motivasi', $guru->motivasi) }}" class="form-control" placeholder="Motivasi Untuk Siswa & Siswi">
+                        <textarea name="motivasi" class="form-control" rows="3" placeholder="Motivasi Untuk Siswa & Siswi">{{ old('motivasi', $guru->motivasi) }}</textarea>
                         @error('motivasi')
                             <small style="color:red">{{$message}}</small>
                         @enderror
@@ -88,9 +88,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-xs-12 col-sm-12 col-md-12 text-center">
-                    <button type="submit" class="btn btn-primary btn-block">Simpan</button>
-                </div>
+                @include('components.admin-form-actions', ['cancelRoute' => route('guru.index')])
             </div>
         </form>
     </div>

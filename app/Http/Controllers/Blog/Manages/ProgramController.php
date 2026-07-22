@@ -23,7 +23,7 @@ class ProgramController extends Controller
         $currentLink = route('program-kerja.index');
         $currentTitle = 'Program Kerja';
         $createLink = route('program-kerja.create');
-        $createTitle = 'Create';
+        $createTitle = 'Tambah';
 
         return view ('operator/program.index', compact('currentLink', 'currentTitle', 'createLink', 'createTitle')); 
     }
@@ -37,7 +37,7 @@ class ProgramController extends Controller
         $currentLink = route('program-kerja.index');
         $currentTitle = 'Program Kerja';
         $createLink = route('program-kerja.create');
-        $createTitle = 'Create';
+        $createTitle = 'Tambah';
 
         return view ('operator/program.create', compact('currentLink', 'currentTitle', 'createLink', 'createTitle'));
     }

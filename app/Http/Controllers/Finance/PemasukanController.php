@@ -7,7 +7,6 @@ use App\Models\Pemasukan;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\PemasukanExport;
-use App\Models\Enums\SumberDana;
 use App\Models\Pengeluaran;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
@@ -194,7 +193,7 @@ class PemasukanController extends Controller
         $currentLink = route('pemasukan.index');
         $currentTitle = 'Pemasukan';
         $createLink = route('pemasukan.create');
-        $createTitle = 'Create';
+        $createTitle = 'Tambah';
 
         return view('keuangan/pemasukans.create', compact(
             'sumberValues',

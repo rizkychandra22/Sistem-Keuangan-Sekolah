@@ -20,7 +20,7 @@ class ControllerGalleryPariwisata extends Controller
         $currentLink = route('gallery-pariwisata.index');
         $currentTitle = 'Gallery Study Tour';
         $createLink = route('gallery-pariwisata.create');
-        $createTitle = 'Create';
+        $createTitle = 'Tambah';
 
         return view('operator/gallery/studytour.index', compact('currentLink', 'currentTitle', 'createLink', 'createTitle'));
     }
@@ -31,7 +31,7 @@ class ControllerGalleryPariwisata extends Controller
         $currentLink = route('gallery-pariwisata.index');
         $currentTitle = 'Gallery Study Tour';
         $createLink = route('gallery-pariwisata.create');
-        $createTitle = 'Create';
+        $createTitle = 'Tambah';
 
         return view('operator/gallery/studytour.create', compact('currentLink', 'currentTitle', 'createLink', 'createTitle'));
     }

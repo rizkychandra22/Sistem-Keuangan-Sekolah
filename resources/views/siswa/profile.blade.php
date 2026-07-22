@@ -30,7 +30,7 @@
                         </tr>
                         <tr>
                             <th style="width: 20%;">Kelas</th>
-                            <td>{{ $user->siswa->kelas->nama_kelas ?? '-' }}</td>
+                            <td>{{ $user->siswa?->currentSiswaRombel?->rombel?->nama ?? '-' }}</td>
                         </tr>
                         <tr>
                             <th style="width: 20%;">Tanggal Lahir</th>

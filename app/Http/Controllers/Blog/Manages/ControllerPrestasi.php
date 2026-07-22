@@ -20,7 +20,7 @@ class ControllerPrestasi extends Controller
         $currentLink = route('prestasi.index');
         $currentTitle = 'Prestasi Sekolah';
         $createLink = route('prestasi.create');
-        $createTitle = 'Create';
+        $createTitle = 'Tambah';
 
         return view('operator/prestasi.index', compact('currentLink', 'currentTitle', 'createLink', 'createTitle'));
     }
@@ -31,7 +31,7 @@ class ControllerPrestasi extends Controller
         $currentLink = route('prestasi.index');
         $currentTitle = 'Prestasi Sekolah';
         $createLink = route('prestasi.create');
-        $createTitle = 'Create';
+        $createTitle = 'Tambah';
 
         return view('operator/prestasi.create', compact('currentLink', 'currentTitle', 'createLink', 'createTitle'));
     }

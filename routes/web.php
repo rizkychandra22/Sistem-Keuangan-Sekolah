@@ -4,8 +4,17 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 
 // Import Routing Master Data
-use App\Http\Controllers\Admin\Manages\ControllerGuru;
-use App\Http\Controllers\Admin\Manages\ControllerUser;
+use App\Http\Controllers\Admin\ControllerGuru;
+use App\Http\Controllers\Admin\ControllerSiswa;
+use App\Http\Controllers\Admin\ControllerUser;
+use App\Http\Controllers\Admin\Manages\Akademik\KelasController;
+use App\Http\Controllers\Admin\Manages\Akademik\MapelController;
+use App\Http\Controllers\Admin\Manages\Akademik\RombelController;
+use App\Http\Controllers\Admin\Manages\Akademik\StudentRombelController;
+use App\Http\Controllers\Admin\Manages\Akademik\TeacherSubjectController;
+use App\Http\Controllers\Admin\Manages\Periode\KurikulumController;
+use App\Http\Controllers\Admin\Manages\Periode\TahunAjaranController;
+
 // Import Routing Web Profile Sekolah
 use App\Http\Controllers\Blog\HomeController;
 use App\Http\Controllers\Blog\Manages\ControllerBeritaSekolah;
@@ -67,28 +76,36 @@ Route::get('/home', function() {
 });
 
 // Route Role User Admin
-Route::middleware(['userAkses:admin'])->group(function() {
-    Route::get('/dashboard/admin', [DashboardController::class, 'admin'])->name('dashboard.admin');
+Route::middleware(['userAkses:admin'])->prefix('/dashboard')->group(function() {
+    Route::get('/admin', [DashboardController::class, 'admin'])->name('dashboard.admin');
 
     // Profile User Admin
-    Route::get('/dashboard/admin/profile', [ProfileController::class, 'profileAdmin'])->name('profile.admin');
-    Route::get('/dashboard/admin/profile/{user}/edit', [ProfileController::class, 'editProfileAdmin'])->name('profile.edit.admin');
-    Route::put('/dashboard/admin/profile/{user}', [ProfileController::class, 'updateProfileAdmin'])->name('profile.update.admin');
+    Route::get('/admin/profile', [ProfileController::class, 'profileAdmin'])->name('profile.admin');
+    Route::get('/admin/profile/{user}/edit', [ProfileController::class, 'editProfileAdmin'])->name('profile.edit.admin');
+    Route::put('/admin/profile/{user}', [ProfileController::class, 'updateProfileAdmin'])->name('profile.update.admin');
 
     // Route CRUD Data User
-    Route::get('/dashboard/admin/data/users', [ControllerUser::class, 'index'])->name('dataUser.index');
-    Route::get('/dashboard/admin/data/users/create', [ControllerUser::class, 'create'])->name('dataUser.create');
-    Route::post('/dashboard/admin/data/users', [ControllerUser::class, 'store'])->name('dataUser.store');
-    Route::get('/dashboard/admin/data/users/{user}/edit', [ControllerUser::class, 'edit'])->name('dataUser.edit');
-    Route::put('/dashboard/admin/data/users/{user}', [ControllerUser::class, 'update'])->name('dataUser.update');
-    Route::delete('/dashboard/admin/data/users/{user}', [ControllerUser::class, 'destroy'])->name('dataUser.destroy');
-
+    Route::get('/admin/data/users', [ControllerUser::class, 'index'])->name('dataUser.index');
+    Route::get('/admin/data/users/create', [ControllerUser::class, 'create'])->name('dataUser.create');
+    Route::post('/admin/data/users', [ControllerUser::class, 'store'])->name('dataUser.store');
+    Route::get('/admin/data/users/{user}/edit', [ControllerUser::class, 'edit'])->name('dataUser.edit');
+    Route::put('/admin/data/users/{user}', [ControllerUser::class, 'update'])->name('dataUser.update');
+    Route::delete('/admin/data/users/{user}', [ControllerUser::class, 'destroy'])->name('dataUser.destroy');
+    
     // Admin Resource CRUD Master Data
-    Route::resource('/dashboard/admin/guru', ControllerGuru::class);
+    Route::resource('/admin/siswa', ControllerSiswa::class);
+    Route::resource('/admin/guru', ControllerGuru::class);
+    Route::resource('/admin/kurikulum', KurikulumController::class);
+    Route::resource('/admin/mapel', MapelController::class);
+    Route::resource('/admin/tahun-ajaran', TahunAjaranController::class);
+    Route::resource('/admin/kelas', KelasController::class);
+    Route::resource('/admin/rombel', RombelController::class);
+    Route::resource('/admin/siswa-rombel', StudentRombelController::class);
+    Route::resource('/admin/guru-mapel', TeacherSubjectController::class);
 });
 
 // Route Role User Keuangan
-Route::middleware(['userAkses:keuangan'])->group(function() {
+Route::middleware(['userAkses:finance'])->group(function() {
     Route::get('/dashboard/keuangan', [DashboardController::class, 'keuangan'])->name('dashboard.keuangan');
     
     // Profile User Keuangan
@@ -97,15 +114,15 @@ Route::middleware(['userAkses:keuangan'])->group(function() {
     Route::put('/dashboard/keuangan/profile/{user}', [ProfileController::class, 'updateProfileKeuangan'])->name('profile.update.keuangan');
 
     // Route CRUD Resource Keuangan Pemasukan dan Pengeluaran
-    Route::resource('/dashboard/keuangan/pemasukan', PemasukanController::class)->middleware('userAkses:keuangan');
-    Route::resource('/dashboard/keuangan/pengeluaran', PengeluaranController::class)->middleware('userAkses:keuangan');
+    Route::resource('/dashboard/keuangan/pemasukan', PemasukanController::class);
+    Route::resource('/dashboard/keuangan/pengeluaran', PengeluaranController::class);
 
     // Rekap Keuangan
-    Route::get('/dashboard/keuangan/detail/pemasukan', [PemasukanController::class, 'detail'])->middleware('userAkses:keuangan')->name('detail.pemasukan');
-    Route::get('/dashboard/keuangan/detail/pengeluaran', [PengeluaranController::class, 'detail'])->middleware('userAkses:keuangan')->name('detail.pengeluaran');
-    Route::get('/dashboard/keuangan/rekap/pemasukan', [RekapController::class, 'indexPemasukan'])->middleware('userAkses:keuangan')->name('rekap.pemasukan');
-    Route::get('/dashboard/keuangan/rekap/pengeluaran', [RekapController::class, 'indexPengeluaran'])->middleware('userAkses:keuangan')->name('rekap.pengeluaran');
-    Route::get('/dashboard/keuangan/rekap/transaksi', [RekapController::class, 'rekapTransaksi'])->middleware('userAkses:keuangan')->name('rekap.transaksi');
+    Route::get('/dashboard/keuangan/detail/pemasukan', [PemasukanController::class, 'detail'])->name('detail.pemasukan');
+    Route::get('/dashboard/keuangan/detail/pengeluaran', [PengeluaranController::class, 'detail'])->name('detail.pengeluaran');
+    Route::get('/dashboard/keuangan/rekap/pemasukan', [RekapController::class, 'indexPemasukan'])->name('rekap.pemasukan');
+    Route::get('/dashboard/keuangan/rekap/pengeluaran', [RekapController::class, 'indexPengeluaran'])->name('rekap.pengeluaran');
+    Route::get('/dashboard/keuangan/rekap/transaksi', [RekapController::class, 'rekapTransaksi'])->name('rekap.transaksi');
 
     // Ekspor Pemasukan PDF, Excel dan Print
     Route::get('/dashboard/keuangan/pemasukan/export/excel', [PemasukanController::class, 'exportExcel'])->name('pemasukan.export.excel');
@@ -147,7 +164,7 @@ Route::middleware(['userAkses:operator'])->group(function() {
 });
 
 // Route Role User Guru
-Route::middleware(['userAkses:guru'])->group(function() {
+Route::middleware(['userAkses:teacher'])->group(function() {
     Route::get('/teacher/home', [DashboardController::class, 'guru']);
 
     // Profile User Guru
@@ -157,7 +174,7 @@ Route::middleware(['userAkses:guru'])->group(function() {
 });
 
 // Route Role User Siswa
-Route::middleware(['userAkses:siswa'])->group(function() {
+Route::middleware(['userAkses:student'])->group(function() {
     Route::get('/student/home', [DashboardController::class, 'siswa']);
     
     // Profile User Siswa

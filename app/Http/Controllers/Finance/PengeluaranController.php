@@ -216,7 +216,7 @@ class PengeluaranController extends Controller
         $currentLink = route('pengeluaran.index');
         $currentTitle = 'Pengeluaran';
         $createLink = route('pengeluaran.create');
-        $createTitle = 'Create';
+        $createTitle = 'Tambah';
 
         return view('keuangan.pengeluarans.create', compact('kebutuhanValues', 'sumberValues', 'saldoTersedia',  'currentLink', 'currentTitle', 'createLink', 'createTitle'));
     }

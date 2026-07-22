@@ -27,6 +27,10 @@
                         <strong>Kontak:</strong>
                         <input type="text" name="kontak" value="{{ old('kontak', $user->guru->kontak ?? '') }}" class="form-control" placeholder="Kontak (No HP/Telp)">
                     </div>
+                    <div class="form-group">
+                        <strong>Email:</strong>
+                        <input type="email" name="email" value="{{ old('email', $user->email) }}" class="form-control" placeholder="Email Login">
+                    </div>
                 </div>
                 
                 <div class="col-md-6">
@@ -39,12 +43,8 @@
                         <input type="text" name="username" value="{{ old('username', $user->username) }}" class="form-control" placeholder="Username Login">
                     </div>
                     <div class="form-group">
-                        <strong>Email:</strong>
-                        <input type="email" name="email" value="{{ old('email', $user->email) }}" class="form-control" placeholder="Email Login">
-                    </div>
-                    <div class="form-group">
                         <strong>Password Login Baru:</strong>
-                        <input type="password" name="password" class="form-control" placeholder="Kosongkan jika tidak ingin mengubah password">
+                        <input type="password" name="password" class="form-control" placeholder="Isi jika ingin mengubah password">
                     </div>
                     <div class="form-group">
                         <strong>Konfirmasi Password Baru:</strong>
@@ -61,6 +61,7 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="col-xs-12 col-sm-12 col-md-12 text-center mt-3 mb-5">
                     <button type="submit" class="btn btn-primary btn-block">Simpan Perubahan</button>
                     <a href="{{ route('profile.guru') }}" class="btn btn-secondary btn-block mt-2">Batal</a>

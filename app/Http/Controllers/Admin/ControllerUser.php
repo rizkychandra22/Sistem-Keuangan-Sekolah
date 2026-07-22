@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Manages;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
@@ -23,7 +23,7 @@ class ControllerUser extends Controller
         $currentLink = route('dataUser.index');
         $currentTitle = 'Akun User';
         $createLink = route('dataUser.create');
-        $createTitle = 'Create';
+        $createTitle = 'Tambah';
 
         return view('admin.user.index', compact('currentLink', 'currentTitle', 'createLink', 'createTitle'));
     }
@@ -36,7 +36,7 @@ class ControllerUser extends Controller
         $currentLink = route('dataUser.index');
         $currentTitle = 'Akun User';
         $createLink = route('dataUser.create');
-        $createTitle = 'Create';
+        $createTitle = 'Tambah';
 
         return view('admin.user.create', compact('roleOptions', 'currentLink', 'currentTitle', 'createLink', 'createTitle'));
     }
@@ -157,12 +157,12 @@ class ControllerUser extends Controller
 
     private function creatableRoles(): array
     {
-        return ['guru', 'siswa'];
+        return ['teacher', 'student'];
     }
 
     private function protectedRoles(): array
     {
-        return ['admin', 'operator', 'keuangan'];
+        return ['admin', 'operator', 'finance'];
     }
 
     private function isRoleLocked(User $user): bool
