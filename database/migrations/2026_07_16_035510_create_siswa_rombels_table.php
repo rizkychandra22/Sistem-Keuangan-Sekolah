@@ -18,7 +18,7 @@ return new class extends Migration
             $table->enum('status', ['aktif', 'lulus', 'mengulang', 'pindah', 'keluar'])->default('aktif');
             $table->enum('hasil_akhir', ['proses_pembelajaran', 'naik_kelas', 'tinggal_kelas', 'lulus', 'tidak_lulus'])->default('proses_pembelajaran');
             $table->boolean('is_active')->default(true);
-            $table->foreignId('asal_siswa_rombel_id')->nullable()->constrained('siswa_rombels')->nullOnDelete();
+            $table->foreignId('asal_rombel_id')->nullable()->constrained('rombels')->nullOnDelete();
             $table->date('tanggal_masuk')->nullable();
             $table->date('tanggal_selesai')->nullable();
             $table->text('catatan')->nullable();

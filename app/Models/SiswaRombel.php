@@ -17,7 +17,7 @@ class SiswaRombel extends Model
         'status',
         'hasil_akhir',
         'is_active',
-        'asal_siswa_rombel_id',
+        'asal_rombel_id',
         'tanggal_masuk',
         'tanggal_selesai',
         'catatan',
@@ -42,9 +42,9 @@ class SiswaRombel extends Model
         return $this->belongsTo(Rombel::class);
     }
 
-    public function asalSiswaRombel(): BelongsTo
+    public function asalRombel(): BelongsTo
     {
-        return $this->belongsTo(self::class, 'asal_siswa_rombel_id');
+        return $this->belongsTo(Rombel::class, 'asal_rombel_id');
     }
 
     public function nilais(): HasMany

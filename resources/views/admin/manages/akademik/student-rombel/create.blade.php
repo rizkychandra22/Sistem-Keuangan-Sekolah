@@ -86,15 +86,15 @@
                 <div class="col-xs-6 col-sm-6 col-md-6">
                     <div class="form-group">
                         <strong>Asal Siswa Rombel:</strong>
-                        <select name="asal_siswa_rombel_id" class="form-control">
+                        <select name="asal_rombel_id" class="form-control">
                             <option value="">-- Pilih Asal Siswa Rombel --</option>
-                            @foreach ($asalSiswaRombels as $asalSiswaRombel)
-                                <option value="{{ $asalSiswaRombel->id }}" {{ old('asal_siswa_rombel_id') == $asalSiswaRombel->id ? 'selected' : '' }}>
-                                    {{ $asalSiswaRombel->rombel?->nama ?? '-' }}
+                            @foreach ($asalRombels as $asalRombel)
+                                <option value="{{ $asalRombel->id }}" {{ old('asal_rombel_id') == $asalRombel->id ? 'selected' : '' }}>
+                                    {{ $asalRombel->nama }} - {{ $asalRombel->tahunAjaran?->tahun }} {{ $asalRombel->tahunAjaran?->semester ? '(' . ucfirst($asalRombel->tahunAjaran->semester) . ')' : '' }}
                                 </option>
                             @endforeach
                         </select>
-                        @error('asal_siswa_rombel_id')
+                        @error('asal_rombel_id')
                             <small style="color:red">{{ $message }}</small>
                         @enderror
                     </div>

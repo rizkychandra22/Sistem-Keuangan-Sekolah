@@ -61,7 +61,7 @@ class SiswaRombelSeeder extends Seeder
                 continue;
             }
 
-            $riwayatGanjil = SiswaRombel::updateOrCreate(
+            SiswaRombel::updateOrCreate(
                 [
                     'siswa_id' => $siswa->id,
                     'rombel_id' => $rombelGanjil->id,
@@ -85,7 +85,7 @@ class SiswaRombelSeeder extends Seeder
                     'status' => 'aktif',
                     'hasil_akhir' => 'proses_pembelajaran',
                     'is_active' => true,
-                    'asal_siswa_rombel_id' => $riwayatGanjil->id,
+                    'asal_rombel_id' => $rombelGanjil->id,
                     'tanggal_masuk' => Carbon::create(2026, 1, 5)->toDateString(),
                     'catatan' => 'Posisi aktif semester genap.',
                 ]

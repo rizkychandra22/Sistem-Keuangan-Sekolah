@@ -12,7 +12,6 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
-use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
 
 class StudentRombelController extends Controller
@@ -25,7 +24,7 @@ class StudentRombelController extends Controller
                 'rombel.tahunAjaran',
                 'rombel.kelas',
                 'rombel.waliKelas',
-                'asalSiswaRombel.rombel',
+                'asalRombel.tahunAjaran',
             ])
             ->orderByDesc('is_active')
             ->orderByDesc('created_at')
@@ -42,13 +41,14 @@ class StudentRombelController extends Controller
                 ->addColumn('status', fn (SiswaRombel $siswaRombel) => $this->formatLabel($siswaRombel->status))
                 ->addColumn('hasil_akhir', fn (SiswaRombel $siswaRombel) => $this->formatLabel($siswaRombel->hasil_akhir))
                 ->addColumn('asal_rombel', function (SiswaRombel $siswaRombel) {
-                    if (! $siswaRombel->asalSiswaRombel) {
+                    if (! $siswaRombel->asalRombel) {
                         return '-';
                     }
 
-                    $namaRombel = $siswaRombel->asalSiswaRombel->rombel?->nama ?? 'Rombel';
+                    $namaRombel = $siswaRombel->asalRombel->nama ?? 'Rombel';
+                    $tahunAjaran = $this->formatTahunAjaran($siswaRombel->asalRombel->tahunAjaran);
 
-                    return $namaRombel . ' - ' . $this->formatLabel($siswaRombel->asalSiswaRombel->status);
+                    return $namaRombel . ' - ' . $tahunAjaran;
                 })
                 ->addColumn('catatan', fn (SiswaRombel $siswaRombel) => $siswaRombel->catatan ?: '-')
                 ->addColumn('status_aktif', fn (SiswaRombel $siswaRombel) => $siswaRombel->is_active ? 'Aktif' : 'Nonaktif')
@@ -71,8 +71,9 @@ class StudentRombelController extends Controller
             ->orderByDesc('is_active')
             ->orderByDesc('created_at')
             ->get();
-        $asalSiswaRombels = SiswaRombel::query()
-            ->with(['siswa', 'rombel'])
+        $asalRombels = Rombel::query()
+            ->with(['tahunAjaran', 'waliKelas'])
+            ->orderByDesc('is_active')
             ->orderByDesc('created_at')
             ->get();
 
@@ -84,7 +85,7 @@ class StudentRombelController extends Controller
         return view('admin/manages/akademik/student-rombel.create', compact(
             'siswas',
             'rombels',
-            'asalSiswaRombels',
+            'asalRombels',
             'currentLink',
             'currentTitle',
             'createLink',
@@ -122,9 +123,10 @@ class StudentRombelController extends Controller
             ->orderByDesc('is_active')
             ->orderByDesc('created_at')
             ->get();
-        $asalSiswaRombels = SiswaRombel::query()
-            ->with(['siswa', 'rombel'])
-            ->whereKeyNot($siswa_rombel->id)
+        $asalRombels = Rombel::query()
+            ->with(['tahunAjaran', 'waliKelas'])
+            ->whereKeyNot($siswa_rombel->rombel_id)
+            ->orderByDesc('is_active')
             ->orderByDesc('created_at')
             ->get();
 
@@ -137,7 +139,7 @@ class StudentRombelController extends Controller
             'siswa_rombel',
             'siswas',
             'rombels',
-            'asalSiswaRombels',
+            'asalRombels',
             'currentLink',
             'currentTitle',
             'editLink',
@@ -177,12 +179,6 @@ class StudentRombelController extends Controller
             ], 422);
         }
 
-        if (SiswaRombel::query()->where('asal_siswa_rombel_id', $siswa_rombel->id)->exists()) {
-            return response()->json([
-                'message' => 'Data siswa rombel masih menjadi referensi riwayat siswa rombel lain.',
-            ], 422);
-        }
-
         $namaSiswa = $siswa_rombel->siswa?->nama ?? 'siswa';
         $namaRombel = $siswa_rombel->rombel?->nama ?? 'rombel';
         $siswa_rombel->delete();
@@ -208,10 +204,10 @@ class StudentRombelController extends Controller
             'status' => ['required', Rule::in(['aktif', 'lulus', 'mengulang', 'pindah', 'keluar'])],
             'hasil_akhir' => ['required', Rule::in(['proses_pembelajaran', 'naik_kelas', 'tinggal_kelas', 'lulus', 'tidak_lulus'])],
             'is_active' => 'required|boolean',
-            'asal_siswa_rombel_id' => [
+            'asal_rombel_id' => [
                 'nullable',
-                'exists:siswa_rombels,id',
-                Rule::notIn(array_filter([$siswaRombelId])),
+                'exists:rombels,id',
+                Rule::notIn(array_filter([$request->rombel_id, $siswaRombel?->rombel_id])),
             ],
             'tanggal_masuk' => 'nullable|date',
             'tanggal_selesai' => 'nullable|date|after_or_equal:tanggal_masuk',
@@ -225,20 +221,10 @@ class StudentRombelController extends Controller
             'status.required' => 'Status siswa rombel harus dipilih',
             'hasil_akhir.required' => 'Hasil akhir harus dipilih',
             'is_active.required' => 'Status aktif harus dipilih',
-            'asal_siswa_rombel_id.exists' => 'Asal siswa rombel yang dipilih tidak valid',
-            'asal_siswa_rombel_id.not_in' => 'Asal siswa rombel tidak boleh memilih data yang sama',
+            'asal_rombel_id.exists' => 'Asal siswa rombel yang dipilih tidak valid',
+            'asal_rombel_id.not_in' => 'Asal siswa rombel tidak boleh memilih rombel yang sama',
             'tanggal_selesai.after_or_equal' => 'Tanggal selesai harus sama atau setelah tanggal masuk',
         ]);
-
-        if (! empty($validated['asal_siswa_rombel_id'])) {
-            $asal = SiswaRombel::query()->find($validated['asal_siswa_rombel_id']);
-
-            if ($asal && (int) $asal->siswa_id !== (int) $validated['siswa_id']) {
-                throw ValidationException::withMessages([
-                    'asal_siswa_rombel_id' => 'Asal siswa rombel harus berasal dari siswa yang sama.',
-                ]);
-            }
-        }
 
         return $validated;
     }

@@ -14,14 +14,14 @@ class KurikulumSeeder extends Seeder
     {
         $kurikulums = [
             [
-                'nama' => 'Kurikulum 2013',
-                'tahun' => '2013',
-                'deskripsi' => 'Kurikulum nasional yang menekankan keseimbangan sikap, pengetahuan, dan keterampilan.',
-            ],
-            [
                 'nama' => 'Kurikulum Merdeka',
                 'tahun' => '2022',
                 'deskripsi' => 'Kurikulum dengan pembelajaran yang lebih fleksibel dan berfokus pada penguatan kompetensi serta karakter.',
+            ],
+            [
+                'nama' => 'Kuritilas',
+                'tahun' => '2013',
+                'deskripsi' => 'Kurikulum nasional yang menekankan keseimbangan sikap, pengetahuan, dan keterampilan.',
             ],
             [
                 'nama' => 'KTSP',
